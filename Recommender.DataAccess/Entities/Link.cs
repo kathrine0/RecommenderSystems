@@ -6,10 +6,10 @@ namespace Recommender.DataAccess.Entities
 
     public partial class Link
     {
+        
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int MovieId { get; set; }
-
-        public virtual Movie Movie { get; set; }
 
         [Required]
         [StringLength(50)]

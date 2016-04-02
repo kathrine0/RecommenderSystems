@@ -38,6 +38,10 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -51,10 +55,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Actor.cs" />
-    <Compile Include="Entities\Director.cs" />
-    <Compile Include="Entities\Genre.cs" />
     <Compile Include="Entities\Link.cs" />
+    <Compile Include="Helpers\EntityFrameworkUtilities.cs" />
     <Compile Include="Helpers\MovieDataDownloader.cs" />
     <Compile Include="Migrations\201604020942133_initial-migration.cs" />
     <Compile Include="Migrations\201604020942133_initial-migration.Designer.cs">
@@ -87,6 +89,18 @@
     <Compile Include="Migrations\201604021116171_7-update-schema.cs" />
     <Compile Include="Migrations\201604021116171_7-update-schema.Designer.cs">
       <DependentUpon>201604021116171_7-update-schema.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604021129005_8-update-schema.cs" />
+    <Compile Include="Migrations\201604021129005_8-update-schema.Designer.cs">
+      <DependentUpon>201604021129005_8-update-schema.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604021204577_9-update-schema.cs" />
+    <Compile Include="Migrations\201604021204577_9-update-schema.Designer.cs">
+      <DependentUpon>201604021204577_9-update-schema.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604021240048_10-update-schema.cs" />
+    <Compile Include="Migrations\201604021240048_10-update-schema.Designer.cs">
+      <DependentUpon>201604021240048_10-update-schema.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MovieLenseContext.cs" />
@@ -123,6 +137,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604021116171_7-update-schema.resx">
       <DependentUpon>201604021116171_7-update-schema.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604021129005_8-update-schema.resx">
+      <DependentUpon>201604021129005_8-update-schema.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604021204577_9-update-schema.resx">
+      <DependentUpon>201604021204577_9-update-schema.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604021240048_10-update-schema.resx">
+      <DependentUpon>201604021240048_10-update-schema.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

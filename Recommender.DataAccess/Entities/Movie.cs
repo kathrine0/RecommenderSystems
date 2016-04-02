@@ -10,7 +10,6 @@ namespace Recommender.DataAccess.Entities
     {
         public Movie()
         {
-            Actors = new HashSet<Actor>();
             Ratings = new HashSet<Rating>();
         }
 
@@ -23,15 +22,18 @@ namespace Recommender.DataAccess.Entities
         [StringLength(255)]
         public string Genres { get; set; }
 
-        [Column("director_id")]
-        public int? DirectorId { get; set; }
-
-        public virtual Director Director { get; set; }
+        public string Director { get; set; }
 
         public int? Year { get; set; }
 
-        public virtual ICollection<Actor> Actors { get; set; }
+        public string Actors { get; set; }
 
         public virtual ICollection<Rating> Ratings { get; set; }
+
+        public string Language {get; set; }
+
+        public string Country { get; set; }
+
+        public double? ImdbRating { get; set; }
     }
 }
