@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RecommenderSystems")]
+[assembly: AssemblyTitle("Recommender.GUI")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("RecommenderSystems")]
+[assembly: AssemblyProduct("Recommender.GUI")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d6ae18f7-fc13-4fc5-9f2b-e843ca782c1d")]
+[assembly: Guid("13bd8709-0037-4b17-bd6b-3b4fa60a65f9")]
 
 // Version information for an assembly consists of the following four values:
 //
