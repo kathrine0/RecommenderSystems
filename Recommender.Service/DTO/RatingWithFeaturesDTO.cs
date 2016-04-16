@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 
 namespace Recommender.Service.DTO
 {
-    public class ItemDTO
+    public class RatingWithFeaturesDTO
     {
-        public int Id { get; set; }
-
+        public int UserId { get; set; }
+        public int ItemId { get; set; }
+        public float Rating { get; set; }
         public IEnumerable<string> ItemFeatures { get; set; }
-
-        //todo think about complex features
-
-        public virtual ICollection<RatingDTO> Ratings { get; set; }
     }
 }
