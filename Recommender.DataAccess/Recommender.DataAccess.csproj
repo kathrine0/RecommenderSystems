@@ -102,6 +102,10 @@
     <Compile Include="Migrations\201604021240048_10-update-schema.Designer.cs">
       <DependentUpon>201604021240048_10-update-schema.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604052016111_RatingIsFloat.cs" />
+    <Compile Include="Migrations\201604052016111_RatingIsFloat.Designer.cs">
+      <DependentUpon>201604052016111_RatingIsFloat.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MovieLenseContext.cs" />
     <Compile Include="Entities\Movie.cs" />
@@ -146,6 +150,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604021240048_10-update-schema.resx">
       <DependentUpon>201604021240048_10-update-schema.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604052016111_RatingIsFloat.resx">
+      <DependentUpon>201604052016111_RatingIsFloat.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

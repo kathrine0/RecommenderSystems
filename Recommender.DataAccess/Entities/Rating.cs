@@ -21,7 +21,7 @@ namespace Recommender.DataAccess.Entities
         public virtual Movie Movie { get; set; }
 
         [Column("rating")]
-        public int TheRating { get; set; }
+        public float TheRating { get; set; }
 
         public int Timestamp { get; set; }
     }
