@@ -19,7 +19,7 @@ namespace Recommender.Core
             //var training_data = RatingData.Read("u1.base");
             //var test_data = RatingData.Read("u1.test");
 
-            var service = new RatingService();
+            var service = new MovieLenseService();
 
             Console.WriteLine("Loading train set");
             var training_data = service.GetLearningSetMediaLiteFormat();

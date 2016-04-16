@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
-using System.Data.Entity;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Net;
 using System.Collections.Generic;
-using Recommender.DataAccess.Entities;
+using Recommender.DataAccess.MovieLense;
+using Recommender.DataAccess.MovieLense.Entities;
 
 namespace Recommender.DataAccess.Helpers
 {

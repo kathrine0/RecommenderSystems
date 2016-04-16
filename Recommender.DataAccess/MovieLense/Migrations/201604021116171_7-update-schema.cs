@@ -1,4 +1,4 @@
-namespace Recommender.DataAccess.Migrations
+namespace Recommender.DataAccess.MovieLense.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;

@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Recommender.DataAccess;
+using Recommender.DataAccess.MovieLense;
 
 namespace Recommender.DataAccess.Test
 {

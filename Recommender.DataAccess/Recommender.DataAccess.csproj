@@ -55,104 +55,112 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Link.cs" />
+    <Compile Include="MovieLense\Entities\Link.cs" />
     <Compile Include="Helpers\EntityFrameworkUtilities.cs" />
     <Compile Include="Helpers\MovieDataDownloader.cs" />
-    <Compile Include="Migrations\201604020942133_initial-migration.cs" />
-    <Compile Include="Migrations\201604020942133_initial-migration.Designer.cs">
+    <Compile Include="MovieLense\Migrations\201604020942133_initial-migration.cs" />
+    <Compile Include="MovieLense\Migrations\201604020942133_initial-migration.Designer.cs">
       <DependentUpon>201604020942133_initial-migration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604021029150_update-schema.cs" />
-    <Compile Include="Migrations\201604021029150_update-schema.Designer.cs">
+    <Compile Include="MovieLense\Migrations\201604021029150_update-schema.cs" />
+    <Compile Include="MovieLense\Migrations\201604021029150_update-schema.Designer.cs">
       <DependentUpon>201604021029150_update-schema.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604021039278_2-update-schema.cs" />
-    <Compile Include="Migrations\201604021039278_2-update-schema.Designer.cs">
+    <Compile Include="MovieLense\Migrations\201604021039278_2-update-schema.cs" />
+    <Compile Include="MovieLense\Migrations\201604021039278_2-update-schema.Designer.cs">
       <DependentUpon>201604021039278_2-update-schema.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604021044184_3-update-schema.cs" />
-    <Compile Include="Migrations\201604021044184_3-update-schema.Designer.cs">
+    <Compile Include="MovieLense\Migrations\201604021044184_3-update-schema.cs" />
+    <Compile Include="MovieLense\Migrations\201604021044184_3-update-schema.Designer.cs">
       <DependentUpon>201604021044184_3-update-schema.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604021049412_4-update-schema.cs" />
-    <Compile Include="Migrations\201604021049412_4-update-schema.Designer.cs">
+    <Compile Include="MovieLense\Migrations\201604021049412_4-update-schema.cs" />
+    <Compile Include="MovieLense\Migrations\201604021049412_4-update-schema.Designer.cs">
       <DependentUpon>201604021049412_4-update-schema.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604021052371_5-update-schema.cs" />
-    <Compile Include="Migrations\201604021052371_5-update-schema.Designer.cs">
+    <Compile Include="MovieLense\Migrations\201604021052371_5-update-schema.cs" />
+    <Compile Include="MovieLense\Migrations\201604021052371_5-update-schema.Designer.cs">
       <DependentUpon>201604021052371_5-update-schema.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604021112079_6-update-schema.cs" />
-    <Compile Include="Migrations\201604021112079_6-update-schema.Designer.cs">
+    <Compile Include="MovieLense\Migrations\201604021112079_6-update-schema.cs" />
+    <Compile Include="MovieLense\Migrations\201604021112079_6-update-schema.Designer.cs">
       <DependentUpon>201604021112079_6-update-schema.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604021116171_7-update-schema.cs" />
-    <Compile Include="Migrations\201604021116171_7-update-schema.Designer.cs">
+    <Compile Include="MovieLense\Migrations\201604021116171_7-update-schema.cs" />
+    <Compile Include="MovieLense\Migrations\201604021116171_7-update-schema.Designer.cs">
       <DependentUpon>201604021116171_7-update-schema.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604021129005_8-update-schema.cs" />
-    <Compile Include="Migrations\201604021129005_8-update-schema.Designer.cs">
+    <Compile Include="MovieLense\Migrations\201604021129005_8-update-schema.cs" />
+    <Compile Include="MovieLense\Migrations\201604021129005_8-update-schema.Designer.cs">
       <DependentUpon>201604021129005_8-update-schema.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604021204577_9-update-schema.cs" />
-    <Compile Include="Migrations\201604021204577_9-update-schema.Designer.cs">
+    <Compile Include="MovieLense\Migrations\201604021204577_9-update-schema.cs" />
+    <Compile Include="MovieLense\Migrations\201604021204577_9-update-schema.Designer.cs">
       <DependentUpon>201604021204577_9-update-schema.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604021240048_10-update-schema.cs" />
-    <Compile Include="Migrations\201604021240048_10-update-schema.Designer.cs">
+    <Compile Include="MovieLense\Migrations\201604021240048_10-update-schema.cs" />
+    <Compile Include="MovieLense\Migrations\201604021240048_10-update-schema.Designer.cs">
       <DependentUpon>201604021240048_10-update-schema.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604052016111_RatingIsFloat.cs" />
-    <Compile Include="Migrations\201604052016111_RatingIsFloat.Designer.cs">
+    <Compile Include="MovieLense\Migrations\201604052016111_RatingIsFloat.cs" />
+    <Compile Include="MovieLense\Migrations\201604052016111_RatingIsFloat.Designer.cs">
       <DependentUpon>201604052016111_RatingIsFloat.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="MovieLenseContext.cs" />
-    <Compile Include="Entities\Movie.cs" />
+    <Compile Include="MovieLense\Migrations\201604161545445_test.cs" />
+    <Compile Include="MovieLense\Migrations\201604161545445_test.Designer.cs">
+      <DependentUpon>201604161545445_test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MovieLense\Migrations\Configuration.cs" />
+    <Compile Include="MovieLense\MovieLenseContext - Copy.cs" />
+    <Compile Include="MovieLense\MovieLenseContext.cs" />
+    <Compile Include="MovieLense\Entities\Movie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Entities\Rating.cs" />
-    <Compile Include="Entities\User.cs" />
+    <Compile Include="MovieLense\Entities\Rating.cs" />
+    <Compile Include="MovieLense\Entities\User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201604020942133_initial-migration.resx">
+    <EmbeddedResource Include="MovieLense\Migrations\201604020942133_initial-migration.resx">
       <DependentUpon>201604020942133_initial-migration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604021029150_update-schema.resx">
+    <EmbeddedResource Include="MovieLense\Migrations\201604021029150_update-schema.resx">
       <DependentUpon>201604021029150_update-schema.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604021039278_2-update-schema.resx">
+    <EmbeddedResource Include="MovieLense\Migrations\201604021039278_2-update-schema.resx">
       <DependentUpon>201604021039278_2-update-schema.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604021044184_3-update-schema.resx">
+    <EmbeddedResource Include="MovieLense\Migrations\201604021044184_3-update-schema.resx">
       <DependentUpon>201604021044184_3-update-schema.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604021049412_4-update-schema.resx">
+    <EmbeddedResource Include="MovieLense\Migrations\201604021049412_4-update-schema.resx">
       <DependentUpon>201604021049412_4-update-schema.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604021052371_5-update-schema.resx">
+    <EmbeddedResource Include="MovieLense\Migrations\201604021052371_5-update-schema.resx">
       <DependentUpon>201604021052371_5-update-schema.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604021112079_6-update-schema.resx">
+    <EmbeddedResource Include="MovieLense\Migrations\201604021112079_6-update-schema.resx">
       <DependentUpon>201604021112079_6-update-schema.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604021116171_7-update-schema.resx">
+    <EmbeddedResource Include="MovieLense\Migrations\201604021116171_7-update-schema.resx">
       <DependentUpon>201604021116171_7-update-schema.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604021129005_8-update-schema.resx">
+    <EmbeddedResource Include="MovieLense\Migrations\201604021129005_8-update-schema.resx">
       <DependentUpon>201604021129005_8-update-schema.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604021204577_9-update-schema.resx">
+    <EmbeddedResource Include="MovieLense\Migrations\201604021204577_9-update-schema.resx">
       <DependentUpon>201604021204577_9-update-schema.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604021240048_10-update-schema.resx">
+    <EmbeddedResource Include="MovieLense\Migrations\201604021240048_10-update-schema.resx">
       <DependentUpon>201604021240048_10-update-schema.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604052016111_RatingIsFloat.resx">
+    <EmbeddedResource Include="MovieLense\Migrations\201604052016111_RatingIsFloat.resx">
       <DependentUpon>201604052016111_RatingIsFloat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MovieLense\Migrations\201604161545445_test.resx">
+      <DependentUpon>201604161545445_test.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

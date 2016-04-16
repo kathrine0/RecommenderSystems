@@ -1,25 +1,25 @@
 ﻿using System.Linq;
-using Recommender.DataAccess;
-using Recommender.DataAccess.Entities;
 using System;
 using MyMediaLite.Data;
+using Recommender.DataAccess.MovieLense;
+using Recommender.DataAccess.MovieLense.Entities;
 
 namespace Recommender.Service
 {
-    public class RatingService
+    public class MovieLenseService : IRatingService
     {
         //todo dependency injection
         MovieLenseContext _context;
 
 
-        public RatingService(MovieLenseContext context)
+        public MovieLenseService(MovieLenseContext context)
         {
             _context = context;
         }
 
 
         //todo remove me
-        public RatingService()
+        public MovieLenseService()
         {
             _context = new MovieLenseContext();
         }

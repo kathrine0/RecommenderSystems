@@ -1,18 +1,17 @@
-namespace Recommender.DataAccess.Migrations
-{
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
+using System.Data.Entity.Migrations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<MovieLenseContext>
+namespace Recommender.DataAccess.MovieLense.Migrations
+{
+
+    internal sealed class Configuration : DbMigrationsConfiguration<Recommender.DataAccess.MovieLense.MovieLenseContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            MigrationsDirectory = @"MovieLense\Migrations";
         }
 
-        protected override void Seed(MovieLenseContext context)
+        protected override void Seed(Recommender.DataAccess.MovieLense.MovieLenseContext context)
         {
             //  This method will be called after migrating to the latest version.
 

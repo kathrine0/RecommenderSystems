@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Recommender.DataAccess.Entities
+namespace Recommender.DataAccess.MovieLense.Entities
 {
 
     public partial class Rating

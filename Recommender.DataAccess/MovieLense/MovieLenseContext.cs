@@ -1,7 +1,7 @@
-using Recommender.DataAccess.Entities;
+using Recommender.DataAccess.MovieLense.Entities;
 using System.Data.Entity;
 
-namespace Recommender.DataAccess
+namespace Recommender.DataAccess.MovieLense
 {
 
     public partial class MovieLenseContext : DbContext
