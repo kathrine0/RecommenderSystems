@@ -3,6 +3,9 @@ using System;
 using MyMediaLite.Data;
 using Recommender.DataAccess.MovieLense;
 using Recommender.DataAccess.MovieLense.Entities;
+using System.Collections.Generic;
+using Recommender.Service.DTO;
+using AutoMapper;
 
 namespace Recommender.Service
 {
@@ -24,17 +27,19 @@ namespace Recommender.Service
             _context = new MovieLenseContext();
         }
 
-        public IQueryable<Rating> GetAll()
+        public IEnumerable<RatingDTO> GetAll()
         {
-            return _context.Ratings.AsQueryable();
+            var ratings =  _context.Ratings.AsEnumerable();
+
+            return ratings.MapTo<RatingDTO>();
         }
 
-        public IQueryable<Rating> GetLearningSet(double percentage = 0.8)
+        public IEnumerable<RatingDTO> GetLearningSet(double percentage = 0.8)
         {
             return GetLimitedSet(0.8, false);
         }
 
-        public IQueryable<Rating> GetTestSet(double percentage = 0.2)
+        public IEnumerable<RatingDTO> GetTestSet(double percentage = 0.2)
         {
             return GetLimitedSet(0.2, true);
         }
@@ -45,7 +50,7 @@ namespace Recommender.Service
             var set = GetLimitedSet(0.8, false).ToList();
 
             set.ForEach(x => {
-                ratings.Add(x.UserId.Value, x.MovieId.Value, x.TheRating);
+                ratings.Add(x.UserId, x.ItemId, x.Rating);
             });
 
             return ratings;
@@ -57,13 +62,13 @@ namespace Recommender.Service
             var set = GetLimitedSet(0.2, true).ToList();
 
             set.ForEach(x => {
-                ratings.Add(x.UserId.Value, x.MovieId.Value, x.TheRating);
+                ratings.Add(x.UserId, x.ItemId, x.Rating);
             });
 
             return ratings;
         }
 
-        private IQueryable<Rating> GetLimitedSet(double percentage, bool fromEnd)
+        private IEnumerable<RatingDTO> GetLimitedSet(double percentage, bool fromEnd)
         {
             if (percentage < 0 || percentage > 1)
                 throw new ArgumentOutOfRangeException("percentage should be in range from 0 to 1");
@@ -75,7 +80,8 @@ namespace Recommender.Service
 
             var result = _context.Ratings.OrderBy(x => x.Timestamp).Skip(skip).Take(take);
 
-            return result.AsQueryable();
+            var ratings = result.AsEnumerable();
+            return ratings.MapTo<RatingDTO>();
         }
 
 

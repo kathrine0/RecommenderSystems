@@ -15,6 +15,11 @@ namespace Recommender.Core
     {
         static void Main(string[] args)
         {
+            //configure
+            MovieLenseAutomapperConfig.CreateMaps();
+
+
+
             // load the data
             //var training_data = RatingData.Read("u1.base");
             //var test_data = RatingData.Read("u1.test");

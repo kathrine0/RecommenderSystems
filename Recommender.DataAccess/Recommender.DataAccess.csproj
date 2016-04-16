@@ -111,7 +111,6 @@
       <DependentUpon>201604161545445_test.cs</DependentUpon>
     </Compile>
     <Compile Include="MovieLense\Migrations\Configuration.cs" />
-    <Compile Include="MovieLense\MovieLenseContext - Copy.cs" />
     <Compile Include="MovieLense\MovieLenseContext.cs" />
     <Compile Include="MovieLense\Entities\Movie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

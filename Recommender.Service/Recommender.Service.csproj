@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutomapperConfig.cs" />
+    <Compile Include="AutomapperExtensions.cs" />
+    <Compile Include="DTO\ItemDTO.cs" />
     <Compile Include="DTO\RatingDTO.cs" />
     <Compile Include="IRatingService.cs" />
     <Compile Include="MovieLenseService.cs" />

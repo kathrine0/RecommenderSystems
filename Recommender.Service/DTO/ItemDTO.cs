@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace Recommender.Service.DTO
 {
-    public class RatingDTO
+    public class ItemDTO
     {
-        public int UserId { get; set; }
-        public int ItemId { get; set; }
-        public float Rating { get; set; }
     }
 }
