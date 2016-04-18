@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Recommender.Service;
+using System;
 using System.Windows.Forms;
 
 namespace Recommender.GUI
@@ -14,6 +12,8 @@ namespace Recommender.GUI
         [STAThread]
         static void Main()
         {
+            MovieLenseAutomapperConfig.CreateMaps();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());

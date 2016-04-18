@@ -92,6 +92,20 @@
   <ItemGroup>
     <Folder Include="Options\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\mymedialite\src\MyMediaLite\MyMediaLite.csproj">
+      <Project>{73424f09-beea-4992-b116-5f123496f5d3}</Project>
+      <Name>MyMediaLite</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Recommender.Core\Recommender.Core.csproj">
+      <Project>{f9814d94-38a4-4062-9297-fae5c0b79734}</Project>
+      <Name>Recommender.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Recommender.Service\Recommender.Service.csproj">
+      <Project>{d7d04abd-6b0b-49b5-8ade-26cae8599f92}</Project>
+      <Name>Recommender.Service</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

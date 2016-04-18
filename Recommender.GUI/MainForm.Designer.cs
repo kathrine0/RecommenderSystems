@@ -33,10 +33,10 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.alghoritmCombo = new System.Windows.Forms.ComboBox();
             this.datasetCombo = new System.Windows.Forms.ComboBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.TestButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.LearnButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.opcjeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.opcja1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,9 +48,9 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.ResultBox = new System.Windows.Forms.RichTextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.LogBox = new System.Windows.Forms.RichTextBox();
             this.mainFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -65,10 +65,10 @@
             this.groupBox1.Controls.Add(this.checkBox1);
             this.groupBox1.Controls.Add(this.alghoritmCombo);
             this.groupBox1.Controls.Add(this.datasetCombo);
-            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.TestButton);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.LearnButton);
             this.groupBox1.Location = new System.Drawing.Point(12, 38);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(218, 254);
@@ -104,14 +104,14 @@
             this.datasetCombo.Size = new System.Drawing.Size(126, 21);
             this.datasetCombo.TabIndex = 4;
             // 
-            // button2
+            // TestButton
             // 
-            this.button2.Location = new System.Drawing.Point(118, 225);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(94, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Testowanie";
-            this.button2.UseVisualStyleBackColor = true;
+            this.TestButton.Location = new System.Drawing.Point(118, 225);
+            this.TestButton.Name = "TestButton";
+            this.TestButton.Size = new System.Drawing.Size(94, 23);
+            this.TestButton.TabIndex = 3;
+            this.TestButton.Text = "Testowanie";
+            this.TestButton.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
@@ -131,14 +131,15 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Zbiór daych";
             // 
-            // button1
+            // LearnButton
             // 
-            this.button1.Location = new System.Drawing.Point(9, 225);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(103, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Uczenie";
-            this.button1.UseVisualStyleBackColor = true;
+            this.LearnButton.Location = new System.Drawing.Point(9, 225);
+            this.LearnButton.Name = "LearnButton";
+            this.LearnButton.Size = new System.Drawing.Size(103, 23);
+            this.LearnButton.TabIndex = 0;
+            this.LearnButton.Text = "Uczenie";
+            this.LearnButton.UseVisualStyleBackColor = true;
+            this.LearnButton.Click += new System.EventHandler(this.LearnButton_Click);
             // 
             // menuStrip1
             // 
@@ -217,7 +218,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.richTextBox2);
+            this.groupBox2.Controls.Add(this.ResultBox);
             this.groupBox2.Location = new System.Drawing.Point(237, 38);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(292, 254);
@@ -225,19 +226,19 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Wyniki";
             // 
-            // richTextBox2
+            // ResultBox
             // 
-            this.richTextBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox2.Location = new System.Drawing.Point(3, 16);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.ReadOnly = true;
-            this.richTextBox2.Size = new System.Drawing.Size(286, 235);
-            this.richTextBox2.TabIndex = 0;
-            this.richTextBox2.Text = "";
+            this.ResultBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ResultBox.Location = new System.Drawing.Point(3, 16);
+            this.ResultBox.Name = "ResultBox";
+            this.ResultBox.ReadOnly = true;
+            this.ResultBox.Size = new System.Drawing.Size(286, 235);
+            this.ResultBox.TabIndex = 0;
+            this.ResultBox.Text = "";
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.richTextBox1);
+            this.groupBox3.Controls.Add(this.LogBox);
             this.groupBox3.Location = new System.Drawing.Point(12, 298);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(516, 127);
@@ -245,15 +246,15 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Log";
             // 
-            // richTextBox1
+            // LogBox
             // 
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Location = new System.Drawing.Point(3, 16);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(510, 108);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
+            this.LogBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LogBox.Location = new System.Drawing.Point(3, 16);
+            this.LogBox.Name = "LogBox";
+            this.LogBox.ReadOnly = true;
+            this.LogBox.Size = new System.Drawing.Size(510, 108);
+            this.LogBox.TabIndex = 0;
+            this.LogBox.Text = "";
             // 
             // mainFormBindingSource
             // 
@@ -271,7 +272,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "Recommender Systems Research";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
@@ -291,17 +292,17 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button LearnButton;
+        private System.Windows.Forms.Button TestButton;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox alghoritmCombo;
         private System.Windows.Forms.ComboBox datasetCombo;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.RichTextBox richTextBox2;
+        private System.Windows.Forms.RichTextBox ResultBox;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox LogBox;
         private System.Windows.Forms.ToolStripMenuItem opcjeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem zakończToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem opcja1ToolStripMenuItem;

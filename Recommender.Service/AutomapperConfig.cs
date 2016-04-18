@@ -32,16 +32,16 @@ namespace Recommender.Service
                 .ForMember(dst => dst.ItemId, opt => opt.MapFrom(x => x.MovieId.Value))
                 .ForMember(dst => dst.Rating, opt => opt.MapFrom(x => x.TheRating))
                 .ForMember(dst => dst.ItemFeatures, opt => opt.MapFrom(
-                    x => new List<string>()
+                    x => new Dictionary<string, string>()
                     {
-                        x.Movie.Title,
-                        x.Movie.Director,
-                        x.Movie.Year.ToString(),
-                        x.Movie.Language,
-                        x.Movie.Country,
-                        x.Movie.Actors,
-                        x.Movie.Genres,
-                        x.Movie.ImdbRating.ToString()
+                        { "title", x.Movie.Title },
+                        { "director", x.Movie.Director },
+                        { "year", x.Movie.Year.ToString() },
+                        { "language", x.Movie.Language },
+                        { "country", x.Movie.Country },
+                        { "actors", x.Movie.Actors },
+                        { "genres", x.Movie.Genres },
+                        { "imdbRating", x.Movie.ImdbRating.ToString() }
                     }));
 
 
