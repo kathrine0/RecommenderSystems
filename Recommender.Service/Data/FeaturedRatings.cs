@@ -17,20 +17,20 @@ namespace Recommender.Service.Data
     public class FeaturedRatings : Ratings, IFeaturedRatings
     {
         ///
-        public IList<IDictionary<string, string>> Features { get; protected set; }
+        public IList<IDictionary<string, object>> Features { get; protected set; }
 
 
 
         /// <summary>Default constructor</summary>
         public FeaturedRatings() : base()
         {
-            Features = new List<IDictionary<string, string>>();
+            Features = new List<IDictionary<string, object>>();
         }
 
         ///
         public FeaturedRatings(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-            Features = (List<IDictionary<string, string>>)info.GetValue("Features", typeof(List<IDictionary<string, string>>));
+            Features = (List<IDictionary<string, object>>)info.GetValue("Features", typeof(List<IDictionary<string, object>>));
         }
 
         ///
@@ -40,7 +40,7 @@ namespace Recommender.Service.Data
         }
 
         ///
-        public virtual void Add(int user_id, int item_id, float rating, IDictionary<string, string> features)
+        public virtual void Add(int user_id, int item_id, float rating, IDictionary<string, object> features)
         {
             Users.Add(user_id);
             Items.Add(item_id);

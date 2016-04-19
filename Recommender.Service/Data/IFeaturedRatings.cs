@@ -5,7 +5,7 @@ namespace Recommender.Service.Data
 {
     public interface IFeaturedRatings : IRatings
     {
-        IList<IDictionary<string, string>> Features { get; }
+        IList<IDictionary<string, object>> Features { get; }
 
     }
 }

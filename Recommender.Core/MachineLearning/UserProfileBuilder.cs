@@ -21,7 +21,7 @@ namespace Recommender.Core.MachineLearning
                     continue;
 
                 //skip elements with no features
-                if (featured_ratings.Features[index].Any(x => String.IsNullOrEmpty(x.Value)))
+                if (featured_ratings.Features[index].Any(x => x.Value is string && string.IsNullOrEmpty((string) x.Value)))
                     continue;
 
                 int userId = featured_ratings.Users[index];
@@ -43,28 +43,40 @@ namespace Recommender.Core.MachineLearning
             return userProfiles;
         }
 
-        private void PopulateFeaturesCategories(UserProfile userProfile, IDictionary<string,string> features, double rating)
+        private void PopulateFeaturesCategories(UserProfile userProfile, IDictionary<string,object> features, double rating)
         {
             foreach (var feature in features)
             {
                 //Add new category of features to user profile (ie actors or producers)
                 var category = userProfile.RatedFeatures.FirstOrDefault(x => x.Name == feature.Key);
-
+                
                 if (category == null)
                 {
                     category = new Feature(feature.Key);
                     userProfile.RatedFeatures.Add(category);
                 }
 
-                PopulateCategories(category, feature, rating);
+                if (feature.Value.GetType() == typeof(string))
+                {
+                    PopulateStringCategories(category, (string) feature.Value, rating);
+                } 
+                else if (feature.Value.GetType() == typeof(int))
+                {
+                    throw new NotImplementedException();
+                }
+                else if (feature.Value.GetType() == typeof(double))
+                {
+                    throw new NotImplementedException();
+                }
+
             }
         }
 
-        private void PopulateCategories(Feature category, KeyValuePair<string, string> feature, double rating)
+        private void PopulateStringCategories(Feature category, string featureValue, double rating)
         {
             //populate category with items (ie Pierce Brosnan)
             //first split complex entries
-            var itemsName = feature.Value.Split(Settings.Delimeters, StringSplitOptions.RemoveEmptyEntries);
+            var itemsName = featureValue.Split(Settings.Delimeters, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var itemName in itemsName)
             {

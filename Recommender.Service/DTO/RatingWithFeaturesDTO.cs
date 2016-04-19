@@ -11,6 +11,6 @@ namespace Recommender.Service.DTO
         public int UserId { get; set; }
         public int ItemId { get; set; }
         public float Rating { get; set; }
-        public IDictionary<string, string> ItemFeatures { get; set; }
+        public IDictionary<string, object> ItemFeatures { get; set; }
     }
 }

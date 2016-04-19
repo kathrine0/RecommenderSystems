@@ -77,63 +77,63 @@ namespace Recommender.Core.MachineLearning
 
 
 
-            tmpinputColumns.Add("userId");
+            //tmpinputColumns.Add("userId");
 
-            string[] inputColumns = tmpinputColumns.ToArray();
-            string outputColumn = "rating";
+            //string[] inputColumns = tmpinputColumns.ToArray();
+            //string outputColumn = "rating";
 
-            DataTable table = new DataTable("Ratings");
-            table.Columns.Add(inputColumns);
-            table.Columns.Add(outputColumn);
-
-
-            foreach (int index in rating_indices)
-            {
-                if (Single.IsNaN(featured_ratings[index]))
-                    continue;
-
-                if (featured_ratings.Features[index].Any(x => String.IsNullOrEmpty(x.Value)))
-                    continue;
-
-                int userId = featured_ratings.Users[index];
-                int i = featured_ratings.Items[index];
-                var features = featured_ratings.Features[index].Select(x => x.Value);
-
-                var data = new List<string>(features);
-                data.Add(userId.ToString());
-                data.Add(featured_ratings[index].ToString());
-
-                table.Rows.Add(data.ToArray());
-
-            }
-
-            // Now, we have to convert the textual, categorical data found
-            // in the table to a more manageable discrete representation.
-            // 
-            // For this, we will create a codebook to translate text to
-            // discrete integer symbols:
-            // 
-            Codification codebook = new Codification(table);
-
-            // And then convert all data into symbols
-            // 
-            DataTable symbols = codebook.Apply(table);
-            double[][] inputs = symbols.ToArray(inputColumns);
-            int[] outputs = symbols.ToArray<int>(outputColumn);
+            //DataTable table = new DataTable("Ratings");
+            //table.Columns.Add(inputColumns);
+            //table.Columns.Add(outputColumn);
 
 
-            var attributes = DecisionVariable.FromCodebook(codebook, inputColumns);
-            DecisionTree tree = new DecisionTree(attributes, classes: 5);
+            //foreach (int index in rating_indices)
+            //{
+            //    //if (Single.IsNaN(featured_ratings[index]))
+            //    //    continue;
+
+            //    //if (featured_ratings.Features[index].Any(x => String.IsNullOrEmpty(x.Value)))
+            //    //    continue;
+
+            //    int userId = featured_ratings.Users[index];
+            //    int i = featured_ratings.Items[index];
+            //    var features = featured_ratings.Features[index].Select(x => x.Value);
+
+            //    var data = new List<string>(features);
+            //    data.Add(userId.ToString());
+            //    data.Add(featured_ratings[index].ToString());
+
+            //    table.Rows.Add(data.ToArray());
+
+            //}
+
+            //// Now, we have to convert the textual, categorical data found
+            //// in the table to a more manageable discrete representation.
+            //// 
+            //// For this, we will create a codebook to translate text to
+            //// discrete integer symbols:
+            //// 
+            //Codification codebook = new Codification(table);
+
+            //// And then convert all data into symbols
+            //// 
+            //DataTable symbols = codebook.Apply(table);
+            //double[][] inputs = symbols.ToArray(inputColumns);
+            //int[] outputs = symbols.ToArray<int>(outputColumn);
 
 
-            // Now, let's create the C4.5 algorithm
-            C45Learning c45 = new C45Learning(tree);
+            //var attributes = DecisionVariable.FromCodebook(codebook, inputColumns);
+            //DecisionTree tree = new DecisionTree(attributes, classes: 5);
 
 
-            double error = c45.Run(inputs, outputs);
-            int y = tree.Compute(inputs[25]);
-            Func<double[], int> func = tree.ToExpression().Compile();
-            int z = func(inputs[25]);
+            //// Now, let's create the C4.5 algorithm
+            //C45Learning c45 = new C45Learning(tree);
+
+
+            //double error = c45.Run(inputs, outputs);
+            //int y = tree.Compute(inputs[25]);
+            //Func<double[], int> func = tree.ToExpression().Compile();
+            //int z = func(inputs[25]);
         }
 
         //private void SetWeights()
