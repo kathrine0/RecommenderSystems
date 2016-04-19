@@ -69,8 +69,14 @@ namespace Recommender.Core.MachineLearning
             if (FeaturedRatings.Features.Count < 1)
                 throw new ArgumentOutOfRangeException("Not enough features");
 
+            var userProfileBuilder = new UserProfileBuilder();
+            var userProfiles = userProfileBuilder.Build(featured_ratings, rating_indices);
+
 
             var tmpinputColumns = new List<string>(FeaturedRatings.Features[0].Select(x => x.Key));
+
+
+
             tmpinputColumns.Add("userId");
 
             string[] inputColumns = tmpinputColumns.ToArray();

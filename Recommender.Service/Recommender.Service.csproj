@@ -55,8 +55,10 @@
   <ItemGroup>
     <Compile Include="AutomapperConfig.cs" />
     <Compile Include="AutomapperExtensions.cs" />
+    <Compile Include="Data\Feature.cs" />
     <Compile Include="Data\FeaturedRatings.cs" />
     <Compile Include="Data\IFeaturedRatings.cs" />
+    <Compile Include="Data\UserProfile.cs" />
     <Compile Include="DTO\ItemDTO.cs" />
     <Compile Include="DTO\RatingWithFeaturesDTO.cs" />
     <Compile Include="DTO\RatingDTO.cs" />

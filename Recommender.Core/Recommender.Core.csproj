@@ -81,8 +81,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MachineLearning\C45Recommender.cs" />
+    <Compile Include="MachineLearning\UserProfileBuilder.cs" />
     <Compile Include="RecommenderEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
