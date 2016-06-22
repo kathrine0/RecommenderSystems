@@ -34,14 +34,15 @@ namespace Recommender.Service
                 .ForMember(dst => dst.ItemFeatures, opt => opt.MapFrom(
                     x => new Dictionary<string, object>()
                     {
-                        { "title", x.Movie.Title },
+                        //FOR DEV PURPOSES GET DATA ONLY FOR FIRST 2 FEATURES!!
+                        //{ "title", x.Movie.Title },
                         { "director", x.Movie.Director },
-                        { "year", x.Movie.Year.ToString() },
-                        { "language", x.Movie.Language },
-                        { "country", x.Movie.Country },
-                        { "actors", x.Movie.Actors },
-                        { "genres", x.Movie.Genres },
-                        { "imdbRating", x.Movie.ImdbRating.ToString() }
+                        { "year", x.Movie.Year.ToString() }, //TODO: remove toString here and parse is as int
+                        //{ "language", x.Movie.Language },
+                        //{ "country", x.Movie.Country },
+                        //{ "actors", x.Movie.Actors },
+                        //{ "genres", x.Movie.Genres },
+                        //{ "imdbRating", x.Movie.ImdbRating.ToString() }
                     }));
 
 

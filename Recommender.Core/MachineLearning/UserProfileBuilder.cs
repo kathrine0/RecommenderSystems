@@ -27,8 +27,7 @@ namespace Recommender.Core.MachineLearning
                 int userId = featured_ratings.Users[index];
                 var rating = featured_ratings[index];
 
-                //todo write some nice linq extension here
-                var userProfile = userProfiles.FirstOrDefault(x => x.UserId == userId);
+                var userProfile = userProfiles.SingleOrDefault(x => x.UserId == userId);
 
                 if (userProfile == null)
                 {

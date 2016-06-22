@@ -38,6 +38,7 @@ namespace Recommender.Service
             _testData = (IFeaturedRatings) GetFeaturedSet(1 - ratio, true);
         }
 
+
         private IRatings GetBasicSet(double percentage, bool fromEnd)
         {
             var ratings = new Ratings();
@@ -64,12 +65,16 @@ namespace Recommender.Service
 
         private IEnumerable<Rating> GetRatingLimitedSet(double percentage, bool fromEnd)
         {
-            var count = _context.Ratings.Count() * 0.1; //todo change me
+            //FOR DEV PURPOSES GET DATA ONLY FOR FIRST 500 USERS!!
+
+            var count = _context.Ratings.Where(x => x.UserId <= 500).Count();
+            //var count = _context.Ratings.Count();
 
             int take = (int)Math.Floor(count * percentage);
             int skip = fromEnd ? (int)Math.Ceiling(count * (1 - percentage)) : 0;
 
-            var result = _context.Ratings.OrderBy(x => x.Timestamp).Skip(skip).Take(take);
+            var result = _context.Ratings.Where(x => x.UserId <= 500).OrderBy(x => x.Timestamp).Skip(skip).Take(take);
+            //var result = _context.Ratings.OrderBy(x => x.Timestamp).Skip(skip).Take(take);
 
             var ratings = result.AsEnumerable();
             return ratings;
