@@ -56,8 +56,8 @@ namespace Recommender.GUI
         {
             var recommender = new RecommenderEngine();
 
-            //recommender.Recommender = new MatrixFactorization();
-            recommender.Recommender = new C45Recommender();
+            recommender.Recommender = new MatrixFactorization();
+            //recommender.Recommender = new C45Recommender();
             this.LogBox.AppendText("Loading data...");
             recommender.LoadData();
             var result = recommender.GetResults();
