@@ -1,42 +1,54 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Recommender.Service.Data
 {
-    public class Feature
+    public class RatedFeature : Feature
     {
-        public Feature(string name)
+        public RatedFeature(Feature feature, double rating) : base(feature.Name, feature.FeatureCategory, feature.Id)
         {
-            Name = name;
-            Rating = new List<FeatureRating>();
-        }
-
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Dictionary containing pairs: item and average rating by user
-        /// </summary>
-        public List<FeatureRating> Rating { get; set; }
-    }
-
-    public class FeatureRating
-    {
-        public FeatureRating(string itemName, double averageRating)
-        {
-            ItemName = itemName;
-            AverageRating = averageRating;
+            AverageRating = rating;
             _timesRated = 1;
         }
 
-        public string ItemName { get; set; }
-
-        public double AverageRating { get; set; }
+        //public RatedFeature(string name, string featureCategory, double rating) : base(name, featureCategory)
+        //{
+        //    AverageRating = rating;
+        //    _timesRated = 1;
+        //}
 
         int _timesRated;
+
+        public double AverageRating { get; set; }
 
         public void AddRating(double rating)
         {
             AverageRating = (AverageRating * _timesRated + rating) / (_timesRated + 1);
             _timesRated++;
         }
+    }
+
+    public class Feature : IFeature
+    {
+        public Feature(string name, string featureCategory, string id)
+        {
+            Id = id;
+            Name = name;
+            FeatureCategory = featureCategory;
+        }
+
+        public Feature(string name, string featureCategory)
+        {
+            Id = Guid.NewGuid().ToString();
+            Name = name;
+            FeatureCategory = featureCategory;
+        }
+
+        //todo change accessibility of setter
+        public string Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string FeatureCategory { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MyMediaLite.Data;
+using Recommender.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,20 +18,20 @@ namespace Recommender.Service.Data
     public class FeaturedRatings : Ratings, IFeaturedRatings
     {
         ///
-        public IList<IDictionary<string, object>> Features { get; protected set; }
+        public IList<IList<IFeature>> Features { get; protected set; }
 
 
 
         /// <summary>Default constructor</summary>
         public FeaturedRatings() : base()
         {
-            Features = new List<IDictionary<string, object>>();
+            Features = new List<IList<IFeature>>();
         }
 
         ///
         public FeaturedRatings(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-            Features = (List<IDictionary<string, object>>)info.GetValue("Features", typeof(List<IDictionary<string, object>>));
+            Features = (List<IList<IFeature>>)info.GetValue("Features", typeof(List<IList<IFeature>>));
         }
 
         ///
@@ -45,7 +46,7 @@ namespace Recommender.Service.Data
             Users.Add(user_id);
             Items.Add(item_id);
             Values.Add(rating);
-            Features.Add(features);
+            ParseAndAddFeatures(features);
 
             int pos = Users.Count - 1;
 
@@ -69,7 +70,24 @@ namespace Recommender.Service.Data
             }
         }
 
-        ///
+        private void ParseAndAddFeatures(IDictionary<string, object> features)
+        {
+            var itemFeatures = new List<IFeature>();
+
+            foreach (var feature in features)
+            {
+                if (feature.Value == null)
+                    continue;
+
+                //TODO HANDLE INTS
+                var splited = feature.Value.ToString().Split(Settings.Delimeters, StringSplitOptions.RemoveEmptyEntries).ToList();
+                
+                splited.ForEach(x => itemFeatures.Add(new Feature(x, feature.Key)));
+            }
+
+            Features.Add(itemFeatures);
+        }
+
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);

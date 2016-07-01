@@ -118,6 +118,10 @@
       <Project>{73424f09-beea-4992-b116-5f123496f5d3}</Project>
       <Name>MyMediaLite</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Recommender.Common\Recommender.Common.csproj">
+      <Project>{0fedca4f-147f-41ce-a9b0-dbd2e9b51e5c}</Project>
+      <Name>Recommender.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Recommender.Service\Recommender.Service.csproj">
       <Project>{d7d04abd-6b0b-49b5-8ade-26cae8599f92}</Project>
       <Name>Recommender.Service</Name>

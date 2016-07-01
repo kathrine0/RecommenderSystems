@@ -7,11 +7,13 @@ namespace Recommender.Service.Data
         public UserProfile(int userId)
         {
             UserId = userId;
-            RatedFeatures = new List<Feature>();
+            RatedMovies = new List<RatedItem>();
+            Features = new List<Feature>();
         }
 
         public int UserId { get; set; }
 
-        public List<Feature> RatedFeatures { get; set; }
+        public IList<RatedItem> RatedMovies { get; set; }
+        public IList<Feature> Features { get; set; }
     }
 }

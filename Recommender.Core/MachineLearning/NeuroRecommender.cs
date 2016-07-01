@@ -1,15 +1,11 @@
 ﻿using MyMediaLite.RatingPrediction;
 using System;
-using Accord;
 using MyMediaLite.Data;
 using Recommender.Service.Data;
 using System.Linq;
-using System.Data;
 using System.Collections.Generic;
 using Accord.Math;
-using Accord.Statistics.Filters;
-using Accord.MachineLearning.DecisionTrees;
-using Accord.MachineLearning.DecisionTrees.Learning;
+using Recommender.Common;
 
 namespace Recommender.Core.MachineLearning
 {
@@ -65,89 +61,42 @@ namespace Recommender.Core.MachineLearning
 
         protected internal virtual void InitModel()//IList<int> rating_indices
         {
-
-            var tablePerUser = new Dictionary<int, DataTable>();
-
-            var tmpinputColumns = new List<string>(featured_ratings.Features[0].Select(x => x.Key));
-            string[] inputColumns = tmpinputColumns.ToArray();
-            string outputColumn = "rating";
-
-            //build separate table for every user  //move it to featuredRatings class
+            //please please please refactor me!
+            //move it to featuredRatings class
             foreach (var userRatings in featured_ratings.ByUser)
             {
+
+                //build up the items profiles with features
+                var allFeatures = new List<IFeature>();
+
+
                 if (userRatings.Count == 0)
                     continue;
 
                 int userId = featured_ratings.Users[userRatings.First()];
 
-                //prepare datatable structure
-                DataTable table = new DataTable();
-
-
-                table.Columns.Add(inputColumns);
-                table.Columns.Add(outputColumn);
+                var ratedItems = new List<RatedItem>();
 
                 //and items to datatable
                 foreach (var index in userRatings)
                 {
-                    //if (Single.IsNaN(featured_ratings[index]))
-                    //    continue;
-
-                    //if (featured_ratings.Features[index].Any(x => x.Value)))
-                    //    continue;
-
-
                     int i = featured_ratings.Items[index];
-                    var features = featured_ratings.Features[index]
-                        .Where(x => x.Value != null)
-                        .Select(x => x.Value.ToString()); //delete to string
+                    var features = featured_ratings.Features[index];
 
-                    var data = new List<string>(features);
-                    data.Add(featured_ratings[index].ToString());
+                    var itemId = featured_ratings.Items[index];
+                    ratedItems.Add(new RatedItem(itemId, userId, features));
 
-                    table.Rows.Add(data.ToArray());
-
+                    //todo make linq extensions out of it
+                    features.Where(d => !allFeatures
+                    .Any(c => c.Name == d.Name && c.FeatureCategory == d.FeatureCategory))
+                    .ToList()
+                    .ForEach(f => allFeatures.Add(f));
                 }
 
 
-                tablePerUser.Add(userId, table);
+                //neural network
+                
             }
-
-
-
-
-            foreach (var table in tablePerUser)
-            {
-                //// Now, we have to convert the textual, categorical data found
-                //// in the table to a more manageable discrete representation.
-                //// 
-                //// For this, we will create a codebook to translate text to
-                //// discrete integer symbols:
-                //// 
-                Codification codebook = new Codification(table.Value);
-
-                //// And then convert all data into symbols
-                //// 
-                DataTable symbols = codebook.Apply(table.Value);
-                double[][] inputs = symbols.ToArray(inputColumns);
-                int[] outputs = symbols.ToArray<int>(outputColumn);
-
-
-                var attributes = DecisionVariable.FromCodebook(codebook, inputColumns);
-                DecisionTree tree = new DecisionTree(attributes, classes: 10); //todo calculate classes //todo switch from discrete values to constant
-
-
-                //// Now, let's create the C4.5 algorithm
-                C45Learning c45 = new C45Learning(tree);
-
-
-                double error = c45.Run(inputs, outputs);
-                int y = tree.Compute(inputs[25]);
-                Func<double[], int> func = tree.ToExpression().Compile();
-                int z = func(inputs[25]);
-            }
-
-            //string nurseryData = Resources.nursery;
 
             if (FeaturedRatings.Features.Count < 1)
                 throw new ArgumentOutOfRangeException("Not enough features");
