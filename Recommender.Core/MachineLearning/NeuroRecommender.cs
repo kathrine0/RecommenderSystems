@@ -6,6 +6,9 @@ using System.Linq;
 using System.Collections.Generic;
 using Accord.Math;
 using Recommender.Common;
+using AForge.Neuro;
+using AForge.Neuro.Learning;
+using System.Collections;
 
 namespace Recommender.Core.MachineLearning
 {
@@ -58,6 +61,13 @@ namespace Recommender.Core.MachineLearning
             throw new NotImplementedException();
         }
 
+        private double learningRate = 0.1;
+        private double momentum = 0.0;
+        private double sigmoidAlphaValue = 2.0;
+        private double learningErrorLimit = 0.1;
+        private int sigmoidType = 0;        
+        private bool needToStop = false;
+
 
         protected internal virtual void InitModel()//IList<int> rating_indices
         {
@@ -68,7 +78,6 @@ namespace Recommender.Core.MachineLearning
 
                 //build up the items profiles with features
                 var allFeatures = new List<IFeature>();
-
 
                 if (userRatings.Count == 0)
                     continue;
@@ -84,7 +93,9 @@ namespace Recommender.Core.MachineLearning
                     var features = featured_ratings.Features[index];
 
                     var itemId = featured_ratings.Items[index];
-                    ratedItems.Add(new RatedItem(itemId, userId, features));
+
+                    var x = featured_ratings[index];
+                    ratedItems.Add(new RatedItem(itemId, userId, featured_ratings[index], features));
 
                     //todo make linq extensions out of it
                     features.Where(d => !allFeatures
@@ -94,8 +105,75 @@ namespace Recommender.Core.MachineLearning
                 }
 
 
+                //prepare input and output
                 //neural network
-                
+                // prepare learning data
+ 
+                var outputList = new List<double[]>();
+                var inputList = new List<double[]>();
+                foreach(var ratedItem in ratedItems)
+                {
+                    var tmp = new List<double>();
+
+                    allFeatures
+                        .ForEach(d => tmp.Add(ratedItem.Features
+                                        .Any(c => c.Name == d.Name && c.FeatureCategory == d.FeatureCategory) ?
+                                        1 : 0));
+
+                    inputList.Add(tmp.ToArray());
+                    //todo change this 5 to some var!!
+                    outputList.Add(new double[] { ratedItem.Rating / 5 });
+                }
+
+                var input = inputList.ToArray();
+                var output = outputList.ToArray();
+
+                // ... preparing the data ...
+
+                // create perceptron
+
+                ActivationNetwork network = new ActivationNetwork( new SigmoidFunction(sigmoidAlphaValue),
+            //        (IActivationFunction)new BipolarSigmoidFunction(sigmoidAlphaValue),
+                 allFeatures.Count(), 1);
+
+                //ActivationNetwork network = new ActivationNetwork(new ThresholdFunction(), 2, classesCount);
+                // create teacher
+                //PerceptronLearning teacher = new PerceptronLearning(network);
+                BackPropagationLearning teacher = new BackPropagationLearning(network);
+                // set learning rate and momentum
+                teacher.LearningRate = learningRate;
+                teacher.Momentum = momentum;
+
+                // iterations
+                int iteration = 1;
+
+                ArrayList errorsList = new ArrayList();
+
+                // loop
+                while (!needToStop)
+                {
+                    // run epoch of learning procedure
+                    double error = teacher.RunEpoch(input, output);
+                    errorsList.Add(error);
+
+                    // show current iteration & error
+                    //currentIterationBox.Text = iteration.ToString( );
+                    //currentErrorBox.Text = error.ToString( );
+                    iteration++;
+
+                    // check if we need to stop
+                    if (error <= learningErrorLimit)
+                        break;
+                }
+
+                // show error's dynamics
+                double[,] errors = new double[errorsList.Count, 2];
+
+                for (int i = 0, n = errorsList.Count; i < n; i++)
+                {
+                    errors[i, 0] = i;
+                    errors[i, 1] = (double)errorsList[i];
+                }
             }
 
             if (FeaturedRatings.Features.Count < 1)
