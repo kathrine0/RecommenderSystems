@@ -12,8 +12,15 @@ using System.Collections;
 
 namespace Recommender.Core.MachineLearning
 {
+    //TODO make it handle more ppl at once
     public class NeuroRecommender : RatingPredictor
     {
+
+        private ActivationNetwork _network;
+        private BackPropagationLearning _teacher;
+
+        //list with all of the rated features
+        private List<IFeature> allFeatures = new List<IFeature>();
 
         public NeuroRecommender()
         {
@@ -51,21 +58,33 @@ namespace Recommender.Core.MachineLearning
 
         public override float Predict(int user_id, int item_id)
         {
-            throw new NotImplementedException();
+            var index = featured_ratings.AllItems.First(x => x == item_id);
+
+            var features = featured_ratings.Features[index];
+
+            var inputList = new List<double[]>();
+
+            var tmp = new List<double>();
+
+            allFeatures
+                .ForEach(d => tmp.Add(features
+                                .Any(c => c.Name == d.Name && c.FeatureCategory == d.FeatureCategory) ?
+                                1 : 0));
+
+            return Convert.ToSingle(_network.Compute(tmp.ToArray()));
         }
 
         public override void Train()
         {
             InitModel();//ratings.RandomIndex
 
-            throw new NotImplementedException();
+            //so badly need to refactor
         }
 
         private double learningRate = 0.1;
         private double momentum = 0.0;
         private double sigmoidAlphaValue = 2.0;
-        private double learningErrorLimit = 0.1;
-        private int sigmoidType = 0;        
+        private double learningErrorLimit = 0.1;     
         private bool needToStop = false;
 
 
@@ -77,8 +96,6 @@ namespace Recommender.Core.MachineLearning
             {
 
                 //build up the items profiles with features
-                var allFeatures = new List<IFeature>();
-
                 if (userRatings.Count == 0)
                     continue;
 
@@ -89,7 +106,6 @@ namespace Recommender.Core.MachineLearning
                 //and items to datatable
                 foreach (var index in userRatings)
                 {
-                    int i = featured_ratings.Items[index];
                     var features = featured_ratings.Features[index];
 
                     var itemId = featured_ratings.Items[index];
@@ -132,17 +148,16 @@ namespace Recommender.Core.MachineLearning
 
                 // create perceptron
 
-                ActivationNetwork network = new ActivationNetwork( new SigmoidFunction(sigmoidAlphaValue),
-            //        (IActivationFunction)new BipolarSigmoidFunction(sigmoidAlphaValue),
-                 allFeatures.Count(), 1);
+                _network = new ActivationNetwork( new SigmoidFunction(sigmoidAlphaValue), allFeatures.Count(), 1);
+                //        (IActivationFunction)new BipolarSigmoidFunction(sigmoidAlphaValue),
 
                 //ActivationNetwork network = new ActivationNetwork(new ThresholdFunction(), 2, classesCount);
                 // create teacher
                 //PerceptronLearning teacher = new PerceptronLearning(network);
-                BackPropagationLearning teacher = new BackPropagationLearning(network);
+                _teacher = new BackPropagationLearning(_network);
                 // set learning rate and momentum
-                teacher.LearningRate = learningRate;
-                teacher.Momentum = momentum;
+                _teacher.LearningRate = learningRate;
+                _teacher.Momentum = momentum;
 
                 // iterations
                 int iteration = 1;
@@ -153,7 +168,7 @@ namespace Recommender.Core.MachineLearning
                 while (!needToStop)
                 {
                     // run epoch of learning procedure
-                    double error = teacher.RunEpoch(input, output);
+                    double error = _teacher.RunEpoch(input, output);
                     errorsList.Add(error);
 
                     // show current iteration & error

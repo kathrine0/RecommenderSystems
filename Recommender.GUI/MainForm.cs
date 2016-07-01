@@ -1,5 +1,6 @@
 ﻿using MyMediaLite.RatingPrediction;
 using Recommender.Core;
+using Recommender.Core.Engine;
 using Recommender.Core.MachineLearning;
 using System;
 using System.Collections.Generic;
@@ -54,9 +55,10 @@ namespace Recommender.GUI
 
         private void LearnButton_Click(object sender, EventArgs e)
         {
-            var recommender = new RecommenderEngine();
+            RecommenderEngine recommender = new ContentRecommenderEngine();
 
             //recommender.Recommender = new MatrixFactorization();
+            //TODO figure out here some nice pattern
             recommender.Recommender = new NeuroRecommender();
             this.LogBox.AppendText("Loading data...");
             recommender.LoadData();

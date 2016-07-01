@@ -8,12 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Recommender.Core
+namespace Recommender.Core.Engine
 {
     /// <summary>
     /// This is the main application class
     /// </summary>
-    public class RecommenderEngine
+    public abstract class RecommenderEngine
     {
 
         public IRatingPredictor Recommender
@@ -21,9 +21,9 @@ namespace Recommender.Core
             get; set;
         }
 
-        private MovieLenseService _service;
-        private IRatings _trainingData;
-        private IRatings _testData;
+        protected MovieLenseService _service;
+        protected IRatings _trainingData;
+        protected IRatings _testData;
 
 
         public RecommenderEngine()
@@ -31,11 +31,7 @@ namespace Recommender.Core
             _service = new MovieLenseService();
         }
 
-        public void LoadData()
-        {
-            //_service.LoadBasicData(out _trainingData, out _testData, 0.8);
-            _service.LoadFeaturedData(out _trainingData, out _testData, 0.8);
-        }
+        public abstract void LoadData();
 
         public RatingPredictionEvaluationResults GetResults()
         {

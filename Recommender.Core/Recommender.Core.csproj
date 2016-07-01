@@ -100,12 +100,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\CollaborativeRecommenderEngine.cs" />
+    <Compile Include="Engine\ContentRecommenderEngine.cs" />
+    <Compile Include="Engine\HybridRecommenderEngine.cs" />
     <Compile Include="ItemRecommendation\BayesMatrixFactorization.cs" />
     <Compile Include="ItemRecommendation\PSOMatrixFactorization.cs" />
     <Compile Include="MachineLearning\NeuroRecommender.cs" />
     <Compile Include="MachineLearning\C45Recommender.cs" />
     <Compile Include="MachineLearning\UserProfileBuilder.cs" />
-    <Compile Include="RecommenderEngine.cs" />
+    <Compile Include="Engine\RecommenderEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
