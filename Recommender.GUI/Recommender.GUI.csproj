@@ -59,12 +59,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\Algorithm.cs" />
+    <Compile Include="Enums\DataSet.cs" />
+    <Compile Include="Enums\RecommenderType.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Options\CollaborativeAlgorithmOption.cs" />
+    <Compile Include="Options\ContentBasedAlgorithmOption.cs" />
+    <Compile Include="Options\DataSetOption.cs" />
+    <Compile Include="Options\Option.cs" />
+    <Compile Include="Options\RecommenderTypeOption.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">
@@ -80,6 +88,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Recommender.GUI.Options.DataSetOption.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -93,9 +102,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Options\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\mymedialite\src\MyMediaLite\MyMediaLite.csproj">
       <Project>{73424f09-beea-4992-b116-5f123496f5d3}</Project>

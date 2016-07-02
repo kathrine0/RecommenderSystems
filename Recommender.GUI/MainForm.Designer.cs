@@ -30,13 +30,18 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.alghoritmCombo = new System.Windows.Forms.ComboBox();
+            this.ContentBasedAlghoritmChoice = new System.Windows.Forms.Panel();
+            this.ContentBasedAlgorithmCombo = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.CollaborativeAlgorithmChoice = new System.Windows.Forms.Panel();
+            this.CollaborativeAlgorithmCombo = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.SaveButton = new System.Windows.Forms.Button();
+            this.recommenderCombo = new System.Windows.Forms.ComboBox();
             this.datasetCombo = new System.Windows.Forms.ComboBox();
-            this.TestButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.LearnButton = new System.Windows.Forms.Button();
+            this.RunButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.opcjeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.opcja1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,99 +52,152 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.ResultContainer = new System.Windows.Forms.GroupBox();
             this.ResultBox = new System.Windows.Forms.RichTextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.LogBox = new System.Windows.Forms.RichTextBox();
+            this.dataSetOptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.mainFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
+            this.ContentBasedAlghoritmChoice.SuspendLayout();
+            this.CollaborativeAlgorithmChoice.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.ResultContainer.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataSetOptionBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.checkBox1);
-            this.groupBox1.Controls.Add(this.alghoritmCombo);
+            this.groupBox1.Controls.Add(this.ContentBasedAlghoritmChoice);
+            this.groupBox1.Controls.Add(this.CollaborativeAlgorithmChoice);
+            this.groupBox1.Controls.Add(this.SaveButton);
+            this.groupBox1.Controls.Add(this.recommenderCombo);
             this.groupBox1.Controls.Add(this.datasetCombo);
-            this.groupBox1.Controls.Add(this.TestButton);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.LearnButton);
+            this.groupBox1.Controls.Add(this.RunButton);
             this.groupBox1.Location = new System.Drawing.Point(12, 38);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(218, 254);
+            this.groupBox1.Size = new System.Drawing.Size(296, 254);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Ustawienia";
+            this.groupBox1.Text = "Settings";
             // 
-            // checkBox1
+            // ContentBasedAlghoritmChoice
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(9, 202);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(97, 17);
-            this.checkBox1.TabIndex = 7;
-            this.checkBox1.Text = "Zapisz do pliku";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.ContentBasedAlghoritmChoice.Controls.Add(this.ContentBasedAlgorithmCombo);
+            this.ContentBasedAlghoritmChoice.Controls.Add(this.label6);
+            this.ContentBasedAlghoritmChoice.Enabled = false;
+            this.ContentBasedAlghoritmChoice.Location = new System.Drawing.Point(0, 114);
+            this.ContentBasedAlghoritmChoice.Name = "ContentBasedAlghoritmChoice";
+            this.ContentBasedAlghoritmChoice.Size = new System.Drawing.Size(280, 22);
+            this.ContentBasedAlghoritmChoice.TabIndex = 12;
             // 
-            // alghoritmCombo
+            // ContentBasedAlgorithmCombo
             // 
-            this.alghoritmCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.alghoritmCombo.FormattingEnabled = true;
-            this.alghoritmCombo.Location = new System.Drawing.Point(86, 58);
-            this.alghoritmCombo.Name = "alghoritmCombo";
-            this.alghoritmCombo.Size = new System.Drawing.Size(126, 21);
-            this.alghoritmCombo.TabIndex = 5;
+            this.ContentBasedAlgorithmCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ContentBasedAlgorithmCombo.FormattingEnabled = true;
+            this.ContentBasedAlgorithmCombo.Location = new System.Drawing.Point(130, 1);
+            this.ContentBasedAlgorithmCombo.Name = "ContentBasedAlgorithmCombo";
+            this.ContentBasedAlgorithmCombo.Size = new System.Drawing.Size(150, 21);
+            this.ContentBasedAlgorithmCombo.TabIndex = 10;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 4);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(121, 13);
+            this.label6.TabIndex = 8;
+            this.label6.Text = "Content-based algorithm";
+            // 
+            // CollaborativeAlgorithmChoice
+            // 
+            this.CollaborativeAlgorithmChoice.Controls.Add(this.CollaborativeAlgorithmCombo);
+            this.CollaborativeAlgorithmChoice.Controls.Add(this.label3);
+            this.CollaborativeAlgorithmChoice.Location = new System.Drawing.Point(0, 84);
+            this.CollaborativeAlgorithmChoice.Name = "CollaborativeAlgorithmChoice";
+            this.CollaborativeAlgorithmChoice.Size = new System.Drawing.Size(280, 28);
+            this.CollaborativeAlgorithmChoice.TabIndex = 11;
+            // 
+            // CollaborativeAlgorithmCombo
+            // 
+            this.CollaborativeAlgorithmCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CollaborativeAlgorithmCombo.FormattingEnabled = true;
+            this.CollaborativeAlgorithmCombo.Location = new System.Drawing.Point(130, 3);
+            this.CollaborativeAlgorithmCombo.Name = "CollaborativeAlgorithmCombo";
+            this.CollaborativeAlgorithmCombo.Size = new System.Drawing.Size(150, 21);
+            this.CollaborativeAlgorithmCombo.TabIndex = 9;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 6);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(113, 13);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Collaborative algorithm";
+            // 
+            // SaveButton
+            // 
+            this.SaveButton.Location = new System.Drawing.Point(125, 225);
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(93, 23);
+            this.SaveButton.TabIndex = 6;
+            this.SaveButton.Text = "Save results";
+            this.SaveButton.UseVisualStyleBackColor = true;
+            // 
+            // recommenderCombo
+            // 
+            this.recommenderCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.recommenderCombo.FormattingEnabled = true;
+            this.recommenderCombo.Location = new System.Drawing.Point(130, 58);
+            this.recommenderCombo.Name = "recommenderCombo";
+            this.recommenderCombo.Size = new System.Drawing.Size(150, 21);
+            this.recommenderCombo.TabIndex = 5;
+            this.recommenderCombo.SelectedIndexChanged += new System.EventHandler(this.recommenderCombo_SelectedIndexChanged);
             // 
             // datasetCombo
             // 
+            this.datasetCombo.DisplayMember = "Value";
             this.datasetCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.datasetCombo.FormattingEnabled = true;
-            this.datasetCombo.Location = new System.Drawing.Point(86, 31);
+            this.datasetCombo.Location = new System.Drawing.Point(130, 31);
             this.datasetCombo.Name = "datasetCombo";
-            this.datasetCombo.Size = new System.Drawing.Size(126, 21);
+            this.datasetCombo.Size = new System.Drawing.Size(150, 21);
             this.datasetCombo.TabIndex = 4;
-            // 
-            // TestButton
-            // 
-            this.TestButton.Location = new System.Drawing.Point(118, 225);
-            this.TestButton.Name = "TestButton";
-            this.TestButton.Size = new System.Drawing.Size(94, 23);
-            this.TestButton.TabIndex = 3;
-            this.TestButton.Text = "Testowanie";
-            this.TestButton.UseVisualStyleBackColor = true;
+            this.datasetCombo.ValueMember = "Value";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(6, 61);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(47, 13);
+            this.label2.Size = new System.Drawing.Size(99, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Algorytm";
+            this.label2.Text = "Recommender type";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 34);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 13);
+            this.label1.Size = new System.Drawing.Size(44, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Zbiór daych";
+            this.label1.Text = "Dataset";
             // 
-            // LearnButton
+            // RunButton
             // 
-            this.LearnButton.Location = new System.Drawing.Point(9, 225);
-            this.LearnButton.Name = "LearnButton";
-            this.LearnButton.Size = new System.Drawing.Size(103, 23);
-            this.LearnButton.TabIndex = 0;
-            this.LearnButton.Text = "Uczenie";
-            this.LearnButton.UseVisualStyleBackColor = true;
-            this.LearnButton.Click += new System.EventHandler(this.LearnButton_Click);
+            this.RunButton.Location = new System.Drawing.Point(6, 225);
+            this.RunButton.Name = "RunButton";
+            this.RunButton.Size = new System.Drawing.Size(113, 23);
+            this.RunButton.TabIndex = 0;
+            this.RunButton.Text = "Start";
+            this.RunButton.UseVisualStyleBackColor = true;
+            this.RunButton.Click += new System.EventHandler(this.RunButton_Click);
             // 
             // menuStrip1
             // 
@@ -148,7 +206,7 @@
             this.zakończToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(541, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(535, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -158,8 +216,8 @@
             this.opcja1ToolStripMenuItem,
             this.opcja2ToolStripMenuItem});
             this.opcjeToolStripMenuItem.Name = "opcjeToolStripMenuItem";
-            this.opcjeToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
-            this.opcjeToolStripMenuItem.Text = "Opcje";
+            this.opcjeToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.opcjeToolStripMenuItem.Text = "Options";
             // 
             // opcja1ToolStripMenuItem
             // 
@@ -191,8 +249,8 @@
             // zakończToolStripMenuItem
             // 
             this.zakończToolStripMenuItem.Name = "zakończToolStripMenuItem";
-            this.zakończToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
-            this.zakończToolStripMenuItem.Text = "Zakończ";
+            this.zakończToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.zakończToolStripMenuItem.Text = "Close";
             // 
             // statusStrip1
             // 
@@ -201,30 +259,30 @@
             this.toolStripProgressBar1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 433);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(541, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(535, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(62, 17);
-            this.toolStripStatusLabel1.Text = "Bezczynny";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(26, 17);
+            this.toolStripStatusLabel1.Text = "Idle";
             // 
             // toolStripProgressBar1
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
             this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
             // 
-            // groupBox2
+            // ResultContainer
             // 
-            this.groupBox2.Controls.Add(this.ResultBox);
-            this.groupBox2.Location = new System.Drawing.Point(237, 38);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(292, 254);
-            this.groupBox2.TabIndex = 4;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Wyniki";
+            this.ResultContainer.Controls.Add(this.ResultBox);
+            this.ResultContainer.Location = new System.Drawing.Point(314, 38);
+            this.ResultContainer.Name = "ResultContainer";
+            this.ResultContainer.Size = new System.Drawing.Size(215, 254);
+            this.ResultContainer.TabIndex = 4;
+            this.ResultContainer.TabStop = false;
+            this.ResultContainer.Text = "Results";
             // 
             // ResultBox
             // 
@@ -232,7 +290,7 @@
             this.ResultBox.Location = new System.Drawing.Point(3, 16);
             this.ResultBox.Name = "ResultBox";
             this.ResultBox.ReadOnly = true;
-            this.ResultBox.Size = new System.Drawing.Size(286, 235);
+            this.ResultBox.Size = new System.Drawing.Size(209, 235);
             this.ResultBox.TabIndex = 0;
             this.ResultBox.Text = "";
             // 
@@ -256,6 +314,10 @@
             this.LogBox.TabIndex = 0;
             this.LogBox.Text = "";
             // 
+            // dataSetOptionBindingSource
+            // 
+            this.dataSetOptionBindingSource.DataSource = typeof(Recommender.GUI.Options.DataSetOption);
+            // 
             // mainFormBindingSource
             // 
             this.mainFormBindingSource.DataSource = typeof(Recommender.GUI.MainForm);
@@ -264,9 +326,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(541, 455);
+            this.ClientSize = new System.Drawing.Size(535, 455);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.ResultContainer);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
@@ -275,12 +337,17 @@
             this.Text = "Recommender Systems Research";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.ContentBasedAlghoritmChoice.ResumeLayout(false);
+            this.ContentBasedAlghoritmChoice.PerformLayout();
+            this.CollaborativeAlgorithmChoice.ResumeLayout(false);
+            this.CollaborativeAlgorithmChoice.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
+            this.ResultContainer.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataSetOptionBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -292,15 +359,13 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.Button LearnButton;
-        private System.Windows.Forms.Button TestButton;
+        private System.Windows.Forms.Button RunButton;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox alghoritmCombo;
+        private System.Windows.Forms.ComboBox recommenderCombo;
         private System.Windows.Forms.ComboBox datasetCombo;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox ResultContainer;
         private System.Windows.Forms.RichTextBox ResultBox;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.RichTextBox LogBox;
         private System.Windows.Forms.ToolStripMenuItem opcjeToolStripMenuItem;
@@ -312,6 +377,14 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
         private System.Windows.Forms.BindingSource mainFormBindingSource;
+        private System.Windows.Forms.Button SaveButton;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel CollaborativeAlgorithmChoice;
+        private System.Windows.Forms.ComboBox CollaborativeAlgorithmCombo;
+        private System.Windows.Forms.ComboBox ContentBasedAlgorithmCombo;
+        private System.Windows.Forms.Panel ContentBasedAlghoritmChoice;
+        private System.Windows.Forms.BindingSource dataSetOptionBindingSource;
     }
 }
 

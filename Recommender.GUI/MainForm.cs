@@ -2,6 +2,8 @@
 using Recommender.Core;
 using Recommender.Core.Engine;
 using Recommender.Core.MachineLearning;
+using Recommender.GUI.Enums;
+using Recommender.GUI.Options;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,46 +16,34 @@ using System.Windows.Forms;
 
 namespace Recommender.GUI
 {
-    public partial class MainForm : Form
+    public partial class MainForm : Form    
     {
-        public IList<string> Alghoritms
-        {
-            get
-            {
-                return new List<string>()
-                {
-                    "Matrix Factorization",
-                    "Biased Matrix Factorization",
-                    "SVD++",
-                    "Decision Tree",
-                    "Hybrid"
-                };
-            }
-        }
-        public IList<string> Datasets
-        {
-            get
-            {
-                return new List<string>()
-                {
-                    "MovieLense",
-                    "AmazonMeta",
-                    "LastFm"
-                };
-            }
-        }
 
         public MainForm()
         {
             InitializeComponent();
 
-            this.alghoritmCombo.DataSource = Alghoritms;
-            this.datasetCombo.DataSource = Datasets;
+            this.datasetCombo.DataSource = DataSetOption.OptionBuilder();
+            this.datasetCombo.DisplayMember = "Name";
+            this.datasetCombo.ValueMember = "Value";
+
+            this.recommenderCombo.DataSource = RecommenderTypeOption.OptionBuilder();
+            this.recommenderCombo.DisplayMember = "Name";
+            this.recommenderCombo.ValueMember = "Value";
+
+            this.CollaborativeAlgorithmCombo.DataSource = CollaborativeAlgorithmOption.OptionBuilder();
+            this.CollaborativeAlgorithmCombo.DisplayMember = "Name";
+            this.CollaborativeAlgorithmCombo.ValueMember = "Value";
+
+            this.ContentBasedAlgorithmCombo.DataSource = ContentBasedAlgorithmOption.OptionBuilder();
+            this.ContentBasedAlgorithmCombo.DisplayMember = "Name";
+            this.ContentBasedAlgorithmCombo.ValueMember = "Value";
 
 
+            //this.datasetCombo.DataSource = Datasets;
         }
 
-        private void LearnButton_Click(object sender, EventArgs e)
+        private void RunButton_Click(object sender, EventArgs e)
         {
             RecommenderEngine recommender = new ContentRecommenderEngine();
 
@@ -64,6 +54,30 @@ namespace Recommender.GUI
             recommender.LoadData();
             var result = recommender.GetResults();
             this.ResultBox.AppendText(result.ToString());
+        }
+
+        private void alghoritmCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //((System.Windows.Forms.ComboBox)sender).SelectedValue
+        }
+
+        private void recommenderCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch ((RecommenderType) ((ComboBox)sender).SelectedValue)
+            {
+                case RecommenderType.Collaborative:
+                    this.CollaborativeAlgorithmChoice.Enabled = true;
+                    this.ContentBasedAlghoritmChoice.Enabled  = false;
+                    break;
+                case RecommenderType.ContentBased:
+                    this.CollaborativeAlgorithmChoice.Enabled = false;
+                    this.ContentBasedAlghoritmChoice.Enabled = true;
+                    break;
+                case RecommenderType.Hybrid:
+                    this.CollaborativeAlgorithmChoice.Enabled = true;
+                    this.ContentBasedAlghoritmChoice.Enabled = true;
+                    break;
+            }
         }
     }
 }
