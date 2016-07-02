@@ -13,7 +13,7 @@ using System.Collections;
 namespace Recommender.Core.MachineLearning
 {
     //TODO make it handle more ppl at once
-    public class NeuroRecommender : RatingPredictor
+    public class NeuroRecommender : RatingPredictor, IFeaturedPredictor
     {
 
         private ActivationNetwork _network;
@@ -57,11 +57,12 @@ namespace Recommender.Core.MachineLearning
 
 
         public override float Predict(int user_id, int item_id)
+        {            
+            throw new NotImplementedException();
+        }
+
+        public float Predict(int user_id, int item_id, IList<IFeature> features)
         {
-            var index = featured_ratings.AllItems.First(x => x == item_id);
-
-            var features = featured_ratings.Features[index];
-
             var inputList = new List<double[]>();
 
             var tmp = new List<double>();
@@ -71,7 +72,9 @@ namespace Recommender.Core.MachineLearning
                                 .Any(c => c.Name == d.Name && c.FeatureCategory == d.FeatureCategory) ?
                                 1 : 0));
 
-            return Convert.ToSingle(_network.Compute(tmp.ToArray()));
+            var result = _network.Compute(tmp.ToArray());
+
+            return Convert.ToSingle(result[0]);
         }
 
         public override void Train()
@@ -92,14 +95,12 @@ namespace Recommender.Core.MachineLearning
         {
             //please please please refactor me!
             //move it to featuredRatings class
-            foreach (var userRatings in featured_ratings.ByUser)
+            foreach (var userId in featured_ratings.AllUsers)
             {
-
+                var userRatings = featured_ratings.ByUser[userId];
                 //build up the items profiles with features
                 if (userRatings.Count == 0)
                     continue;
-
-                int userId = featured_ratings.Users[userRatings.First()];
 
                 var ratedItems = new List<RatedItem>();
 
@@ -125,6 +126,8 @@ namespace Recommender.Core.MachineLearning
                 //neural network
                 // prepare learning data
  
+                //todo add bias --> Average
+
                 var outputList = new List<double[]>();
                 var inputList = new List<double[]>();
                 foreach(var ratedItem in ratedItems)

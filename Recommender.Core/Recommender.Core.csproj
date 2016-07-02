@@ -103,8 +103,10 @@
     <Compile Include="Engine\CollaborativeRecommenderEngine.cs" />
     <Compile Include="Engine\ContentRecommenderEngine.cs" />
     <Compile Include="Engine\HybridRecommenderEngine.cs" />
+    <Compile Include="Engine\RecommenderRatings.cs" />
     <Compile Include="ItemRecommendation\BayesMatrixFactorization.cs" />
     <Compile Include="ItemRecommendation\PSOMatrixFactorization.cs" />
+    <Compile Include="MachineLearning\IFeaturedPredictor.cs" />
     <Compile Include="MachineLearning\NeuroRecommender.cs" />
     <Compile Include="MachineLearning\C45Recommender.cs" />
     <Compile Include="MachineLearning\UserProfileBuilder.cs" />
