@@ -51,8 +51,6 @@ namespace Recommender.GUI
 
             //recommender.Recommender = new MatrixFactorization();
             //TODO figure out here some nice pattern
-            
-
             SetupRecommender();
 
             this.StatusLabel.Text = "Loading data...";
@@ -70,7 +68,7 @@ namespace Recommender.GUI
 
         private void AddResultBoxText(string text)
         {
-            this.ResultBox.AppendText(text);
+            this.ResultBox.AppendText(text + "\n");
         }
 
 
@@ -93,6 +91,8 @@ namespace Recommender.GUI
                 default:
                     throw new ArgumentOutOfRangeException("Unknown recommender type");
             }
+
+            _recommender.SetTrainingSetRatio(this.TrainingSetSize.Value);
         }
 
         private void ChooseCollaborativeAlgorithm()
@@ -135,6 +135,8 @@ namespace Recommender.GUI
                 default:
                     throw new ArgumentOutOfRangeException("Unknown recommender type");
             }
+
+            ((ContentRecommenderEngine)_recommender).NumberOfUsers = Decimal.ToInt32(this.ContentBased_AmountOfUsers.Value);
         }
 
         private void ChooseHybridAlgorithm()
@@ -150,16 +152,37 @@ namespace Recommender.GUI
                 case RecommenderType.Collaborative:
                     this.CollaborativeAlgorithmChoice.Enabled = true;
                     this.ContentBasedAlghoritmChoice.Enabled  = false;
+
+                    this.CollaborativeOptions.Visible = true;
+                    this.ContentBasedOptions.Visible = false;
                     break;
                 case RecommenderType.ContentBased:
                     this.CollaborativeAlgorithmChoice.Enabled = false;
                     this.ContentBasedAlghoritmChoice.Enabled = true;
+
+                    this.CollaborativeOptions.Visible = false;
+                    this.ContentBasedOptions.Visible = true;
                     break;
                 case RecommenderType.Hybrid:
                     this.CollaborativeAlgorithmChoice.Enabled = true;
                     this.ContentBasedAlghoritmChoice.Enabled = true;
+
+                    this.CollaborativeOptions.Visible = true;
+                    this.ContentBasedOptions.Visible = true;
                     break;
             }
+        }
+
+        private void TrainingSetSize_ValueChanged(object sender, EventArgs e)
+        {
+            var value = ((NumericUpDown)sender).Value;
+            this.TestingSetSize.Value = 100 - value;
+        }
+
+        private void TestingSetSize_ValueChanged(object sender, EventArgs e)
+        {
+            var value = ((NumericUpDown)sender).Value;
+            this.TrainingSetSize.Value = 100 - value;
         }
     }
 }

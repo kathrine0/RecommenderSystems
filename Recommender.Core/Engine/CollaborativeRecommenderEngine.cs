@@ -1,4 +1,5 @@
 ﻿using MyMediaLite.RatingPrediction;
+using System.ComponentModel.DataAnnotations;
 
 namespace Recommender.Core.Engine
 {
@@ -6,7 +7,7 @@ namespace Recommender.Core.Engine
     {
         public override void LoadData()
         {
-            _service.LoadBasicData(out _trainingData, out _testData, 0.8);
+            _service.LoadBasicData(out _trainingData, out _testData, _trainingSetRatio);
         }
     }
 }

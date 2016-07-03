@@ -24,6 +24,16 @@ namespace Recommender.Core.Engine
         protected IRatings _trainingData;
         protected IRatings _testData;
 
+        protected double _trainingSetRatio = 0.8;
+
+        public void SetTrainingSetRatio(decimal value)
+        {
+            if (value < 1 || value > 90)
+                throw new ArgumentOutOfRangeException();
+
+            _trainingSetRatio = (double) value / 100;
+        }
+
 
         public RecommenderEngine()
         {

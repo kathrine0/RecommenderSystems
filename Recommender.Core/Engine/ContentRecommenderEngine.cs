@@ -1,5 +1,6 @@
 ﻿using MyMediaLite.RatingPrediction;
 using Recommender.Core.MachineLearning;
+using System.ComponentModel.DataAnnotations;
 
 namespace Recommender.Core.Engine
 {
@@ -7,9 +8,19 @@ namespace Recommender.Core.Engine
     {
         //todo make Recommender obligatry to be of type IFeaturedPredictor
 
+        private int _numberOfUsers = 1;
+
+        [Range(1, int.MaxValue)]
+        public int NumberOfUsers
+        {
+            get { return _numberOfUsers; }
+            set { _numberOfUsers = value; }
+        }
+
+
         public override void LoadData()
         {
-            _service.LoadFeaturedData(out _trainingData, out _testData, 0.8);
+            _service.LoadFeaturedData(out _trainingData, out _testData, _trainingSetRatio, _numberOfUsers);
         }
     }
 }

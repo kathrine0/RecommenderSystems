@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ContentBasedAlghoritmChoice = new System.Windows.Forms.Panel();
             this.ContentBasedAlgorithmCombo = new System.Windows.Forms.ComboBox();
@@ -50,11 +51,25 @@
             this.opcja2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zakończToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ResultContainer = new System.Windows.Forms.GroupBox();
             this.ResultBox = new System.Windows.Forms.RichTextBox();
-            this.Options = new System.Windows.Forms.GroupBox();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.ContentBasedOptions = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.ContentBased_AmountOfUsers = new System.Windows.Forms.NumericUpDown();
+            this.UserLabel = new System.Windows.Forms.Label();
+            this.CollaborativeOptions = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.TrainingSetSize = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.TestingSetSize = new System.Windows.Forms.NumericUpDown();
+            this.label11 = new System.Windows.Forms.Label();
             this.dataSetOptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.mainFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
@@ -63,6 +78,13 @@
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.ResultContainer.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            this.ContentBasedOptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ContentBased_AmountOfUsers)).BeginInit();
+            this.CollaborativeOptions.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TrainingSetSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TestingSetSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSetOptionBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -88,17 +110,16 @@
             // 
             this.ContentBasedAlghoritmChoice.Controls.Add(this.ContentBasedAlgorithmCombo);
             this.ContentBasedAlghoritmChoice.Controls.Add(this.label6);
-            this.ContentBasedAlghoritmChoice.Enabled = false;
-            this.ContentBasedAlghoritmChoice.Location = new System.Drawing.Point(0, 114);
+            this.ContentBasedAlghoritmChoice.Location = new System.Drawing.Point(6, 114);
             this.ContentBasedAlghoritmChoice.Name = "ContentBasedAlghoritmChoice";
-            this.ContentBasedAlghoritmChoice.Size = new System.Drawing.Size(280, 22);
+            this.ContentBasedAlghoritmChoice.Size = new System.Drawing.Size(274, 22);
             this.ContentBasedAlghoritmChoice.TabIndex = 12;
             // 
             // ContentBasedAlgorithmCombo
             // 
             this.ContentBasedAlgorithmCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ContentBasedAlgorithmCombo.FormattingEnabled = true;
-            this.ContentBasedAlgorithmCombo.Location = new System.Drawing.Point(130, 1);
+            this.ContentBasedAlgorithmCombo.Location = new System.Drawing.Point(124, 1);
             this.ContentBasedAlgorithmCombo.Name = "ContentBasedAlgorithmCombo";
             this.ContentBasedAlgorithmCombo.Size = new System.Drawing.Size(150, 21);
             this.ContentBasedAlgorithmCombo.TabIndex = 10;
@@ -106,7 +127,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 4);
+            this.label6.Location = new System.Drawing.Point(0, 4);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(121, 13);
             this.label6.TabIndex = 8;
@@ -116,16 +137,17 @@
             // 
             this.CollaborativeAlgorithmChoice.Controls.Add(this.CollaborativeAlgorithmCombo);
             this.CollaborativeAlgorithmChoice.Controls.Add(this.label3);
-            this.CollaborativeAlgorithmChoice.Location = new System.Drawing.Point(0, 84);
+            this.CollaborativeAlgorithmChoice.Enabled = false;
+            this.CollaborativeAlgorithmChoice.Location = new System.Drawing.Point(6, 84);
             this.CollaborativeAlgorithmChoice.Name = "CollaborativeAlgorithmChoice";
-            this.CollaborativeAlgorithmChoice.Size = new System.Drawing.Size(280, 28);
+            this.CollaborativeAlgorithmChoice.Size = new System.Drawing.Size(274, 28);
             this.CollaborativeAlgorithmChoice.TabIndex = 11;
             // 
             // CollaborativeAlgorithmCombo
             // 
             this.CollaborativeAlgorithmCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CollaborativeAlgorithmCombo.FormattingEnabled = true;
-            this.CollaborativeAlgorithmCombo.Location = new System.Drawing.Point(130, 3);
+            this.CollaborativeAlgorithmCombo.Location = new System.Drawing.Point(124, 3);
             this.CollaborativeAlgorithmCombo.Name = "CollaborativeAlgorithmCombo";
             this.CollaborativeAlgorithmCombo.Size = new System.Drawing.Size(150, 21);
             this.CollaborativeAlgorithmCombo.TabIndex = 9;
@@ -133,7 +155,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 6);
+            this.label3.Location = new System.Drawing.Point(0, 6);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(113, 13);
             this.label3.TabIndex = 7;
@@ -204,7 +226,7 @@
             this.zakończToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(535, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(673, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -255,11 +277,16 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ProgressBar,
             this.StatusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 433);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 483);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(535, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(673, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // ProgressBar
+            // 
+            this.ProgressBar.Name = "ProgressBar";
+            this.ProgressBar.Size = new System.Drawing.Size(100, 16);
             // 
             // StatusLabel
             // 
@@ -267,17 +294,15 @@
             this.StatusLabel.Size = new System.Drawing.Size(26, 17);
             this.StatusLabel.Text = "Idle";
             // 
-            // ProgressBar
-            // 
-            this.ProgressBar.Name = "ProgressBar";
-            this.ProgressBar.Size = new System.Drawing.Size(100, 16);
-            // 
             // ResultContainer
             // 
+            this.ResultContainer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ResultContainer.AutoSize = true;
             this.ResultContainer.Controls.Add(this.ResultBox);
             this.ResultContainer.Location = new System.Drawing.Point(314, 38);
             this.ResultContainer.Name = "ResultContainer";
-            this.ResultContainer.Size = new System.Drawing.Size(215, 254);
+            this.ResultContainer.Size = new System.Drawing.Size(349, 254);
             this.ResultContainer.TabIndex = 4;
             this.ResultContainer.TabStop = false;
             this.ResultContainer.Text = "Results";
@@ -288,18 +313,190 @@
             this.ResultBox.Location = new System.Drawing.Point(3, 16);
             this.ResultBox.Name = "ResultBox";
             this.ResultBox.ReadOnly = true;
-            this.ResultBox.Size = new System.Drawing.Size(209, 235);
+            this.ResultBox.Size = new System.Drawing.Size(343, 235);
             this.ResultBox.TabIndex = 0;
             this.ResultBox.Text = "";
             // 
-            // Options
+            // flowLayoutPanel1
             // 
-            this.Options.Location = new System.Drawing.Point(12, 298);
-            this.Options.Name = "Options";
-            this.Options.Size = new System.Drawing.Size(516, 127);
-            this.Options.TabIndex = 5;
-            this.Options.TabStop = false;
-            this.Options.Text = "Options";
+            this.flowLayoutPanel1.Controls.Add(this.ContentBasedOptions);
+            this.flowLayoutPanel1.Controls.Add(this.CollaborativeOptions);
+            this.flowLayoutPanel1.Controls.Add(this.panel1);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 298);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(673, 177);
+            this.flowLayoutPanel1.TabIndex = 7;
+            // 
+            // ContentBasedOptions
+            // 
+            this.ContentBasedOptions.Controls.Add(this.label4);
+            this.ContentBasedOptions.Controls.Add(this.ContentBased_AmountOfUsers);
+            this.ContentBasedOptions.Controls.Add(this.UserLabel);
+            this.ContentBasedOptions.Location = new System.Drawing.Point(3, 3);
+            this.ContentBasedOptions.Name = "ContentBasedOptions";
+            this.ContentBasedOptions.Size = new System.Drawing.Size(308, 74);
+            this.ContentBasedOptions.TabIndex = 0;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label4.Location = new System.Drawing.Point(15, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(155, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Content-Based Filtering Options";
+            // 
+            // ContentBased_AmountOfUsers
+            // 
+            this.ContentBased_AmountOfUsers.Location = new System.Drawing.Point(139, 23);
+            this.ContentBased_AmountOfUsers.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.ContentBased_AmountOfUsers.Name = "ContentBased_AmountOfUsers";
+            this.ContentBased_AmountOfUsers.Size = new System.Drawing.Size(150, 20);
+            this.ContentBased_AmountOfUsers.TabIndex = 1;
+            this.ContentBased_AmountOfUsers.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // UserLabel
+            // 
+            this.UserLabel.AutoSize = true;
+            this.UserLabel.Location = new System.Drawing.Point(15, 25);
+            this.UserLabel.Name = "UserLabel";
+            this.UserLabel.Size = new System.Drawing.Size(84, 13);
+            this.UserLabel.TabIndex = 0;
+            this.UserLabel.Text = "Number of users";
+            // 
+            // CollaborativeOptions
+            // 
+            this.CollaborativeOptions.Controls.Add(this.label5);
+            this.CollaborativeOptions.Location = new System.Drawing.Point(317, 3);
+            this.CollaborativeOptions.Name = "CollaborativeOptions";
+            this.CollaborativeOptions.Size = new System.Drawing.Size(346, 74);
+            this.CollaborativeOptions.TabIndex = 1;
+            this.CollaborativeOptions.Visible = false;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label5.Location = new System.Drawing.Point(18, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(146, 13);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "Collaborative Filtering Options";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.label11);
+            this.panel1.Controls.Add(this.TestingSetSize);
+            this.panel1.Controls.Add(this.label10);
+            this.panel1.Controls.Add(this.label9);
+            this.panel1.Controls.Add(this.TrainingSetSize);
+            this.panel1.Controls.Add(this.label8);
+            this.panel1.Controls.Add(this.label7);
+            this.panel1.Location = new System.Drawing.Point(3, 83);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(660, 100);
+            this.panel1.TabIndex = 2;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label7.Location = new System.Drawing.Point(15, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(81, 13);
+            this.label7.TabIndex = 3;
+            this.label7.Text = "General options";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(15, 26);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(83, 13);
+            this.label8.TabIndex = 3;
+            this.label8.Text = "Training set size";
+            // 
+            // TrainingSetSize
+            // 
+            this.TrainingSetSize.Location = new System.Drawing.Point(139, 22);
+            this.TrainingSetSize.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
+            this.TrainingSetSize.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.TrainingSetSize.Name = "TrainingSetSize";
+            this.TrainingSetSize.Size = new System.Drawing.Size(134, 20);
+            this.TrainingSetSize.TabIndex = 3;
+            this.TrainingSetSize.Value = new decimal(new int[] {
+            80,
+            0,
+            0,
+            0});
+            this.TrainingSetSize.ValueChanged += new System.EventHandler(this.TrainingSetSize_ValueChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(279, 26);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(15, 13);
+            this.label9.TabIndex = 4;
+            this.label9.Text = "%";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(15, 53);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(80, 13);
+            this.label10.TabIndex = 5;
+            this.label10.Text = "Testing set size";
+            // 
+            // TestingSetSize
+            // 
+            this.TestingSetSize.Location = new System.Drawing.Point(139, 49);
+            this.TestingSetSize.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
+            this.TestingSetSize.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.TestingSetSize.Name = "TestingSetSize";
+            this.TestingSetSize.Size = new System.Drawing.Size(134, 20);
+            this.TestingSetSize.TabIndex = 6;
+            this.TestingSetSize.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.TestingSetSize.ValueChanged += new System.EventHandler(this.TestingSetSize_ValueChanged);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(279, 53);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(15, 13);
+            this.label11.TabIndex = 7;
+            this.label11.Text = "%";
             // 
             // dataSetOptionBindingSource
             // 
@@ -313,13 +510,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(535, 455);
-            this.Controls.Add(this.Options);
+            this.ClientSize = new System.Drawing.Size(673, 505);
+            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.ResultContainer);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(600, 500);
             this.Name = "MainForm";
             this.Text = "Recommender Systems Research";
             this.groupBox1.ResumeLayout(false);
@@ -333,6 +532,16 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResultContainer.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.ContentBasedOptions.ResumeLayout(false);
+            this.ContentBasedOptions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ContentBased_AmountOfUsers)).EndInit();
+            this.CollaborativeOptions.ResumeLayout(false);
+            this.CollaborativeOptions.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TrainingSetSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TestingSetSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSetOptionBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -352,7 +561,6 @@
         private System.Windows.Forms.ComboBox datasetCombo;
         private System.Windows.Forms.GroupBox ResultContainer;
         private System.Windows.Forms.RichTextBox ResultBox;
-        private System.Windows.Forms.GroupBox Options;
         private System.Windows.Forms.ToolStripMenuItem opcjeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem zakończToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem opcja1ToolStripMenuItem;
@@ -370,6 +578,21 @@
         private System.Windows.Forms.ComboBox ContentBasedAlgorithmCombo;
         private System.Windows.Forms.Panel ContentBasedAlghoritmChoice;
         private System.Windows.Forms.BindingSource dataSetOptionBindingSource;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Panel ContentBasedOptions;
+        private System.Windows.Forms.Panel CollaborativeOptions;
+        private System.Windows.Forms.NumericUpDown ContentBased_AmountOfUsers;
+        private System.Windows.Forms.Label UserLabel;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.NumericUpDown TrainingSetSize;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.NumericUpDown TestingSetSize;
+        private System.Windows.Forms.Label label10;
     }
 }
 

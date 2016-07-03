@@ -29,22 +29,20 @@ namespace Recommender.Service
             _testData = GetBasicSet(1-ratio, true);
         }
 
-        public void LoadFeaturedData(out IRatings _trainingData, out IRatings _testData, double ratio, int? userId = null)
+        public void LoadFeaturedData(out IRatings _trainingData, out IRatings _testData, double ratio, int numberOfUsers)
         {
             if (ratio < 0 || ratio > 1)
                 throw new ArgumentOutOfRangeException("ratio should be in range from 0 to 1");
 
-            int userIdValue = userId ?? 2;
-
-            _trainingData = (IFeaturedRatings) GetFeaturedSet(ratio, false, userIdValue);
-            _testData = (IFeaturedRatings) GetFeaturedSet(1 - ratio, true, userIdValue);
+            _trainingData = GetFeaturedSets(ratio, numberOfUsers)[0];
+            _testData = GetFeaturedSets(1 - ratio, numberOfUsers)[1];
         }
 
 
         private IRatings GetBasicSet(double percentage, bool fromEnd)
         {
             var ratings = new Ratings();
-            var set = GetRatingLimitedSet(percentage, fromEnd).MapTo<RatingDTO>();
+            var set = GetRatingLimitedSets(percentage, fromEnd).MapTo<RatingDTO>();
 
             set.ForEach(x => {
                 ratings.Add(x.UserId, x.ItemId, x.Rating);
@@ -53,35 +51,49 @@ namespace Recommender.Service
             return ratings;
         }
 
-        private IFeaturedRatings GetFeaturedSet(double percentage, bool fromEnd, int userId)
+        private IFeaturedRatings[] GetFeaturedSets(double percentage, int numberOfUsers)
         {
-            var ratings = new FeaturedRatings();
-            var set = GetRatingSetByUser(percentage, fromEnd, userId).MapTo<RatingWithFeaturesDTO>();
+            var trainRatings = new FeaturedRatings();
+            var testRatings = new FeaturedRatings();
 
-            set.ForEach(x => {
-                ratings.Add(x.UserId, x.ItemId, x.Rating, x.ItemFeatures);
+            var sets = GetRatingSetsByUser(percentage, numberOfUsers);
+
+            sets[0].MapTo<RatingWithFeaturesDTO>().ForEach(x => {
+                trainRatings.Add(x.UserId, x.ItemId, x.Rating, x.ItemFeatures);
             });
 
-            return ratings;
+            sets[1].MapTo<RatingWithFeaturesDTO>().ForEach(x => {
+                testRatings.Add(x.UserId, x.ItemId, x.Rating, x.ItemFeatures);
+            });
+
+            return new IFeaturedRatings[2] { trainRatings, testRatings };
         }
 
-        private IEnumerable<Rating> GetRatingSetByUser(double percentage, bool fromEnd, int userId)
+        private IEnumerable<Rating>[] GetRatingSetsByUser(double percentage, int numberOfUsers)
         {
-            var count = _context.Ratings.Where(x => x.UserId == userId).Count();
-            
-            int take = (int)Math.Floor(count * percentage);
-            int skip = fromEnd ? (int)Math.Ceiling(count * (1 - percentage)) : 0;
+            var trainingSet = new List<Rating>();
+            var testingSet = new List<Rating>();
 
-            var result = _context.Ratings.Where(x => x.UserId == count)
-                                         .OrderBy(x => x.Timestamp)
-                                         .Skip(skip)
-                                         .Take(take);
+            var groupedRatings = _context.Ratings.GroupBy(x => x.UserId).Take(numberOfUsers);
+
+            foreach (var groupedRating in groupedRatings)
+            {
+                var count = groupedRating.Count();
+
+                int trainingTake = (int)Math.Floor(count * percentage);
+                int testingTake = count - trainingTake;
+
+                trainingSet.AddRange(groupedRating
+                                            .Take(trainingTake));
+                testingSet.AddRange(groupedRating
+                                            .Skip(trainingTake)
+                                            .Take(testingTake));
+            }
             
-            var ratings = result.AsEnumerable();
-            return ratings;
+            return new List<Rating>[2] { trainingSet, testingSet };
         }
 
-        private IEnumerable<Rating> GetRatingLimitedSet(double percentage, bool fromEnd)
+        private IEnumerable<Rating> GetRatingLimitedSets(double percentage, bool fromEnd)
         {
             //FOR DEV PURPOSES GET DATA ONLY FOR FIRST 50 USERS!!
             var limit = 50;

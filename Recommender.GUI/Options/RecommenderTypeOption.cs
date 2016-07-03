@@ -9,9 +9,9 @@ namespace Recommender.GUI.Options
         {
             var options = new List<RecommenderTypeOption>()
             {
-                new RecommenderTypeOption() { Name = "Collaborative filtering", Value =  RecommenderType.Collaborative},
-                new RecommenderTypeOption() { Name = "ContentBased filtering", Value = RecommenderType.ContentBased },
-                new RecommenderTypeOption() { Name = "Hybrid recommender", Value = RecommenderType.Hybrid },
+                new RecommenderTypeOption() { Name = "Content-Based Filtering", Value = RecommenderType.ContentBased },
+                new RecommenderTypeOption() { Name = "Collaborative Filtering", Value =  RecommenderType.Collaborative},
+                new RecommenderTypeOption() { Name = "Hybrid Recommender", Value = RecommenderType.Hybrid },
             };
 
             return options;
