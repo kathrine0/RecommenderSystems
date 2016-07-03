@@ -185,12 +185,14 @@ namespace Recommender.Core.MachineLearning
                 // create perceptron
 
                 //TODO check what is neurons count parameters
-                var network = new ActivationNetwork(_activationFunction, _allFeatures[userId].Count(), 1);
+                var network = new ActivationNetwork(_activationFunction, _allFeatures[userId].Count(), 2, 1);
 
-                //ActivationNetwork network = new ActivationNetwork(new ThresholdFunction(), 2, classesCount);
                 // create teacher
-                //PerceptronLearning teacher = new PerceptronLearning(network);
+
                 var teacher = new BackPropagationLearning(network);
+                //var teacher = new PerceptronLearning(network);
+                //var teacher = new DeltaRuleLearning(network);
+
                 // set learning rate and momentum
                 teacher.LearningRate = learningRate;
                 teacher.Momentum = momentum;
