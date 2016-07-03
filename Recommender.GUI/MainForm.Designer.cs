@@ -70,6 +70,8 @@
             this.label10 = new System.Windows.Forms.Label();
             this.TestingSetSize = new System.Windows.Forms.NumericUpDown();
             this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.ContentBased_MinimumItemsRated = new System.Windows.Forms.NumericUpDown();
             this.dataSetOptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.mainFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
@@ -85,6 +87,7 @@
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TrainingSetSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TestingSetSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ContentBased_MinimumItemsRated)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSetOptionBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -277,7 +280,7 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ProgressBar,
             this.StatusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 483);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 555);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(673, 22);
             this.statusStrip1.TabIndex = 2;
@@ -324,17 +327,19 @@
             this.flowLayoutPanel1.Controls.Add(this.panel1);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 298);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(673, 177);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(673, 254);
             this.flowLayoutPanel1.TabIndex = 7;
             // 
             // ContentBasedOptions
             // 
+            this.ContentBasedOptions.Controls.Add(this.ContentBased_MinimumItemsRated);
+            this.ContentBasedOptions.Controls.Add(this.label12);
             this.ContentBasedOptions.Controls.Add(this.label4);
             this.ContentBasedOptions.Controls.Add(this.ContentBased_AmountOfUsers);
             this.ContentBasedOptions.Controls.Add(this.UserLabel);
             this.ContentBasedOptions.Location = new System.Drawing.Point(3, 3);
             this.ContentBasedOptions.Name = "ContentBasedOptions";
-            this.ContentBasedOptions.Size = new System.Drawing.Size(308, 74);
+            this.ContentBasedOptions.Size = new System.Drawing.Size(308, 130);
             this.ContentBasedOptions.TabIndex = 0;
             // 
             // label4
@@ -378,7 +383,7 @@
             this.CollaborativeOptions.Controls.Add(this.label5);
             this.CollaborativeOptions.Location = new System.Drawing.Point(317, 3);
             this.CollaborativeOptions.Name = "CollaborativeOptions";
-            this.CollaborativeOptions.Size = new System.Drawing.Size(346, 74);
+            this.CollaborativeOptions.Size = new System.Drawing.Size(346, 130);
             this.CollaborativeOptions.TabIndex = 1;
             this.CollaborativeOptions.Visible = false;
             // 
@@ -401,7 +406,7 @@
             this.panel1.Controls.Add(this.TrainingSetSize);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label7);
-            this.panel1.Location = new System.Drawing.Point(3, 83);
+            this.panel1.Location = new System.Drawing.Point(3, 139);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(660, 100);
             this.panel1.TabIndex = 2;
@@ -498,6 +503,37 @@
             this.label11.TabIndex = 7;
             this.label11.Text = "%";
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(15, 51);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(102, 13);
+            this.label12.TabIndex = 3;
+            this.label12.Text = "Minimum items rated";
+            // 
+            // ContentBased_MinimumItemsRated
+            // 
+            this.ContentBased_MinimumItemsRated.Location = new System.Drawing.Point(139, 49);
+            this.ContentBased_MinimumItemsRated.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.ContentBased_MinimumItemsRated.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.ContentBased_MinimumItemsRated.Name = "ContentBased_MinimumItemsRated";
+            this.ContentBased_MinimumItemsRated.Size = new System.Drawing.Size(150, 20);
+            this.ContentBased_MinimumItemsRated.TabIndex = 4;
+            this.ContentBased_MinimumItemsRated.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
             // dataSetOptionBindingSource
             // 
             this.dataSetOptionBindingSource.DataSource = typeof(Recommender.GUI.Options.DataSetOption);
@@ -510,7 +546,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(673, 505);
+            this.ClientSize = new System.Drawing.Size(673, 577);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.ResultContainer);
             this.Controls.Add(this.statusStrip1);
@@ -542,6 +578,7 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TrainingSetSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TestingSetSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ContentBased_MinimumItemsRated)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSetOptionBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -593,6 +630,8 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.NumericUpDown TestingSetSize;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.NumericUpDown ContentBased_MinimumItemsRated;
+        private System.Windows.Forms.Label label12;
     }
 }
 

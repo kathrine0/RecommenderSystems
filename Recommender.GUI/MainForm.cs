@@ -137,6 +137,7 @@ namespace Recommender.GUI
             }
 
             ((ContentRecommenderEngine)_recommender).NumberOfUsers = Decimal.ToInt32(this.ContentBased_AmountOfUsers.Value);
+            ((ContentRecommenderEngine)_recommender).MinimumItemsRated = Decimal.ToInt32(this.ContentBased_MinimumItemsRated.Value);
         }
 
         private void ChooseHybridAlgorithm()

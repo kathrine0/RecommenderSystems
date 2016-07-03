@@ -29,13 +29,15 @@ namespace Recommender.Service
             _testData = GetBasicSet(1-ratio, true);
         }
 
-        public void LoadFeaturedData(out IRatings _trainingData, out IRatings _testData, double ratio, int numberOfUsers)
+        public void LoadFeaturedData(out IRatings _trainingData, out IRatings _testData, double ratio, int numberOfUsers, int minimumItemsRated)
         {
             if (ratio < 0 || ratio > 1)
                 throw new ArgumentOutOfRangeException("ratio should be in range from 0 to 1");
 
-            _trainingData = GetFeaturedSets(ratio, numberOfUsers)[0];
-            _testData = GetFeaturedSets(1 - ratio, numberOfUsers)[1];
+            var sets = GetFeaturedSets(ratio, numberOfUsers, minimumItemsRated);
+
+            _trainingData = sets[0];
+            _testData = sets[1];
         }
 
 
@@ -51,12 +53,12 @@ namespace Recommender.Service
             return ratings;
         }
 
-        private IFeaturedRatings[] GetFeaturedSets(double percentage, int numberOfUsers)
+        private IFeaturedRatings[] GetFeaturedSets(double percentage, int numberOfUsers, int minimumItemsRated)
         {
             var trainRatings = new FeaturedRatings();
             var testRatings = new FeaturedRatings();
 
-            var sets = GetRatingSetsByUser(percentage, numberOfUsers);
+            var sets = GetRatingSetsByUser(percentage, numberOfUsers, minimumItemsRated);
 
             sets[0].MapTo<RatingWithFeaturesDTO>().ForEach(x => {
                 trainRatings.Add(x.UserId, x.ItemId, x.Rating, x.ItemFeatures);
@@ -69,12 +71,15 @@ namespace Recommender.Service
             return new IFeaturedRatings[2] { trainRatings, testRatings };
         }
 
-        private IEnumerable<Rating>[] GetRatingSetsByUser(double percentage, int numberOfUsers)
+        private IEnumerable<Rating>[] GetRatingSetsByUser(double percentage, int numberOfUsers, int minimumItemsRated)
         {
             var trainingSet = new List<Rating>();
             var testingSet = new List<Rating>();
 
-            var groupedRatings = _context.Ratings.GroupBy(x => x.UserId).Take(numberOfUsers);
+            var groupedRatings = _context.Ratings
+                                            .GroupBy(x => x.UserId)
+                                            .Where(x => x.Count() > minimumItemsRated)
+                                            .Take(numberOfUsers);
 
             foreach (var groupedRating in groupedRatings)
             {

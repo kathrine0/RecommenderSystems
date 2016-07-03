@@ -20,7 +20,7 @@ namespace Recommender.Core.Engine
             get; set;
         }
 
-        protected MovieLenseService _service;
+        protected IRatingService _service;
         protected IRatings _trainingData;
         protected IRatings _testData;
 

@@ -165,8 +165,8 @@ namespace Recommender.Core.MachineLearning
                                         1 : 0));
 
                     inputList.Add(tmp.ToArray());
-                    //todo change this 5 to some var!!
-                    outputList.Add(new double[] { ratedItem.Rating / 5 });
+                    //todo verify if this is good approach
+                    outputList.Add(new double[] { ratedItem.Rating / MaxRating });
                 }
 
                 var input = inputList.ToArray();

@@ -17,10 +17,13 @@ namespace Recommender.Core.Engine
             set { _numberOfUsers = value; }
         }
 
+        [Range(1, int.MaxValue)]
+        public int MinimumItemsRated { get; set; }
+
 
         public override void LoadData()
         {
-            _service.LoadFeaturedData(out _trainingData, out _testData, _trainingSetRatio, _numberOfUsers);
+            _service.LoadFeaturedData(out _trainingData, out _testData, _trainingSetRatio, _numberOfUsers, MinimumItemsRated);
         }
     }
 }
