@@ -68,6 +68,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Options\ActivationFunctionOption.cs" />
     <Compile Include="Options\CollaborativeAlgorithmOption.cs" />
     <Compile Include="Options\ContentBasedAlgorithmOption.cs" />
     <Compile Include="Options\DataSetOption.cs" />

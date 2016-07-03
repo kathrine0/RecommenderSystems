@@ -1,6 +1,7 @@
 ﻿using MyMediaLite.RatingPrediction;
 using Recommender.Core;
 using Recommender.Core.Engine;
+using Recommender.Core.Enums;
 using Recommender.Core.MachineLearning;
 using Recommender.GUI.Enums;
 using Recommender.GUI.Options;
@@ -41,8 +42,9 @@ namespace Recommender.GUI
             this.ContentBasedAlgorithmCombo.DisplayMember = "Name";
             this.ContentBasedAlgorithmCombo.ValueMember = "Value";
 
-
-            //this.datasetCombo.DataSource = Datasets;
+            this.ContentBased_ActivationFunction.DataSource = ActivationFunctionOption.OptionBuilder();
+            this.ContentBased_ActivationFunction.DisplayMember = "Name";
+            this.ContentBased_ActivationFunction.ValueMember = "Value";
         }
 
         private void RunButton_Click(object sender, EventArgs e)
@@ -121,11 +123,11 @@ namespace Recommender.GUI
         private void ChooseContentBasedAlgorithm()
         {
             _recommender = new ContentRecommenderEngine();
+            _recommender.Recommender = new NeuroRecommender();
 
             switch ((ContentBasedAlgorithm)(this.ContentBasedAlgorithmCombo.SelectedValue))
             {
                 case ContentBasedAlgorithm.NeuralNetwork:
-                    _recommender.Recommender = new NeuroRecommender();
                     AddResultBoxText("Selected algorithm: Neural Network");
                     break;
                 case ContentBasedAlgorithm.NeuralNetworkWithBias:
@@ -138,6 +140,7 @@ namespace Recommender.GUI
 
             ((ContentRecommenderEngine)_recommender).NumberOfUsers = Decimal.ToInt32(this.ContentBased_AmountOfUsers.Value);
             ((ContentRecommenderEngine)_recommender).MinimumItemsRated = Decimal.ToInt32(this.ContentBased_MinimumItemsRated.Value);
+            ((NeuroRecommender) _recommender.Recommender).ActivationFunctionType = (ActivationFunction)this.ContentBased_ActivationFunction.SelectedValue;
         }
 
         private void ChooseHybridAlgorithm()

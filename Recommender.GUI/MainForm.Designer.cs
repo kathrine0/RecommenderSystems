@@ -74,6 +74,8 @@
             this.ContentBased_MinimumItemsRated = new System.Windows.Forms.NumericUpDown();
             this.dataSetOptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.mainFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.label13 = new System.Windows.Forms.Label();
+            this.ContentBased_ActivationFunction = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.ContentBasedAlghoritmChoice.SuspendLayout();
             this.CollaborativeAlgorithmChoice.SuspendLayout();
@@ -332,6 +334,8 @@
             // 
             // ContentBasedOptions
             // 
+            this.ContentBasedOptions.Controls.Add(this.ContentBased_ActivationFunction);
+            this.ContentBasedOptions.Controls.Add(this.label13);
             this.ContentBasedOptions.Controls.Add(this.ContentBased_MinimumItemsRated);
             this.ContentBasedOptions.Controls.Add(this.label12);
             this.ContentBasedOptions.Controls.Add(this.label4);
@@ -542,6 +546,24 @@
             // 
             this.mainFormBindingSource.DataSource = typeof(Recommender.GUI.MainForm);
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(15, 78);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(95, 13);
+            this.label13.TabIndex = 5;
+            this.label13.Text = "Activation function";
+            // 
+            // ContentBased_ActivationFunction
+            // 
+            this.ContentBased_ActivationFunction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ContentBased_ActivationFunction.FormattingEnabled = true;
+            this.ContentBased_ActivationFunction.Location = new System.Drawing.Point(139, 75);
+            this.ContentBased_ActivationFunction.Name = "ContentBased_ActivationFunction";
+            this.ContentBased_ActivationFunction.Size = new System.Drawing.Size(150, 21);
+            this.ContentBased_ActivationFunction.TabIndex = 11;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -632,6 +654,8 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.NumericUpDown ContentBased_MinimumItemsRated;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.ComboBox ContentBased_ActivationFunction;
+        private System.Windows.Forms.Label label13;
     }
 }
 

@@ -9,6 +9,7 @@ using Recommender.Common;
 using AForge.Neuro;
 using AForge.Neuro.Learning;
 using System.Collections;
+using Recommender.Core.Enums;
 
 namespace Recommender.Core.MachineLearning
 {
@@ -31,11 +32,11 @@ namespace Recommender.Core.MachineLearning
         private double learningErrorLimit = 0.1;
         private bool needToStop = false;
 
+        public ActivationFunction ActivationFunctionType { get; set; }
 
         public NeuroRecommender()
         {
         }
-
 
         public virtual IFeaturedRatings FeaturedRatings
         {
@@ -84,7 +85,7 @@ namespace Recommender.Core.MachineLearning
 
             var result = _networks[user_id].Compute(tmp.ToArray());
 
-            return Convert.ToSingle(result[0]);
+            return Convert.ToSingle(result[0]*MaxRating);
         }
 
         public override void Train()
@@ -99,10 +100,18 @@ namespace Recommender.Core.MachineLearning
 
         private void SetActivationFunction()
         {
-            //todo test different activation functions
-
-            _activationFunction = new SigmoidFunction(sigmoidAlphaValue);
-            //(IActivationFunction)new BipolarSigmoidFunction(sigmoidAlphaValue)
+            switch (ActivationFunctionType)
+            {
+                case ActivationFunction.ThresholdFunction:
+                    _activationFunction = new ThresholdFunction();
+                    break;
+                case ActivationFunction.BipolarSigmoidFunction:
+                    _activationFunction = new BipolarSigmoidFunction(sigmoidAlphaValue);
+                    break;
+                default:
+                    _activationFunction = new SigmoidFunction(sigmoidAlphaValue);
+                    break;
+            }
         }
 
         protected internal virtual void InitModel()//IList<int> rating_indices

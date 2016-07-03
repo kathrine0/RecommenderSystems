@@ -104,6 +104,7 @@
     <Compile Include="Engine\ContentRecommenderEngine.cs" />
     <Compile Include="Engine\HybridRecommenderEngine.cs" />
     <Compile Include="Engine\RecommenderRatings.cs" />
+    <Compile Include="Enums\ActivationFunction.cs" />
     <Compile Include="ItemRecommendation\BayesMatrixFactorization.cs" />
     <Compile Include="ItemRecommendation\PSOMatrixFactorization.cs" />
     <Compile Include="MachineLearning\IFeaturedPredictor.cs" />
