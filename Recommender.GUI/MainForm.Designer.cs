@@ -50,12 +50,11 @@
             this.opcja2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zakończToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.ResultContainer = new System.Windows.Forms.GroupBox();
             this.ResultBox = new System.Windows.Forms.RichTextBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.LogBox = new System.Windows.Forms.RichTextBox();
+            this.Options = new System.Windows.Forms.GroupBox();
             this.dataSetOptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.mainFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
@@ -64,7 +63,6 @@
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.ResultContainer.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataSetOptionBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -255,24 +253,24 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.toolStripProgressBar1});
+            this.ProgressBar,
+            this.StatusLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 433);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(535, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // toolStripStatusLabel1
+            // StatusLabel
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(26, 17);
-            this.toolStripStatusLabel1.Text = "Idle";
+            this.StatusLabel.Name = "StatusLabel";
+            this.StatusLabel.Size = new System.Drawing.Size(26, 17);
+            this.StatusLabel.Text = "Idle";
             // 
-            // toolStripProgressBar1
+            // ProgressBar
             // 
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
+            this.ProgressBar.Name = "ProgressBar";
+            this.ProgressBar.Size = new System.Drawing.Size(100, 16);
             // 
             // ResultContainer
             // 
@@ -294,25 +292,14 @@
             this.ResultBox.TabIndex = 0;
             this.ResultBox.Text = "";
             // 
-            // groupBox3
+            // Options
             // 
-            this.groupBox3.Controls.Add(this.LogBox);
-            this.groupBox3.Location = new System.Drawing.Point(12, 298);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(516, 127);
-            this.groupBox3.TabIndex = 5;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Log";
-            // 
-            // LogBox
-            // 
-            this.LogBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LogBox.Location = new System.Drawing.Point(3, 16);
-            this.LogBox.Name = "LogBox";
-            this.LogBox.ReadOnly = true;
-            this.LogBox.Size = new System.Drawing.Size(510, 108);
-            this.LogBox.TabIndex = 0;
-            this.LogBox.Text = "";
+            this.Options.Location = new System.Drawing.Point(12, 298);
+            this.Options.Name = "Options";
+            this.Options.Size = new System.Drawing.Size(516, 127);
+            this.Options.TabIndex = 5;
+            this.Options.TabStop = false;
+            this.Options.Text = "Options";
             // 
             // dataSetOptionBindingSource
             // 
@@ -327,7 +314,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(535, 455);
-            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.Options);
             this.Controls.Add(this.ResultContainer);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.groupBox1);
@@ -346,7 +333,6 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResultContainer.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataSetOptionBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -366,16 +352,15 @@
         private System.Windows.Forms.ComboBox datasetCombo;
         private System.Windows.Forms.GroupBox ResultContainer;
         private System.Windows.Forms.RichTextBox ResultBox;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.RichTextBox LogBox;
+        private System.Windows.Forms.GroupBox Options;
         private System.Windows.Forms.ToolStripMenuItem opcjeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem zakończToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem opcja1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem opcja1aToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem opcja1bToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem opcja2ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
+        private System.Windows.Forms.ToolStripProgressBar ProgressBar;
         private System.Windows.Forms.BindingSource mainFormBindingSource;
         private System.Windows.Forms.Button SaveButton;
         private System.Windows.Forms.Label label6;

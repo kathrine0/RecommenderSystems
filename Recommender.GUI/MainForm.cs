@@ -50,15 +50,16 @@ namespace Recommender.GUI
             //recommender.Recommender = new MatrixFactorization();
             //TODO figure out here some nice pattern
             recommender.Recommender = new NeuroRecommender();
-            this.LogBox.AppendText("Loading data...");
-            recommender.LoadData();
-            var result = recommender.GetResults();
-            this.ResultBox.AppendText(result.ToString());
-        }
+            this.StatusLabel.Text = "Loading data...";
 
-        private void alghoritmCombo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //((System.Windows.Forms.ComboBox)sender).SelectedValue
+            recommender.LoadData();
+
+            this.StatusLabel.Text = "Fetching results...";
+
+            var result = recommender.GetResults();
+
+            this.StatusLabel.Text = "Finished";
+            this.ResultBox.AppendText(result.ToString());
         }
 
         private void recommenderCombo_SelectedIndexChanged(object sender, EventArgs e)
