@@ -15,8 +15,7 @@ namespace Recommender.Core.Engine
     /// </summary>
     public abstract class RecommenderEngine
     {
-
-        public IRatingPredictor Recommender
+        public virtual IRatingPredictor Recommender
         {
             get; set;
         }
