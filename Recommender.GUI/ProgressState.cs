@@ -8,11 +8,14 @@ namespace Recommender.GUI
 {
     public class ProgressState
     {
-        public ProgressState(string resultBoxText, string statusText)
+        public ProgressState(int percentage, string resultBoxText, string statusText)
         {
+            Percentage = percentage;
             ResultBoxText = resultBoxText;
             StatusText = statusText;
         }
+
+        public int Percentage { get; set; }
 
         public string ResultBoxText { get; set; }
 
