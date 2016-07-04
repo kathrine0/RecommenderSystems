@@ -75,6 +75,7 @@
     <Compile Include="Options\Option.cs" />
     <Compile Include="Options\RecommenderTypeOption.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ProgressState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

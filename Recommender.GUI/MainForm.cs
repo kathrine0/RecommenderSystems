@@ -22,10 +22,17 @@ namespace Recommender.GUI
 
         RecommenderEngine _recommender;
 
+        BackgroundWorker backgroundWorker;
+
         public MainForm()
         {
             InitializeComponent();
+            InitializeCombos();
+            InitializeBackgroundWorker();
+        }
 
+        private void InitializeCombos()
+        {
             this.datasetCombo.DataSource = DataSetOption.OptionBuilder();
             this.datasetCombo.DisplayMember = "Name";
             this.datasetCombo.ValueMember = "Value";
@@ -47,26 +54,71 @@ namespace Recommender.GUI
             this.ContentBased_ActivationFunction.ValueMember = "Value";
         }
 
-        private void RunButton_Click(object sender, EventArgs e)
+        private void InitializeBackgroundWorker()
         {
+            backgroundWorker = new BackgroundWorker();
+
+            backgroundWorker.DoWork += new DoWorkEventHandler(backgroundWorker_DoWork);
+            backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker_ProgressChanged);
+            backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker_RunWorkerCompleted);
+            backgroundWorker.WorkerReportsProgress = true;
+            backgroundWorker.WorkerSupportsCancellation = true;
+        }
+
+        #region backgroundWorker
+        private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                AddResultBoxText("Task Cancelled");
+            }
+            else if (e.Error != null)
+            {
+                AddResultBoxText("Error while performing background operation.");
+            }
+
+            this.RunButton.Enabled = true;
+            this.CancelButton.Enabled = false;
+        }
+
+        private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            ProgressBar.Value = e.ProgressPercentage;
+
+            var progressState = e.UserState as ProgressState;
+
+            StatusLabel.Text = progressState.StatusText + " " + ProgressBar.Value.ToString() + "%";
+
+            if (!string.IsNullOrEmpty(progressState.ResultBoxText))
+                AddResultBoxText(progressState.ResultBoxText);
+        }
+
+        private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            backgroundWorker.ReportProgress(10, new ProgressState(null, "Loading data..."));
             
-
-            //recommender.Recommender = new MatrixFactorization();
-            //TODO figure out here some nice pattern
-            SetupRecommender();
-
-            this.StatusLabel.Text = "Loading data...";
-
             _recommender.LoadData();
 
-            this.StatusLabel.Text = "Fetching results...";
+            backgroundWorker.ReportProgress(20, new ProgressState(null, "Training and evaluating..."));
 
             var result = _recommender.GetResults();
 
-            this.StatusLabel.Text = "Finished";
+            var resultString = result.ToString() + "\n =========================================";
 
-            AddResultBoxText(result.ToString());
+            backgroundWorker.ReportProgress(100, new ProgressState(resultString, "Idle"));
+
+            //if (backgroundWorker.CancellationPending)
+            //{
+            //    e.Cancel = true;
+            //    backgroundWorker.ReportProgress(0);
+            //    return;
+            //}
+
+            //backgroundWorker.ReportProgress(100);
         }
+
+        #endregion
+
 
         private void AddResultBoxText(string text)
         {
@@ -149,6 +201,18 @@ namespace Recommender.GUI
         }
 
 
+        #region GUI Interactions
+
+        private void RunButton_Click(object sender, EventArgs e)
+        {
+            RunButton.Enabled = false;
+            CancelButton.Enabled = true;
+
+            SetupRecommender();
+
+            backgroundWorker.RunWorkerAsync();
+        }
+
         private void recommenderCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch ((RecommenderType) ((ComboBox)sender).SelectedValue)
@@ -188,5 +252,15 @@ namespace Recommender.GUI
             var value = ((NumericUpDown)sender).Value;
             this.TrainingSetSize.Value = 100 - value;
         }
+        private void CancelButton_Click(object sender, EventArgs e)
+        {
+            if (backgroundWorker.IsBusy)
+            {
+                backgroundWorker.CancelAsync();
+            }
+        }
+
+        #endregion
+
     }
 }

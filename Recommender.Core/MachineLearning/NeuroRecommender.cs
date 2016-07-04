@@ -185,7 +185,7 @@ namespace Recommender.Core.MachineLearning
                 // create perceptron
 
                 //TODO check what is neurons count parameters
-                var network = new ActivationNetwork(_activationFunction, _allFeatures[userId].Count(), 2, 1);
+                var network = new ActivationNetwork(_activationFunction, _allFeatures[userId].Count(), 3, 1);
 
                 // create teacher
 

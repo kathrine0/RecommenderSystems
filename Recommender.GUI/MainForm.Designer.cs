@@ -37,7 +37,7 @@
             this.CollaborativeAlgorithmChoice = new System.Windows.Forms.Panel();
             this.CollaborativeAlgorithmCombo = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.SaveButton = new System.Windows.Forms.Button();
+            this.CancelButton = new System.Windows.Forms.Button();
             this.recommenderCombo = new System.Windows.Forms.ComboBox();
             this.datasetCombo = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -72,10 +72,10 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.ContentBased_MinimumItemsRated = new System.Windows.Forms.NumericUpDown();
-            this.dataSetOptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.mainFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label13 = new System.Windows.Forms.Label();
             this.ContentBased_ActivationFunction = new System.Windows.Forms.ComboBox();
+            this.dataSetOptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.mainFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
             this.ContentBasedAlghoritmChoice.SuspendLayout();
             this.CollaborativeAlgorithmChoice.SuspendLayout();
@@ -98,7 +98,7 @@
             // 
             this.groupBox1.Controls.Add(this.ContentBasedAlghoritmChoice);
             this.groupBox1.Controls.Add(this.CollaborativeAlgorithmChoice);
-            this.groupBox1.Controls.Add(this.SaveButton);
+            this.groupBox1.Controls.Add(this.CancelButton);
             this.groupBox1.Controls.Add(this.recommenderCombo);
             this.groupBox1.Controls.Add(this.datasetCombo);
             this.groupBox1.Controls.Add(this.label2);
@@ -166,14 +166,16 @@
             this.label3.TabIndex = 7;
             this.label3.Text = "Collaborative algorithm";
             // 
-            // SaveButton
+            // CancelButton
             // 
-            this.SaveButton.Location = new System.Drawing.Point(125, 225);
-            this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(93, 23);
-            this.SaveButton.TabIndex = 6;
-            this.SaveButton.Text = "Save results";
-            this.SaveButton.UseVisualStyleBackColor = true;
+            this.CancelButton.Enabled = false;
+            this.CancelButton.Location = new System.Drawing.Point(92, 225);
+            this.CancelButton.Name = "CancelButton";
+            this.CancelButton.Size = new System.Drawing.Size(69, 23);
+            this.CancelButton.TabIndex = 6;
+            this.CancelButton.Text = "Cancel";
+            this.CancelButton.UseVisualStyleBackColor = true;
+            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // recommenderCombo
             // 
@@ -218,7 +220,7 @@
             // 
             this.RunButton.Location = new System.Drawing.Point(6, 225);
             this.RunButton.Name = "RunButton";
-            this.RunButton.Size = new System.Drawing.Size(113, 23);
+            this.RunButton.Size = new System.Drawing.Size(80, 23);
             this.RunButton.TabIndex = 0;
             this.RunButton.Text = "Start";
             this.RunButton.UseVisualStyleBackColor = true;
@@ -538,14 +540,6 @@
             0,
             0});
             // 
-            // dataSetOptionBindingSource
-            // 
-            this.dataSetOptionBindingSource.DataSource = typeof(Recommender.GUI.Options.DataSetOption);
-            // 
-            // mainFormBindingSource
-            // 
-            this.mainFormBindingSource.DataSource = typeof(Recommender.GUI.MainForm);
-            // 
             // label13
             // 
             this.label13.AutoSize = true;
@@ -563,6 +557,14 @@
             this.ContentBased_ActivationFunction.Name = "ContentBased_ActivationFunction";
             this.ContentBased_ActivationFunction.Size = new System.Drawing.Size(150, 21);
             this.ContentBased_ActivationFunction.TabIndex = 11;
+            // 
+            // dataSetOptionBindingSource
+            // 
+            this.dataSetOptionBindingSource.DataSource = typeof(Recommender.GUI.Options.DataSetOption);
+            // 
+            // mainFormBindingSource
+            // 
+            this.mainFormBindingSource.DataSource = typeof(Recommender.GUI.MainForm);
             // 
             // MainForm
             // 
@@ -629,7 +631,7 @@
         private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
         private System.Windows.Forms.ToolStripProgressBar ProgressBar;
         private System.Windows.Forms.BindingSource mainFormBindingSource;
-        private System.Windows.Forms.Button SaveButton;
+        private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel CollaborativeAlgorithmChoice;
