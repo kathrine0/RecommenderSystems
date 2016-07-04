@@ -26,11 +26,46 @@ namespace Recommender.Core.MachineLearning
         private IDictionary<int, IList<RatedItem>> _ratedItems;
 
         //neural network parameters
-        private double learningRate = 0.1;
-        private double momentum = 0.0;
-        private double sigmoidAlphaValue = 2.0;
-        private double learningErrorLimit = 0.1;
+        private double _learningRate = 0.1;
+        public double LearningRate {
+            get { return _learningRate; }
+            set { _learningRate = value; }
+        }
+
+        private double _momentum = 0.0;
+        public double Momentum {
+            get { return _momentum; }
+            set { _momentum = value; }
+        }
+
+        private double _sigmoidAlphaValue = 2.0;
+        public double SigmoidAlphaValue {
+            get { return _sigmoidAlphaValue; }
+            set { _sigmoidAlphaValue = value;  }
+        }
+
+        private double _learningErrorLimit = 0.1;
+        public double LearningErrorLimit {
+            get { return _learningErrorLimit; }
+            set { _learningErrorLimit = value; }
+        }
+
+        private int _hiddenLayerNeurons = 1;
+        public int HiddenLayerNeurons {
+            get { return _hiddenLayerNeurons; }
+            set { _hiddenLayerNeurons = value; }
+        }
+
         private bool needToStop = false;
+
+        private int _minimumRepeatingFeatures = 2;
+
+        public int MinimumRepeatingFeatures
+        {
+            get { return _minimumRepeatingFeatures = 2; }
+            set { _minimumRepeatingFeatures = value; }
+        }
+
 
         public ActivationFunction ActivationFunctionType { get; set; }
 
@@ -63,6 +98,7 @@ namespace Recommender.Core.MachineLearning
                 featured_ratings = (IFeaturedRatings)value;
             }
         }
+
 
         protected double weight;
 
@@ -100,18 +136,7 @@ namespace Recommender.Core.MachineLearning
 
         private void SetActivationFunction()
         {
-            switch (ActivationFunctionType)
-            {
-                case ActivationFunction.ThresholdFunction:
-                    _activationFunction = new ThresholdFunction();
-                    break;
-                case ActivationFunction.BipolarSigmoidFunction:
-                    _activationFunction = new BipolarSigmoidFunction(sigmoidAlphaValue);
-                    break;
-                default:
-                    _activationFunction = new SigmoidFunction(sigmoidAlphaValue);
-                    break;
-            }
+            _activationFunction = new SigmoidFunction(_sigmoidAlphaValue);
         }
 
         protected internal virtual void InitModel()//IList<int> rating_indices
@@ -134,7 +159,8 @@ namespace Recommender.Core.MachineLearning
                     continue;
 
                 _ratedItems.Add(userId, new List<RatedItem>());
-                _allFeatures.Add(userId, new List<IFeature>());
+
+                var tmpFeatureStorage = new List<IFeature>();
 
                 //and crete _allFeatures data  
                 foreach (var index in userRatings)
@@ -143,12 +169,20 @@ namespace Recommender.Core.MachineLearning
                     var itemId = featured_ratings.Items[index];
                     _ratedItems[userId].Add(new RatedItem(itemId, userId, featured_ratings[index], features));
 
+                    tmpFeatureStorage.AddRange(features);
+
                     //todo make linq extensions out of it
-                    features.Where(d => !_allFeatures[userId]
-                    .Any(c => c.Name == d.Name && c.FeatureCategory == d.FeatureCategory))
-                    .ToList()
-                    .ForEach(f => _allFeatures[userId].Add(f));
+                    //features.Where(d => !_allFeatures[userId]
+                    //.Any(c => c.Name == d.Name && c.FeatureCategory == d.FeatureCategory))
+                    //.ToList()
+                    //.ForEach(f => _allFeatures[userId].Add(f));
                 }
+
+                var disctinctFeatures = tmpFeatureStorage.GroupBy(x => new { x.Name, x.FeatureCategory })
+                                            .Where(x => x.Count() >= _minimumRepeatingFeatures)
+                                            .Select(x => x.First()).ToList();
+
+                _allFeatures.Add(userId, disctinctFeatures);
             }
         }
 
@@ -185,20 +219,17 @@ namespace Recommender.Core.MachineLearning
                 // create perceptron
 
                 //TODO check what is neurons count parameters
-                var network = new ActivationNetwork(_activationFunction, _allFeatures[userId].Count(), 1, 1);
+                var network = new ActivationNetwork(_activationFunction, _allFeatures[userId].Count(), _hiddenLayerNeurons, 1);
 
                 // create teacher
                 var teacher = new BackPropagationLearning(network);
 
                 // set learning rate and momentum
-                teacher.LearningRate = learningRate;
-                teacher.Momentum = momentum;
-
-                // iterations
-                int iteration = 1;
+                teacher.LearningRate = _learningRate;
+                teacher.Momentum = _momentum;
 
                 ArrayList errorsList = new ArrayList();
-
+                int iteration = 1;
                 // loop
                 while (!needToStop)
                 {
@@ -213,7 +244,7 @@ namespace Recommender.Core.MachineLearning
                     iteration++;
 
                     // check if we need to stop
-                    if (error <= learningErrorLimit)
+                    if (error <= LearningErrorLimit)
                         break;
                 }
 

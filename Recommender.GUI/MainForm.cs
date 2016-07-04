@@ -47,10 +47,6 @@ namespace Recommender.GUI
             this.ContentBasedAlgorithmCombo.DataSource = ContentBasedAlgorithmOption.OptionBuilder();
             this.ContentBasedAlgorithmCombo.DisplayMember = "Name";
             this.ContentBasedAlgorithmCombo.ValueMember = "Value";
-
-            this.ContentBased_ActivationFunction.DataSource = ActivationFunctionOption.OptionBuilder();
-            this.ContentBased_ActivationFunction.DisplayMember = "Name";
-            this.ContentBased_ActivationFunction.ValueMember = "Value";
         }
 
         private void Progress_ProgressChanged(ProgressState progressState)
@@ -144,9 +140,15 @@ namespace Recommender.GUI
                     throw new ArgumentOutOfRangeException("Unknown recommender type");
             }
 
-            ((ContentRecommenderEngine)_recommender).NumberOfUsers = Decimal.ToInt32(this.ContentBased_AmountOfUsers.Value);
-            ((ContentRecommenderEngine)_recommender).MinimumItemsRated = Decimal.ToInt32(this.ContentBased_MinimumItemsRated.Value);
-            ((NeuroRecommender) _recommender.Recommender).ActivationFunctionType = (ActivationFunction)this.ContentBased_ActivationFunction.SelectedValue;
+            ((ContentRecommenderEngine)_recommender).NumberOfUsers = decimal.ToInt32(this.ContentBased_AmountOfUsers.Value);
+            ((ContentRecommenderEngine)_recommender).MinimumItemsRated = decimal.ToInt32(this.ContentBased_MinimumItemsRated.Value);
+
+            ((NeuroRecommender)_recommender.Recommender).Momentum = decimal.ToDouble(this.ContentBased_Momentum.Value);
+            ((NeuroRecommender)_recommender.Recommender).SigmoidAlphaValue = decimal.ToDouble(this.ContentBased_SigmoidAlpha.Value);
+            ((NeuroRecommender)_recommender.Recommender).LearningErrorLimit = decimal.ToDouble(this.ContentBased_LearningErrorLimit.Value);
+            ((NeuroRecommender)_recommender.Recommender).HiddenLayerNeurons = decimal.ToInt32(this.ContentBased_HiddenLayerNeurons.Value);
+            ((NeuroRecommender)_recommender.Recommender).MinimumRepeatingFeatures = decimal.ToInt32(this.ContentBased_MinFeatures.Value);
+
         }
 
         private void ChooseHybridAlgorithm()
@@ -238,6 +240,5 @@ namespace Recommender.GUI
         }
 
         #endregion
-
     }
 }
