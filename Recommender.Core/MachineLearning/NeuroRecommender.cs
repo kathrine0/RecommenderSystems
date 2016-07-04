@@ -26,6 +26,8 @@ namespace Recommender.Core.MachineLearning
         private IDictionary<int, IList<RatedItem>> _ratedItems;
 
         //neural network parameters
+        private int _iterationLimit = 10000;
+
         private double _learningRate = 0.1;
         public double LearningRate {
             get { return _learningRate; }
@@ -228,14 +230,14 @@ namespace Recommender.Core.MachineLearning
                 teacher.LearningRate = _learningRate;
                 teacher.Momentum = _momentum;
 
-                ArrayList errorsList = new ArrayList();
+                //ArrayList errorsList = new ArrayList();
                 int iteration = 1;
                 // loop
                 while (!needToStop)
                 {
                     // run epoch of learning procedure
                     double error = teacher.RunEpoch(input, output);
-                    errorsList.Add(error);
+                    //errorsList.Add(error);
 
                     // show current iteration & error
                     //currentIterationBox.Text = iteration.ToString( );
@@ -243,8 +245,10 @@ namespace Recommender.Core.MachineLearning
 
                     iteration++;
 
+                    Console.WriteLine(error);
+
                     // check if we need to stop
-                    if (error <= LearningErrorLimit)
+                    if (error <= LearningErrorLimit || iteration > _iterationLimit)
                         break;
                 }
 
