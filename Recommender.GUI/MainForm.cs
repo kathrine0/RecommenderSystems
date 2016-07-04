@@ -87,6 +87,11 @@ namespace Recommender.GUI
 
             var progressState = e.UserState as ProgressState;
 
+            var statusText = StatusLabel.Text;
+
+            if (!string.IsNullOrEmpty(progressState.StatusText))
+                statusText = progressState.StatusText;
+
             StatusLabel.Text = progressState.StatusText + " " + ProgressBar.Value.ToString() + "%";
 
             if (!string.IsNullOrEmpty(progressState.ResultBoxText))
@@ -124,7 +129,6 @@ namespace Recommender.GUI
         {
             this.ResultBox.AppendText(text + "\n");
         }
-
 
         private void SetupRecommender()
         {
@@ -215,7 +219,9 @@ namespace Recommender.GUI
 
         private void recommenderCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch ((RecommenderType) ((ComboBox)sender).SelectedValue)
+            var selected = (RecommenderTypeOption)recommenderCombo.SelectedItem;
+
+            switch (selected.Value)
             {
                 case RecommenderType.Collaborative:
                     this.CollaborativeAlgorithmChoice.Enabled = true;
