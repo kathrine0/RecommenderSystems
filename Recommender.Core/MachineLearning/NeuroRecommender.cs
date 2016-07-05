@@ -10,9 +10,26 @@ using AForge.Neuro;
 using AForge.Neuro.Learning;
 using System.Collections;
 using Recommender.Core.Enums;
+using System.Threading.Tasks;
 
 namespace Recommender.Core.MachineLearning
 {
+    class NeuralData
+    {
+        public NeuralData(double[][] input, double[][] output, IList<IFeature> allFeatures)
+        {
+            Input = input;
+            Output = output;
+            AllFeatures = allFeatures;
+        }
+
+        public double[][] Input { get; private set; }
+        public double[][] Output { get; private set; }
+
+        public IList<IFeature> AllFeatures { get; private set; }
+    }
+
+
     //TODO make it handle more ppl at once
     public class NeuroRecommender : RatingPredictor, IFeaturedPredictor
     {
@@ -20,10 +37,8 @@ namespace Recommender.Core.MachineLearning
         private IDictionary<int, ActivationNetwork> _networks;
 
         private IActivationFunction _activationFunction;
-        //list with all of the rated features per user
-        private IDictionary<int, IList<IFeature>> _allFeatures;
-        //list with all of the rated features per user
-        private IDictionary<int, IList<RatedItem>> _ratedItems;
+
+        private IDictionary<int, NeuralData> _neuralData;
 
         //neural network parameters
         private int _iterationLimit = 10000;
@@ -83,15 +98,15 @@ namespace Recommender.Core.MachineLearning
 
         public virtual IFeaturedRatings FeaturedRatings
         {
-            get { return featured_ratings; }
+            get { return _featuredRatings; }
             set
             {
-                featured_ratings = value;
+                _featuredRatings = value;
                 Ratings = value;
             }
         }
         /// <summary>rating data, including item features</summary>
-        protected IFeaturedRatings featured_ratings;
+        protected IFeaturedRatings _featuredRatings;
 
         ///
         public override IRatings Ratings
@@ -103,7 +118,7 @@ namespace Recommender.Core.MachineLearning
                     throw new ArgumentException("Ratings must be of type IFeaturedRatings.");
 
                 base.Ratings = value;
-                featured_ratings = (IFeaturedRatings)value;
+                _featuredRatings = (IFeaturedRatings)value;
             }
         }
 
@@ -120,7 +135,7 @@ namespace Recommender.Core.MachineLearning
 
             var tmp = new List<double>();
 
-            _allFeatures[user_id].ToList()
+            _neuralData[user_id].AllFeatures.ToList()
                 .ForEach(d => tmp.Add(features
                                 .Any(c => c.Name == d.Name && c.FeatureCategory == d.FeatureCategory) ?
                                 1 : 0));
@@ -147,54 +162,79 @@ namespace Recommender.Core.MachineLearning
 
         protected internal virtual void InitModel()//IList<int> rating_indices
         {
-            _allFeatures = new Dictionary<int, IList<IFeature>>();
-            _ratedItems = new Dictionary<int, IList<RatedItem>>();
-            _networks = new Dictionary<int, ActivationNetwork>();
+            _neuralData = new Dictionary<int, NeuralData>();
 
             if (FeaturedRatings.Features.Count < 1)
                 throw new ArgumentOutOfRangeException("Not enough features");
 
-            //please please please refactor me!
-            //move it to featuredRatings class
-
-            foreach (var userId in featured_ratings.AllUsers)
+            foreach (var userId in _featuredRatings.AllUsers)
             {
-                var userRatings = featured_ratings.ByUser[userId];
+                var userRatings = _featuredRatings.ByUser[userId];
                 //build up the items profiles with features
                 if (userRatings.Count == 0)
                     continue;
 
-                _ratedItems.Add(userId, new List<RatedItem>());
+                var ratedItems = ParseRatedItems(userRatings);
+                var allFeatures = FetchDistinctFeatures(ratedItems);
+                var neuralData = BuildNeuralData(ratedItems, allFeatures);
 
-                var tmpFeatureStorage = new List<IFeature>();
+                _neuralData.Add(userId, neuralData);
+            }
+        }
 
-                //and crete _allFeatures data  
-                foreach (var index in userRatings)
-                {
-                    var features = featured_ratings.Features[index];
-                    var itemId = featured_ratings.Items[index];
-                    _ratedItems[userId].Add(new RatedItem(itemId, userId, featured_ratings[index], features));
+        private IList<IFeature> FetchDistinctFeatures(IList<RatedItem> ratedItems)
+        {
+            var tmpFeatureStorage = ratedItems.SelectMany(x => x.Features).ToList();
 
-                    tmpFeatureStorage.AddRange(features);
-
-                    //todo make linq extensions out of it
-                    //features.Where(d => !_allFeatures[userId]
-                    //.Any(c => c.Name == d.Name && c.FeatureCategory == d.FeatureCategory))
-                    //.ToList()
-                    //.ForEach(f => _allFeatures[userId].Add(f));
-                }
-
-                var disctinctFeatures = tmpFeatureStorage.GroupBy(x => new { x.Name, x.FeatureCategory })
+            var distinctFeatures = tmpFeatureStorage.GroupBy(x => new { x.Name, x.FeatureCategory })
                                             .Where(x => x.Count() >= _minimumRepeatingFeatures)
                                             .Select(x => x.First()).ToList();
 
-                _allFeatures.Add(userId, disctinctFeatures);
+            return distinctFeatures;
+        }
+
+        private IList<RatedItem> ParseRatedItems(IList<int> userRatings)
+        {
+            var ratedItems = new List<RatedItem>();
+
+            foreach (var index in userRatings)
+            {
+                var features = _featuredRatings.Features[index];
+                var rating = _featuredRatings[index];
+
+                ratedItems.Add(new RatedItem(rating, features));
             }
+
+            return ratedItems;
+        }
+
+        private NeuralData BuildNeuralData(IList<RatedItem> ratedItems, IList<IFeature> allFeatures)
+        {
+            var outputList = new List<double[]>();
+            var inputList = new List<double[]>();
+
+            //build input and output for neural network
+            foreach (var ratedItem in ratedItems)
+            {
+                var tmp = new List<double>();
+
+                allFeatures.ToList().ForEach(d => tmp.Add(ratedItem.Features
+                                    .Any(c => c.Name == d.Name && c.FeatureCategory == d.FeatureCategory) ?
+                                    1 : 0));
+
+                inputList.Add(tmp.ToArray());
+                //todo verify if this is good approach
+                outputList.Add(new double[] { ratedItem.Rating / MaxRating });
+            }
+
+            return new NeuralData(inputList.ToArray(), outputList.ToArray(), allFeatures);
         }
 
         private void TrainNetworks()
         {
-            foreach (var userId in featured_ratings.AllUsers)
+            _networks = new Dictionary<int, ActivationNetwork>();
+
+            foreach (var userId in _featuredRatings.AllUsers)
             {
                 //prepare input and output
                 //neural network
@@ -202,30 +242,17 @@ namespace Recommender.Core.MachineLearning
 
                 //todo add bias --> Average
 
-                var outputList = new List<double[]>();
-                var inputList = new List<double[]>();
-                foreach (var ratedItem in _ratedItems[userId])
-                {
-                    var tmp = new List<double>();
+                var input = _neuralData[userId].Input;
+                var output = _neuralData[userId].Output;
 
-                    _allFeatures[userId].ToList()
-                        .ForEach(d => tmp.Add(ratedItem.Features
-                                        .Any(c => c.Name == d.Name && c.FeatureCategory == d.FeatureCategory) ?
-                                        1 : 0));
-
-                    inputList.Add(tmp.ToArray());
-                    //todo verify if this is good approach
-                    outputList.Add(new double[] { ratedItem.Rating / MaxRating });
-                }
-
-                var input = inputList.ToArray();
-                var output = outputList.ToArray();
+                if (input.Length == 0)
+                    throw new ArgumentOutOfRangeException("No input");
 
                 // ... preparing the data ...
                 // create perceptron
 
                 //TODO check what is neurons count parameters
-                var network = new ActivationNetwork(_activationFunction, _allFeatures[userId].Count(), _hiddenLayerNeurons, 1);
+                var network = new ActivationNetwork(_activationFunction, input[0].Length, _hiddenLayerNeurons, 1);
 
                 // create teacher
                 var teacher = new BackPropagationLearning(network);
