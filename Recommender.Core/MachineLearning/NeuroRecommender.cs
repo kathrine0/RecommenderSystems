@@ -43,11 +43,19 @@ namespace Recommender.Core.MachineLearning
         private IDictionary<int, NeuralData> _neuralData;
 
         //neural network parameters
-        private int _iterationLimit = 10000;
+        private int _iterationLimit = 1000;
         public int IterationLimit
         {
             get { return _iterationLimit; }
             set { _iterationLimit = value; }
+        }
+
+        private TeacherFunction _teacherFunction = TeacherFunction.BackProp;
+
+        public TeacherFunction TeacherFunction
+        {
+            get { return _teacherFunction; }
+            set { _teacherFunction = value; }
         }
 
 
@@ -73,6 +81,20 @@ namespace Recommender.Core.MachineLearning
         public double LearningErrorLimit {
             get { return _learningErrorLimit; }
             set { _learningErrorLimit = value; }
+        }
+
+        private int _populationSize = 100;
+        public int PopulationSize
+        {
+            get
+            {
+                return _populationSize;
+            }
+
+            set
+            {
+                _populationSize = value;
+            }
         }
 
         private int _hiddenLayerNeurons = 1;
@@ -123,8 +145,6 @@ namespace Recommender.Core.MachineLearning
                 _featuredRatings = (IFeaturedRatings)value;
             }
         }
-
-        protected double weight;
 
         public override float Predict(int user_id, int item_id)
         {            
@@ -247,10 +267,19 @@ namespace Recommender.Core.MachineLearning
                     throw new ArgumentOutOfRangeException("No input");
 
                 var network = new ActivationNetwork(_activationFunction, input[0].Length, _hiddenLayerNeurons, 1);
-                var teacher = new BackPropagationLearning(network);
 
-                teacher.LearningRate = _learningRate;
-                teacher.Momentum = _momentum;
+                ISupervisedLearning teacher;
+
+                if (_teacherFunction == TeacherFunction.BackProp)
+                {
+                    teacher = new BackPropagationLearning(network);
+                    ((BackPropagationLearning)teacher).LearningRate = _learningRate;
+                    ((BackPropagationLearning)teacher).Momentum = _momentum;
+                }
+                else if (_teacherFunction == TeacherFunction.Genetic)
+                    teacher = new EvolutionaryLearning(network, _populationSize);
+                else
+                    throw new ArgumentNullException("Unknown teacher");
 
                 //ArrayList errorsList = new ArrayList();
                 int iteration = 1;
@@ -270,7 +299,7 @@ namespace Recommender.Core.MachineLearning
                     //Console.WriteLine(data.Key + " it: " + iteration + " err: " + error.ToString());
 
                     // check if we need to stop
-                    if (error <= LearningErrorLimit || (_iterationLimit != 0 && iteration > _iterationLimit))
+                    if (error <= LearningErrorLimit || (_iterationLimit != 0 && iteration >= _iterationLimit))
                         break;
                 }
 

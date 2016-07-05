@@ -1,5 +1,6 @@
 ﻿using MyMediaLite.RatingPrediction;
 using Recommender.Core.Engine;
+using Recommender.Core.Enums;
 using Recommender.Core.MachineLearning;
 using Recommender.GUI.Enums;
 using Recommender.GUI.Options;
@@ -23,21 +24,18 @@ namespace Recommender.GUI
 
         private void InitializeCombos()
         {
-            this.datasetCombo.DataSource = DataSetOption.OptionBuilder();
-            this.datasetCombo.DisplayMember = "Name";
-            this.datasetCombo.ValueMember = "Value";
+            CreateCombo(this.datasetCombo, DataSetOption.OptionBuilder());
+            CreateCombo(this.recommenderCombo, RecommenderTypeOption.OptionBuilder());
+            CreateCombo(this.CollaborativeAlgorithmCombo, CollaborativeAlgorithmOption.OptionBuilder());
+            CreateCombo(this.ContentBasedAlgorithmCombo, ContentBasedAlgorithmOption.OptionBuilder());
+            CreateCombo(this.ContentBased_Teacher, TeacherFunctionOption.OptionBuilder());
+        }
 
-            this.recommenderCombo.DataSource = RecommenderTypeOption.OptionBuilder();
-            this.recommenderCombo.DisplayMember = "Name";
-            this.recommenderCombo.ValueMember = "Value";
-
-            this.CollaborativeAlgorithmCombo.DataSource = CollaborativeAlgorithmOption.OptionBuilder();
-            this.CollaborativeAlgorithmCombo.DisplayMember = "Name";
-            this.CollaborativeAlgorithmCombo.ValueMember = "Value";
-
-            this.ContentBasedAlgorithmCombo.DataSource = ContentBasedAlgorithmOption.OptionBuilder();
-            this.ContentBasedAlgorithmCombo.DisplayMember = "Name";
-            this.ContentBasedAlgorithmCombo.ValueMember = "Value";
+        private void CreateCombo(ComboBox combo, object options)
+        {
+            combo.DataSource = options;
+            combo.DisplayMember = "Name";
+            combo.ValueMember = "Value";
         }
 
         private void Progress_ProgressChanged(ProgressState progressState)
@@ -137,11 +135,15 @@ namespace Recommender.GUI
             ((NeuroRecommender)_recommenderEngine.Recommender).MinimumRepeatingFeatures = decimal.ToInt32(this.ContentBased_MinFeatures.Value);
 
             //neuro settings
-            ((NeuroRecommender)_recommenderEngine.Recommender).Momentum = decimal.ToDouble(this.ContentBased_Momentum.Value);
             ((NeuroRecommender)_recommenderEngine.Recommender).SigmoidAlphaValue = decimal.ToDouble(this.ContentBased_SigmoidAlpha.Value);
-            ((NeuroRecommender)_recommenderEngine.Recommender).LearningErrorLimit = decimal.ToDouble(this.ContentBased_LearningErrorLimit.Value);
             ((NeuroRecommender)_recommenderEngine.Recommender).HiddenLayerNeurons = decimal.ToInt32(this.ContentBased_HiddenLayerNeurons.Value);
             ((NeuroRecommender)_recommenderEngine.Recommender).IterationLimit = decimal.ToInt32(this.ContentBased_Iterations.Value);
+
+            //teacher settings
+            ((NeuroRecommender)_recommenderEngine.Recommender).Momentum = decimal.ToDouble(this.ContentBased_Momentum.Value);
+            ((NeuroRecommender)_recommenderEngine.Recommender).LearningRate = decimal.ToDouble(this.ContentBased_LearningRate.Value);
+            ((NeuroRecommender)_recommenderEngine.Recommender).PopulationSize = decimal.ToInt32(this.ContentBased_PopulationSize.Value);
+            ((NeuroRecommender)_recommenderEngine.Recommender).TeacherFunction = ((TeacherFunctionOption)ContentBased_Teacher.SelectedItem).Value;
 
         }
 
@@ -218,6 +220,24 @@ namespace Recommender.GUI
             }
         }
 
+        private void ContentBased_Teacher_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selected = (TeacherFunctionOption)ContentBased_Teacher.SelectedItem;
+
+            switch (selected.Value)
+            {
+                case TeacherFunction.BackProp:
+                    this.ContentBased_BackPropPanel.Visible = true;
+                    this.ContentBased_GeneticPanel.Visible = false;
+                    break;
+                case TeacherFunction.Genetic:
+                    this.ContentBased_BackPropPanel.Visible = false;
+                    this.ContentBased_GeneticPanel.Visible = true;
+                    break;
+
+            }
+        }
+
         private void TrainingSetSize_ValueChanged(object sender, EventArgs e)
         {
             var value = ((NumericUpDown)sender).Value;
@@ -238,6 +258,5 @@ namespace Recommender.GUI
         }
 
         #endregion
-        
     }
 }
