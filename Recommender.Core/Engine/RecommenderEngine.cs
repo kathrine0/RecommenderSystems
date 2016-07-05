@@ -42,7 +42,7 @@ namespace Recommender.Core.Engine
 
         public abstract void LoadData();
 
-        public RatingPredictionEvaluationResults GetResults()
+        public void TeachRecommender()
         {
             if (Recommender == null)
                 throw new ArgumentNullException("Recommender not set");
@@ -50,11 +50,14 @@ namespace Recommender.Core.Engine
             // set up the recommender
             Recommender.Ratings = _trainingData;
             Recommender.Train();
+        }
 
+        public RatingPredictionEvaluationResults GetResults()
+        {
+            
             // measure the accuracy on the test data set
             return Recommender.Evaluate(_testData);
             
-
             // make a prediction for a certain user and item
             //Console.WriteLine(_recommender.Predict(1, 1));
 

@@ -27,6 +27,12 @@ namespace Recommender.Core.MachineLearning
 
         //neural network parameters
         private int _iterationLimit = 10000;
+        public int IterationLimit
+        {
+            get { return _iterationLimit; }
+            set { _iterationLimit = value; }
+        }
+
 
         private double _learningRate = 0.1;
         public double LearningRate {
@@ -101,9 +107,7 @@ namespace Recommender.Core.MachineLearning
             }
         }
 
-
         protected double weight;
-
 
         public override float Predict(int user_id, int item_id)
         {            
@@ -248,7 +252,7 @@ namespace Recommender.Core.MachineLearning
                     Console.WriteLine(error);
 
                     // check if we need to stop
-                    if (error <= LearningErrorLimit || iteration > _iterationLimit)
+                    if (error <= LearningErrorLimit || (_iterationLimit != 0 && iteration > _iterationLimit))
                         break;
                 }
 

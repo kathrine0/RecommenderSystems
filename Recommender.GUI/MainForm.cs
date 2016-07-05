@@ -1,18 +1,9 @@
 ﻿using MyMediaLite.RatingPrediction;
-using Recommender.Core;
 using Recommender.Core.Engine;
-using Recommender.Core.Enums;
 using Recommender.Core.MachineLearning;
 using Recommender.GUI.Enums;
 using Recommender.GUI.Options;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,7 +13,7 @@ namespace Recommender.GUI
     public partial class MainForm : Form    
     {
 
-        RecommenderEngine _recommender;
+        RecommenderEngine _recommenderEngine;
 
         public MainForm()
         {
@@ -96,25 +87,25 @@ namespace Recommender.GUI
                     throw new ArgumentOutOfRangeException("Unknown recommender type");
             }
 
-            _recommender.SetTrainingSetRatio(this.TrainingSetSize.Value);
+            _recommenderEngine.SetTrainingSetRatio(this.TrainingSetSize.Value);
         }
 
         private void ChooseCollaborativeAlgorithm()
         {
-            _recommender = new CollaborativeRecommenderEngine();
+            _recommenderEngine = new CollaborativeRecommenderEngine();
 
             switch ((CollaborativeAlgorithm)(this.CollaborativeAlgorithmCombo.SelectedValue))
             {
                 case CollaborativeAlgorithm.MatrixFactorization:
-                    _recommender.Recommender = new MatrixFactorization();
+                    _recommenderEngine.Recommender = new MatrixFactorization();
                     AddResultBoxText("Selected algorithm: Matrix Factorization");
                     break;
                 case CollaborativeAlgorithm.BiasedMatrixFactorization:
-                    _recommender.Recommender = new BiasedMatrixFactorization();
+                    _recommenderEngine.Recommender = new BiasedMatrixFactorization();
                     AddResultBoxText("Selected algorithm: Biased Matrix Factorization");
                     break;
                 case CollaborativeAlgorithm.SVDplusplus:
-                    _recommender.Recommender = new SVDPlusPlus();
+                    _recommenderEngine.Recommender = new SVDPlusPlus();
                     AddResultBoxText("Selected algorithm: SVD++");
                     break;
                 default:
@@ -124,8 +115,8 @@ namespace Recommender.GUI
 
         private void ChooseContentBasedAlgorithm()
         {
-            _recommender = new ContentRecommenderEngine();
-            _recommender.Recommender = new NeuroRecommender();
+            _recommenderEngine = new ContentRecommenderEngine();
+            _recommenderEngine.Recommender = new NeuroRecommender();
 
             switch ((ContentBasedAlgorithm)(this.ContentBasedAlgorithmCombo.SelectedValue))
             {
@@ -140,20 +131,42 @@ namespace Recommender.GUI
                     throw new ArgumentOutOfRangeException("Unknown recommender type");
             }
 
-            ((ContentRecommenderEngine)_recommender).NumberOfUsers = decimal.ToInt32(this.ContentBased_AmountOfUsers.Value);
-            ((ContentRecommenderEngine)_recommender).MinimumItemsRated = decimal.ToInt32(this.ContentBased_MinimumItemsRated.Value);
+            //data settings
+            ((ContentRecommenderEngine)_recommenderEngine).NumberOfUsers = decimal.ToInt32(this.ContentBased_AmountOfUsers.Value);
+            ((ContentRecommenderEngine)_recommenderEngine).MinimumItemsRated = decimal.ToInt32(this.ContentBased_MinimumItemsRated.Value);
+            ((NeuroRecommender)_recommenderEngine.Recommender).MinimumRepeatingFeatures = decimal.ToInt32(this.ContentBased_MinFeatures.Value);
 
-            ((NeuroRecommender)_recommender.Recommender).Momentum = decimal.ToDouble(this.ContentBased_Momentum.Value);
-            ((NeuroRecommender)_recommender.Recommender).SigmoidAlphaValue = decimal.ToDouble(this.ContentBased_SigmoidAlpha.Value);
-            ((NeuroRecommender)_recommender.Recommender).LearningErrorLimit = decimal.ToDouble(this.ContentBased_LearningErrorLimit.Value);
-            ((NeuroRecommender)_recommender.Recommender).HiddenLayerNeurons = decimal.ToInt32(this.ContentBased_HiddenLayerNeurons.Value);
-            ((NeuroRecommender)_recommender.Recommender).MinimumRepeatingFeatures = decimal.ToInt32(this.ContentBased_MinFeatures.Value);
+            //neuro settings
+            ((NeuroRecommender)_recommenderEngine.Recommender).Momentum = decimal.ToDouble(this.ContentBased_Momentum.Value);
+            ((NeuroRecommender)_recommenderEngine.Recommender).SigmoidAlphaValue = decimal.ToDouble(this.ContentBased_SigmoidAlpha.Value);
+            ((NeuroRecommender)_recommenderEngine.Recommender).LearningErrorLimit = decimal.ToDouble(this.ContentBased_LearningErrorLimit.Value);
+            ((NeuroRecommender)_recommenderEngine.Recommender).HiddenLayerNeurons = decimal.ToInt32(this.ContentBased_HiddenLayerNeurons.Value);
+            ((NeuroRecommender)_recommenderEngine.Recommender).IterationLimit = decimal.ToInt32(this.ContentBased_Iterations.Value);
 
         }
 
         private void ChooseHybridAlgorithm()
         {
             throw new NotImplementedException();
+        }
+
+        private void DoWork(IProgress<ProgressState> progress, CancellationToken cts)
+        {
+            progress.Report(new ProgressState(10, null, "Loading data..."));
+
+            _recommenderEngine.LoadData();
+
+            progress.Report(new ProgressState(20, null, "Training..."));
+
+            _recommenderEngine.TeachRecommender();
+
+            progress.Report(new ProgressState(80, null, "Evaluating..."));
+
+            var result = _recommenderEngine.GetResults();
+
+            var resultString = result.ToString() + "\n =========================================";
+
+            progress.Report(new ProgressState(100, resultString, "Idle"));
         }
 
 
@@ -173,21 +186,6 @@ namespace Recommender.GUI
   
             RunButton.Enabled = false;
             CancelButton.Enabled = true;
-        }
-
-        private void DoWork(IProgress<ProgressState> progress, CancellationToken cts)
-        {
-            progress.Report(new ProgressState(10, null, "Loading data..."));
-
-            _recommender.LoadData();
-
-            progress.Report(new ProgressState(20, null, "Training and evaluating..."));
-
-            var result = _recommender.GetResults();
-
-            var resultString = result.ToString() + "\n =========================================";
-
-            progress.Report(new ProgressState(100, resultString, "Idle"));
         }
 
         private void recommenderCombo_SelectedIndexChanged(object sender, EventArgs e)
@@ -240,5 +238,6 @@ namespace Recommender.GUI
         }
 
         #endregion
+        
     }
 }
