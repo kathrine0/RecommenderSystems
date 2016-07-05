@@ -109,6 +109,7 @@
     <Compile Include="ItemRecommendation\BayesMatrixFactorization.cs" />
     <Compile Include="ItemRecommendation\PSOMatrixFactorization.cs" />
     <Compile Include="MachineLearning\IFeaturedPredictor.cs" />
+    <Compile Include="ILoggable.cs" />
     <Compile Include="MachineLearning\NeuroRecommender.cs" />
     <Compile Include="MachineLearning\C45Recommender.cs" />
     <Compile Include="MachineLearning\UserProfileBuilder.cs" />

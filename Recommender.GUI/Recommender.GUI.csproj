@@ -62,6 +62,7 @@
     <Compile Include="Enums\Algorithm.cs" />
     <Compile Include="Enums\DataSet.cs" />
     <Compile Include="Enums\RecommenderType.cs" />
+    <Compile Include="Extensions\CrossThreadExtensions.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,7 +77,6 @@
     <Compile Include="Options\Option.cs" />
     <Compile Include="Options\RecommenderTypeOption.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="ProgressState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -110,6 +110,10 @@
     <ProjectReference Include="..\..\mymedialite\src\MyMediaLite\MyMediaLite.csproj">
       <Project>{73424f09-beea-4992-b116-5f123496f5d3}</Project>
       <Name>MyMediaLite</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Recommender.Common\Recommender.Common.csproj">
+      <Project>{0FEDCA4F-147F-41CE-A9B0-DBD2E9B51E5C}</Project>
+      <Name>Recommender.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Recommender.Core\Recommender.Core.csproj">
       <Project>{f9814d94-38a4-4062-9297-fae5c0b79734}</Project>

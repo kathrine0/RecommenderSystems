@@ -1,8 +1,10 @@
 ﻿using MyMediaLite.RatingPrediction;
+using Recommender.Common.Logger;
 using Recommender.Core.Engine;
 using Recommender.Core.Enums;
 using Recommender.Core.MachineLearning;
 using Recommender.GUI.Enums;
+using Recommender.GUI.Extensions;
 using Recommender.GUI.Options;
 using System;
 using System.Threading;
@@ -15,11 +17,19 @@ namespace Recommender.GUI
     {
 
         RecommenderEngine _recommenderEngine;
+        Logger _logger;
 
         public MainForm()
         {
+            SetupLogger();
             InitializeComponent();
             InitializeCombos();
+        }
+
+        private void SetupLogger()
+        {
+            _logger = new Logger();
+            _logger.Logs.OnAdd += Logs_OnAdd;
         }
 
         private void InitializeCombos()
@@ -60,6 +70,28 @@ namespace Recommender.GUI
             }
         }
 
+        private void ThreadSafeProgressReport(ProgressState progressState)
+        {
+            this.StatusStrip.PerformSafely(() =>
+            {
+                //update progressbar
+                this.ProgressBar.Value = progressState.Percentage;
+
+                //update status text
+                var statusText = this.StatusLabel.Text;
+
+                if (!string.IsNullOrEmpty(progressState.StatusText))
+                    statusText = progressState.StatusText;
+
+                this.StatusLabel.Text = progressState.StatusText + " " + ProgressBar.Value.ToString() + "%";
+
+            });
+
+            //update resultbox text
+            if (!string.IsNullOrEmpty(progressState.ResultBoxText))
+                this.ResultBox.PerformSafely(() => AddResultBoxText(progressState.ResultBoxText));
+        }
+
         private void AddResultBoxText(string text)
         {
             this.ResultBox.AppendText(text + "\n");
@@ -90,7 +122,7 @@ namespace Recommender.GUI
 
         private void ChooseCollaborativeAlgorithm()
         {
-            _recommenderEngine = new CollaborativeRecommenderEngine();
+            _recommenderEngine = new CollaborativeRecommenderEngine(_logger);
 
             switch ((CollaborativeAlgorithm)(this.CollaborativeAlgorithmCombo.SelectedValue))
             {
@@ -113,7 +145,7 @@ namespace Recommender.GUI
 
         private void ChooseContentBasedAlgorithm()
         {
-            _recommenderEngine = new ContentRecommenderEngine();
+            _recommenderEngine = new ContentRecommenderEngine(_logger);
             _recommenderEngine.Recommender = new NeuroRecommender();
 
             switch ((ContentBasedAlgorithm)(this.ContentBasedAlgorithmCombo.SelectedValue))
@@ -145,6 +177,9 @@ namespace Recommender.GUI
             ((NeuroRecommender)_recommenderEngine.Recommender).PopulationSize = decimal.ToInt32(this.ContentBased_PopulationSize.Value);
             ((NeuroRecommender)_recommenderEngine.Recommender).TeacherFunction = ((TeacherFunctionOption)ContentBased_Teacher.SelectedItem).Value;
 
+            //logger
+            ((NeuroRecommender)_recommenderEngine.Recommender).Logger = _logger;
+
         }
 
         private void ChooseHybridAlgorithm()
@@ -171,6 +206,19 @@ namespace Recommender.GUI
             progress.Report(new ProgressState(100, resultString, "Idle"));
         }
 
+        private void Logs_OnAdd(object sender, LogItemAddedEventArgs e)
+        {
+            var logItem = e.LogItem;
+
+            switch (logItem.Type)
+            {
+                case LogType.ProgressReport:
+
+                    ThreadSafeProgressReport(logItem.Value as ProgressState);
+
+                    break;
+            }
+        }
 
         #region GUI Interactions
 

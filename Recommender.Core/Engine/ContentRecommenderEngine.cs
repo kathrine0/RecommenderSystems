@@ -1,4 +1,5 @@
 ﻿using MyMediaLite.RatingPrediction;
+using Recommender.Common.Logger;
 using Recommender.Core.MachineLearning;
 using System.ComponentModel.DataAnnotations;
 
@@ -6,8 +7,12 @@ namespace Recommender.Core.Engine
 {
     public class ContentRecommenderEngine : RecommenderEngine
     {
-        //todo make Recommender obligatry to be of type IFeaturedPredictor
+        public ContentRecommenderEngine(Logger logger) : base(logger)
+        {
+            
+        }
 
+        //todo make Recommender obligatry to be of type IFeaturedPredictor        
         private int _numberOfUsers = 1;
 
         [Range(1, int.MaxValue)]
@@ -23,7 +28,11 @@ namespace Recommender.Core.Engine
 
         public override void LoadData()
         {
+            //_logger.Logs.Add(new LogMessage(LogType.RunReport, "Start Load"));
+
             _service.LoadFeaturedData(out _trainingData, out _testData, _trainingSetRatio, _numberOfUsers, MinimumItemsRated);
+
+            //_logger.Logs.Add(new LogMessage(LogType.RunReport, "End Load"));
         }
     }
 }

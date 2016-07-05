@@ -1,6 +1,7 @@
 ﻿using MyMediaLite.Data;
 using MyMediaLite.Eval;
 using MyMediaLite.RatingPrediction;
+using Recommender.Common.Logger;
 using Recommender.Service;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,19 @@ namespace Recommender.Core.Engine
     /// </summary>
     public abstract class RecommenderEngine
     {
+        public RecommenderEngine(Logger logger)
+        {
+            _logger = logger;
+            _service = new MovieLenseService();
+        }
+
         public virtual IRatingPredictor Recommender
         {
             get; set;
         }
+
+        protected Logger _logger;
+
 
         protected IRatingService _service;
         protected IRatings _trainingData;
@@ -32,12 +42,6 @@ namespace Recommender.Core.Engine
                 throw new ArgumentOutOfRangeException();
 
             _trainingSetRatio = (double) value / 100;
-        }
-
-
-        public RecommenderEngine()
-        {
-            _service = new MovieLenseService();
         }
 
         public abstract void LoadData();

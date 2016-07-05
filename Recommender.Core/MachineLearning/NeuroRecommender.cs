@@ -12,28 +12,12 @@ using System.Collections;
 using Recommender.Core.Enums;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
+using Recommender.Common.Logger;
 
 namespace Recommender.Core.MachineLearning
-{
-    class NeuralData
-    {
-        public NeuralData(double[][] input, double[][] output, IList<IFeature> allFeatures)
-        {
-            Input = input;
-            Output = output;
-            AllFeatures = allFeatures;
-        }
-
-        public double[][] Input { get; private set; }
-        public double[][] Output { get; private set; }
-
-        public IList<IFeature> AllFeatures { get; private set; }
-
-    }
-
-
+{ 
     //TODO make it handle more ppl at once
-    public class NeuroRecommender : RatingPredictor, IFeaturedPredictor
+    public class NeuroRecommender : RatingPredictor, IFeaturedPredictor, ILoggable
     {
         ///Stores neural networks per every user
         private IDictionary<int, ActivationNetwork> _networks;
@@ -41,6 +25,9 @@ namespace Recommender.Core.MachineLearning
         private IActivationFunction _activationFunction;
 
         private IDictionary<int, NeuralData> _neuralData;
+
+
+        public Logger Logger { get; set; }
 
         //neural network parameters
         private int _iterationLimit = 1000;
@@ -51,7 +38,6 @@ namespace Recommender.Core.MachineLearning
         }
 
         private TeacherFunction _teacherFunction = TeacherFunction.BackProp;
-
         public TeacherFunction TeacherFunction
         {
             get { return _teacherFunction; }
@@ -106,7 +92,6 @@ namespace Recommender.Core.MachineLearning
         private bool needToStop = false;
 
         private int _minimumRepeatingFeatures = 2;
-
         public int MinimumRepeatingFeatures
         {
             get { return _minimumRepeatingFeatures = 2; }
@@ -317,6 +302,22 @@ namespace Recommender.Core.MachineLearning
                 //}
             });
         }
+
+    }
+
+    class NeuralData
+    {
+        public NeuralData(double[][] input, double[][] output, IList<IFeature> allFeatures)
+        {
+            Input = input;
+            Output = output;
+            AllFeatures = allFeatures;
+        }
+
+        public double[][] Input { get; private set; }
+        public double[][] Output { get; private set; }
+
+        public IList<IFeature> AllFeatures { get; private set; }
 
     }
 }
