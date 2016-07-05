@@ -11,6 +11,7 @@ using AForge.Neuro.Learning;
 using System.Collections;
 using Recommender.Core.Enums;
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
 
 namespace Recommender.Core.MachineLearning
 {
@@ -27,6 +28,7 @@ namespace Recommender.Core.MachineLearning
         public double[][] Output { get; private set; }
 
         public IList<IFeature> AllFeatures { get; private set; }
+
     }
 
 
@@ -232,32 +234,32 @@ namespace Recommender.Core.MachineLearning
 
         private void TrainNetworks()
         {
-            _networks = new Dictionary<int, ActivationNetwork>();
+            _networks = new ConcurrentDictionary<int, ActivationNetwork>();
 
-            foreach (var userId in _featuredRatings.AllUsers)
+            //    public static ConcurrentBag<SearchResult> Search(string title)
+            //{
+            //    var results = new ConcurrentBag<SearchResult>();
+            //    Parallel.ForEach(Providers, currentProvider =>
+            //    {
+            //        results.Add(currentProvider.SearchTitle((title)));
+            //    });
+
+            //    return results;
+            //}
+
+            Parallel.ForEach(_neuralData, data =>
             {
-                //prepare input and output
-                //neural network
-                // prepare learning data
-
                 //todo add bias --> Average
 
-                var input = _neuralData[userId].Input;
-                var output = _neuralData[userId].Output;
+                var input = data.Value.Input;
+                var output = data.Value.Output;
 
                 if (input.Length == 0)
                     throw new ArgumentOutOfRangeException("No input");
 
-                // ... preparing the data ...
-                // create perceptron
-
-                //TODO check what is neurons count parameters
                 var network = new ActivationNetwork(_activationFunction, input[0].Length, _hiddenLayerNeurons, 1);
-
-                // create teacher
                 var teacher = new BackPropagationLearning(network);
 
-                // set learning rate and momentum
                 teacher.LearningRate = _learningRate;
                 teacher.Momentum = _momentum;
 
@@ -266,7 +268,6 @@ namespace Recommender.Core.MachineLearning
                 // loop
                 while (!needToStop)
                 {
-                    // run epoch of learning procedure
                     double error = teacher.RunEpoch(input, output);
                     //errorsList.Add(error);
 
@@ -276,14 +277,14 @@ namespace Recommender.Core.MachineLearning
 
                     iteration++;
 
-                    Console.WriteLine(error);
+                    Console.WriteLine(data.Key + "it: " + iteration + "err: " + error.ToString());
 
                     // check if we need to stop
                     if (error <= LearningErrorLimit || (_iterationLimit != 0 && iteration > _iterationLimit))
                         break;
                 }
 
-                _networks.Add(userId, network);
+                _networks.Add(data.Key, network);
 
                 // show error's dynamics
                 //double[,] errors = new double[errorsList.Count, 2];
@@ -293,7 +294,7 @@ namespace Recommender.Core.MachineLearning
                 //    errors[i, 0] = i;
                 //    errors[i, 1] = (double)errorsList[i];
                 //}
-            }
+            });
         }
 
     }
