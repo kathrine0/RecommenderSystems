@@ -162,7 +162,7 @@ namespace Recommender.Core.MachineLearning
             _activationFunction = new SigmoidFunction(_sigmoidAlphaValue);
         }
 
-        protected internal virtual void InitModel()//IList<int> rating_indices
+        protected internal virtual void InitModel()
         {
             _neuralData = new Dictionary<int, NeuralData>();
 
@@ -236,17 +236,6 @@ namespace Recommender.Core.MachineLearning
         {
             _networks = new ConcurrentDictionary<int, ActivationNetwork>();
 
-            //    public static ConcurrentBag<SearchResult> Search(string title)
-            //{
-            //    var results = new ConcurrentBag<SearchResult>();
-            //    Parallel.ForEach(Providers, currentProvider =>
-            //    {
-            //        results.Add(currentProvider.SearchTitle((title)));
-            //    });
-
-            //    return results;
-            //}
-
             Parallel.ForEach(_neuralData, data =>
             {
                 //todo add bias --> Average
@@ -265,10 +254,11 @@ namespace Recommender.Core.MachineLearning
 
                 //ArrayList errorsList = new ArrayList();
                 int iteration = 1;
-                // loop
+                double error = 0;
+ 
                 while (!needToStop)
                 {
-                    double error = teacher.RunEpoch(input, output);
+                    error = teacher.RunEpoch(input, output);
                     //errorsList.Add(error);
 
                     // show current iteration & error
@@ -277,12 +267,14 @@ namespace Recommender.Core.MachineLearning
 
                     iteration++;
 
-                    Console.WriteLine(data.Key + "it: " + iteration + "err: " + error.ToString());
+                    //Console.WriteLine(data.Key + " it: " + iteration + " err: " + error.ToString());
 
                     // check if we need to stop
                     if (error <= LearningErrorLimit || (_iterationLimit != 0 && iteration > _iterationLimit))
                         break;
                 }
+
+                Console.WriteLine(data.Key + " error: " + error.ToString() + " iterations:" + iteration.ToString());
 
                 _networks.Add(data.Key, network);
 
