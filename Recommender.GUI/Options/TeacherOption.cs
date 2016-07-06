@@ -14,6 +14,7 @@ namespace Recommender.GUI.Options
             var options = new List<TeacherFunctionOption>()
             {
                 new TeacherFunctionOption() { Name = "Backpropagation", Value = TeacherFunction.BackProp },
+                new TeacherFunctionOption() { Name = "Resilient Backpropagation", Value = TeacherFunction.ResilientBackProp },
                 new TeacherFunctionOption() { Name = "Genetic algorithm", Value = TeacherFunction.Genetic }
             };
 

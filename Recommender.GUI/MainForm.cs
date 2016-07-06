@@ -305,7 +305,10 @@ namespace Recommender.GUI
                     this.ContentBased_BackPropPanel.Visible = false;
                     this.ContentBased_GeneticPanel.Visible = true;
                     break;
-
+                case TeacherFunction.ResilientBackProp:
+                    this.ContentBased_BackPropPanel.Visible = false;
+                    this.ContentBased_GeneticPanel.Visible = false;
+                    break;
             }
         }
 

@@ -162,6 +162,10 @@ Training network with parameters:
     Teacher:                    Genetic Algorithm
     Population size:            {0} ", PopulationSize);
                     break;
+                case TeacherFunction.ResilientBackProp:
+                    message.AppendFormat(@"
+    Teacher:                    Resilient backpropagation");
+                    break;
             }
 
 
@@ -289,6 +293,8 @@ Training network with parameters:
                 }
                 else if (_teacherFunction == TeacherFunction.Genetic)
                     teacher = new EvolutionaryLearning(network, _populationSize);
+                else if (_teacherFunction == TeacherFunction.ResilientBackProp)
+                    teacher = new ResilientBackpropagationLearning(network);
                 else
                     throw new ArgumentNullException("Unknown teacher");
 
