@@ -48,25 +48,21 @@ namespace Recommender.GUI
             combo.ValueMember = "Value";
         }
 
-        private void Progress_ProgressChanged(ProgressState progressState)
+        #region logger
+
+        private void Logs_OnAdd(object sender, LogItemAddedEventArgs e)
         {
-            ProgressBar.Value = progressState.Percentage;
+            var logItem = e.LogItem;
 
-            var statusText = StatusLabel.Text;
-
-            if (!string.IsNullOrEmpty(progressState.StatusText))
-                statusText = progressState.StatusText;
-
-            StatusLabel.Text = progressState.StatusText + " " + ProgressBar.Value.ToString() + "%";
-
-            if (!string.IsNullOrEmpty(progressState.ResultBoxText))
-                AddResultBoxText(progressState.ResultBoxText);
-
-            //When finished
-            if (progressState.Percentage == 100)
+            switch (logItem.Type)
             {
-                RunButton.Enabled = true;
-                CancelButton.Enabled = false;
+                case LogType.ProgressReport:
+
+                    ThreadSafeProgressReport(logItem.Value as ProgressState);
+                    break;
+                case LogType.WarningReport:
+                    ThreadSafeWarningReport(logItem.Value as WarningReport);
+                    break;
             }
         }
 
@@ -92,9 +88,22 @@ namespace Recommender.GUI
                 this.ResultBox.PerformSafely(() => AddResultBoxText(progressState.ResultBoxText));
         }
 
+        private void ThreadSafeWarningReport(WarningReport warningReport)
+        {
+            MessageBox.Show(warningReport.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        }
+
+        #endregion logger
+
         private void AddResultBoxText(string text)
         {
             this.ResultBox.AppendText(text + "\n");
+        }
+
+
+        private void SetupRecommenderEngine()
+        {
+            _recommenderEngine = new RecommenderEngine(_logger);
         }
 
         private void SetupRecommender()
@@ -102,15 +111,12 @@ namespace Recommender.GUI
             switch ((RecommenderType)(this.recommenderCombo.SelectedValue))
             {
                 case RecommenderType.Collaborative:
-                    AddResultBoxText("Selected recommender: Collaborative Filtering");
                     ChooseCollaborativeAlgorithm();
                     break;
                 case RecommenderType.ContentBased:
-                    AddResultBoxText("Selected recommender: Content-Based Filtering");
                     ChooseContentBasedAlgorithm();
                     break;
                 case RecommenderType.Hybrid:
-                    AddResultBoxText("Selected recommender: Hybrid recommender");
                     ChooseHybridAlgorithm();
                     break;
                 default:
@@ -122,7 +128,7 @@ namespace Recommender.GUI
 
         private void ChooseCollaborativeAlgorithm()
         {
-            _recommenderEngine = new CollaborativeRecommenderEngine(_logger);
+            _recommenderEngine = new CollaborativeRecommenderEngine(_recommenderEngine);
 
             switch ((CollaborativeAlgorithm)(this.CollaborativeAlgorithmCombo.SelectedValue))
             {
@@ -145,7 +151,7 @@ namespace Recommender.GUI
 
         private void ChooseContentBasedAlgorithm()
         {
-            _recommenderEngine = new ContentRecommenderEngine(_logger);
+            _recommenderEngine = new ContentRecommenderEngine(_recommenderEngine);
             _recommenderEngine.Recommender = new NeuroRecommender();
 
             switch ((ContentBasedAlgorithm)(this.ContentBasedAlgorithmCombo.SelectedValue))
@@ -162,8 +168,9 @@ namespace Recommender.GUI
             }
 
             //data settings
-            ((ContentRecommenderEngine)_recommenderEngine).NumberOfUsers = decimal.ToInt32(this.ContentBased_AmountOfUsers.Value);
-            ((ContentRecommenderEngine)_recommenderEngine).MinimumItemsRated = decimal.ToInt32(this.ContentBased_MinimumItemsRated.Value);
+            _recommenderEngine.NumberOfUsers = decimal.ToInt32(this.ContentBased_AmountOfUsers.Value);
+            _recommenderEngine.MinimumItemsRated = decimal.ToInt32(this.ContentBased_MinimumItemsRated.Value);
+
             ((NeuroRecommender)_recommenderEngine.Recommender).MinimumRepeatingFeatures = decimal.ToInt32(this.ContentBased_MinFeatures.Value);
 
             //neuro settings
@@ -187,55 +194,49 @@ namespace Recommender.GUI
             throw new NotImplementedException();
         }
 
-        private void DoWork(IProgress<ProgressState> progress, CancellationToken cts)
+        #region Long actions
+
+        private void RunRecommenderAsync(CancellationToken cts)
         {
-            progress.Report(new ProgressState(10, null, "Loading data..."));
+            ThreadSafeButtonToggle(false, false, true);
 
-            _recommenderEngine.LoadData();
+            var teachingResult = _recommenderEngine.TeachRecommender();
 
-            progress.Report(new ProgressState(20, null, "Training..."));
-
-            _recommenderEngine.TeachRecommender();
-
-            progress.Report(new ProgressState(80, null, "Evaluating..."));
+            if (!teachingResult) return;//report error
 
             var result = _recommenderEngine.GetResults();
 
-            var resultString = result.ToString() + "\n =========================================";
+            //var resultString = result.ToString() + "\n =========================================";
+            //progress.Report(new ProgressState(100, resultString, "Idle"));
 
-            progress.Report(new ProgressState(100, resultString, "Idle"));
+            ThreadSafeButtonToggle(true, true, false);
         }
-
-        private void Logs_OnAdd(object sender, LogItemAddedEventArgs e)
+        
+        private void LoadDataAsync()
         {
-            var logItem = e.LogItem;
+            ThreadSafeButtonToggle(false, false, true);
 
-            switch (logItem.Type)
-            {
-                case LogType.ProgressReport:
+            _recommenderEngine.LoadData();
 
-                    ThreadSafeProgressReport(logItem.Value as ProgressState);
-
-                    break;
-            }
+            ThreadSafeButtonToggle(true, true, false);
         }
+
+        #endregion Long actions
 
         #region GUI Interactions
 
         private void RunButton_Click(object sender, EventArgs e)
         {
-            var synchronizationContext = TaskScheduler.FromCurrentSynchronizationContext();
-
             SetupRecommender();
-
-            IProgress<ProgressState> progress = new Progress<ProgressState>(x => Progress_ProgressChanged(x));
-            
+                        
             var cts = new CancellationToken();
 
-            var t = Task.Run(() => DoWork(progress, cts));
-  
-            RunButton.Enabled = false;
-            CancelButton.Enabled = true;
+            var t = Task.Run(() => RunRecommenderAsync(cts));        }
+
+        private void LoadDataButton_Click(object sender, EventArgs e)
+        {
+            SetupRecommenderEngine();
+            Task.Run(() => LoadDataAsync());
         }
 
         private void recommenderCombo_SelectedIndexChanged(object sender, EventArgs e)
@@ -303,6 +304,13 @@ namespace Recommender.GUI
             //{
             //    backgroundWorker.CancelAsync();
             //}
+        }
+
+        private void ThreadSafeButtonToggle(bool loadbtn, bool runbtn, bool cancelbtn)
+        {
+            this.LoadDataButton.PerformSafely(() => this.LoadDataButton.Enabled = loadbtn);
+            this.RunButton.PerformSafely(() => this.RunButton.Enabled = runbtn);
+            this.CancelButton.PerformSafely(() => this.CancelButton.Enabled = cancelbtn);
         }
 
         #endregion

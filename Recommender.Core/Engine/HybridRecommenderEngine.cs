@@ -12,9 +12,9 @@ namespace Recommender.Core.Engine
 
         }
 
-        public override void LoadData()
-        {
-            throw new NotImplementedException();
-        }
+        //public override void PrepareSets()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

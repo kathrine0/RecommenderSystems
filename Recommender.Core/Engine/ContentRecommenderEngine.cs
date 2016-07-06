@@ -1,38 +1,31 @@
 ﻿using MyMediaLite.RatingPrediction;
 using Recommender.Common.Logger;
 using Recommender.Core.MachineLearning;
-using System.ComponentModel.DataAnnotations;
 
 namespace Recommender.Core.Engine
 {
     public class ContentRecommenderEngine : RecommenderEngine
     {
-        public ContentRecommenderEngine(Logger logger) : base(logger)
+        public ContentRecommenderEngine(RecommenderEngine engine) : base(engine)
         {
-            
+
         }
 
-        //todo make Recommender obligatry to be of type IFeaturedPredictor        
-        private int _numberOfUsers = 1;
-
-        [Range(1, int.MaxValue)]
-        public int NumberOfUsers
+        public override IRatingPredictor Recommender
         {
-            get { return _numberOfUsers; }
-            set { _numberOfUsers = value; }
+            get { return _recommender; }
+            set
+            {
+                if (value is IFeaturedPredictor)
+                    _recommender = value;
+                else
+                    throw new System.InvalidCastException("recommender must be IFeaturedPredictor");
+            }
         }
 
-        [Range(1, int.MaxValue)]
-        public int MinimumItemsRated { get; set; }
-
-
-        public override void LoadData()
-        {
-            //_logger.Logs.Add(new LogMessage(LogType.RunReport, "Start Load"));
-
-            _service.LoadFeaturedData(out _trainingData, out _testData, _trainingSetRatio, _numberOfUsers, MinimumItemsRated);
-
-            //_logger.Logs.Add(new LogMessage(LogType.RunReport, "End Load"));
-        }
+        //public override void PrepareSets()
+        //{
+        //    _service.LoadFeaturedData(out TrainingData, out TestData, _trainingSetRatio, NumberOfUsers, MinimumItemsRated);
+        //}
     }
 }

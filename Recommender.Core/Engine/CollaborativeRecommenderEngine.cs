@@ -6,14 +6,14 @@ namespace Recommender.Core.Engine
 {
     public class CollaborativeRecommenderEngine : RecommenderEngine
     {
-        public CollaborativeRecommenderEngine(Logger logger) : base(logger)
+        public CollaborativeRecommenderEngine(RecommenderEngine engine) : base(engine)
         {
 
         }
 
-        public override void LoadData()
-        {
-            _service.LoadBasicData(out _trainingData, out _testData, _trainingSetRatio);
-        }
+        //public override void PrepareSets()
+        //{
+        //    _service.LoadBasicData(out _trainingData, out _testData, TrainingSetRatio);
+        //}
     }
 }

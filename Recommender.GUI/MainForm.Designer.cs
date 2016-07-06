@@ -101,6 +101,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.LoadDataButton = new System.Windows.Forms.Button();
             this.dataSetOptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.mainFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
@@ -139,6 +140,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Controls.Add(this.LoadDataButton);
             this.groupBox1.Controls.Add(this.ContentBasedAlghoritmChoice);
             this.groupBox1.Controls.Add(this.CollaborativeAlgorithmChoice);
             this.groupBox1.Controls.Add(this.CancelButton);
@@ -149,7 +151,7 @@
             this.groupBox1.Controls.Add(this.RunButton);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(296, 254);
+            this.groupBox1.Size = new System.Drawing.Size(296, 264);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
@@ -213,7 +215,7 @@
             // 
             this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CancelButton.Enabled = false;
-            this.CancelButton.Location = new System.Drawing.Point(92, 225);
+            this.CancelButton.Location = new System.Drawing.Point(178, 235);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(69, 23);
             this.CancelButton.TabIndex = 6;
@@ -263,7 +265,8 @@
             // RunButton
             // 
             this.RunButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.RunButton.Location = new System.Drawing.Point(6, 225);
+            this.RunButton.Enabled = false;
+            this.RunButton.Location = new System.Drawing.Point(92, 235);
             this.RunButton.Name = "RunButton";
             this.RunButton.Size = new System.Drawing.Size(80, 23);
             this.RunButton.TabIndex = 0;
@@ -324,13 +327,13 @@
             this.zakończToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.zakończToolStripMenuItem.Text = "Close";
             // 
-            // statusStrip1
+            // StatusStrip
             // 
             this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ProgressBar,
             this.StatusLabel});
-            this.StatusStrip.Location = new System.Drawing.Point(0, 590);
-            this.StatusStrip.Name = "statusStrip1";
+            this.StatusStrip.Location = new System.Drawing.Point(0, 668);
+            this.StatusStrip.Name = "StatusStrip";
             this.StatusStrip.Size = new System.Drawing.Size(714, 22);
             this.StatusStrip.TabIndex = 2;
             this.StatusStrip.Text = "statusStrip1";
@@ -355,7 +358,7 @@
             this.ResultContainer.Controls.Add(this.ResultBox);
             this.ResultContainer.Location = new System.Drawing.Point(308, 6);
             this.ResultContainer.Name = "ResultContainer";
-            this.ResultContainer.Size = new System.Drawing.Size(366, 254);
+            this.ResultContainer.Size = new System.Drawing.Size(366, 261);
             this.ResultContainer.TabIndex = 4;
             this.ResultContainer.TabStop = false;
             this.ResultContainer.Text = "Results";
@@ -366,7 +369,7 @@
             this.ResultBox.Location = new System.Drawing.Point(3, 16);
             this.ResultBox.Name = "ResultBox";
             this.ResultBox.ReadOnly = true;
-            this.ResultBox.Size = new System.Drawing.Size(360, 235);
+            this.ResultBox.Size = new System.Drawing.Size(360, 242);
             this.ResultBox.TabIndex = 0;
             this.ResultBox.Text = "";
             // 
@@ -374,13 +377,13 @@
             // 
             this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanel1.Controls.Add(this.panel1);
             this.flowLayoutPanel1.Controls.Add(this.panel3);
             this.flowLayoutPanel1.Controls.Add(this.ContentBasedOptions);
             this.flowLayoutPanel1.Controls.Add(this.CollaborativeOptions);
-            this.flowLayoutPanel1.Controls.Add(this.panel1);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 263);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(1, 273);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(673, 282);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(673, 362);
             this.flowLayoutPanel1.TabIndex = 7;
             // 
             // panel3
@@ -396,7 +399,7 @@
             this.panel3.Controls.Add(this.ContentBased_SigmoidAlpha);
             this.panel3.Controls.Add(this.label15);
             this.panel3.Controls.Add(this.ContentBased_HiddenLayerNeurons);
-            this.panel3.Location = new System.Drawing.Point(3, 3);
+            this.panel3.Location = new System.Drawing.Point(336, 3);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(327, 190);
             this.panel3.TabIndex = 4;
@@ -722,19 +725,15 @@
             // 
             this.ContentBasedOptions.Controls.Add(this.ContentBased_MinFeatures);
             this.ContentBasedOptions.Controls.Add(this.label14);
-            this.ContentBasedOptions.Controls.Add(this.ContentBased_MinimumItemsRated);
-            this.ContentBasedOptions.Controls.Add(this.label12);
             this.ContentBasedOptions.Controls.Add(this.label4);
-            this.ContentBasedOptions.Controls.Add(this.ContentBased_AmountOfUsers);
-            this.ContentBasedOptions.Controls.Add(this.UserLabel);
-            this.ContentBasedOptions.Location = new System.Drawing.Point(336, 3);
+            this.ContentBasedOptions.Location = new System.Drawing.Point(3, 199);
             this.ContentBasedOptions.Name = "ContentBasedOptions";
             this.ContentBasedOptions.Size = new System.Drawing.Size(327, 116);
             this.ContentBasedOptions.TabIndex = 0;
             // 
             // ContentBased_MinFeatures
             // 
-            this.ContentBased_MinFeatures.Location = new System.Drawing.Point(139, 75);
+            this.ContentBased_MinFeatures.Location = new System.Drawing.Point(139, 22);
             this.ContentBased_MinFeatures.Minimum = new decimal(new int[] {
             1,
             0,
@@ -752,7 +751,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(15, 78);
+            this.label14.Location = new System.Drawing.Point(15, 25);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(112, 13);
             this.label14.TabIndex = 12;
@@ -760,7 +759,7 @@
             // 
             // ContentBased_MinimumItemsRated
             // 
-            this.ContentBased_MinimumItemsRated.Location = new System.Drawing.Point(139, 49);
+            this.ContentBased_MinimumItemsRated.Location = new System.Drawing.Point(139, 46);
             this.ContentBased_MinimumItemsRated.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -772,7 +771,7 @@
             0,
             0});
             this.ContentBased_MinimumItemsRated.Name = "ContentBased_MinimumItemsRated";
-            this.ContentBased_MinimumItemsRated.Size = new System.Drawing.Size(150, 20);
+            this.ContentBased_MinimumItemsRated.Size = new System.Drawing.Size(134, 20);
             this.ContentBased_MinimumItemsRated.TabIndex = 4;
             this.ContentBased_MinimumItemsRated.Value = new decimal(new int[] {
             100,
@@ -783,7 +782,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(15, 51);
+            this.label12.Location = new System.Drawing.Point(15, 48);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(102, 13);
             this.label12.TabIndex = 3;
@@ -801,14 +800,14 @@
             // 
             // ContentBased_AmountOfUsers
             // 
-            this.ContentBased_AmountOfUsers.Location = new System.Drawing.Point(139, 23);
+            this.ContentBased_AmountOfUsers.Location = new System.Drawing.Point(139, 20);
             this.ContentBased_AmountOfUsers.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.ContentBased_AmountOfUsers.Name = "ContentBased_AmountOfUsers";
-            this.ContentBased_AmountOfUsers.Size = new System.Drawing.Size(150, 20);
+            this.ContentBased_AmountOfUsers.Size = new System.Drawing.Size(134, 20);
             this.ContentBased_AmountOfUsers.TabIndex = 1;
             this.ContentBased_AmountOfUsers.Value = new decimal(new int[] {
             1,
@@ -819,7 +818,7 @@
             // UserLabel
             // 
             this.UserLabel.AutoSize = true;
-            this.UserLabel.Location = new System.Drawing.Point(15, 25);
+            this.UserLabel.Location = new System.Drawing.Point(15, 22);
             this.UserLabel.Name = "UserLabel";
             this.UserLabel.Size = new System.Drawing.Size(84, 13);
             this.UserLabel.TabIndex = 0;
@@ -828,7 +827,7 @@
             // CollaborativeOptions
             // 
             this.CollaborativeOptions.Controls.Add(this.label5);
-            this.CollaborativeOptions.Location = new System.Drawing.Point(3, 199);
+            this.CollaborativeOptions.Location = new System.Drawing.Point(336, 199);
             this.CollaborativeOptions.Name = "CollaborativeOptions";
             this.CollaborativeOptions.Size = new System.Drawing.Size(327, 51);
             this.CollaborativeOptions.TabIndex = 1;
@@ -848,20 +847,24 @@
             // 
             this.panel1.Controls.Add(this.label11);
             this.panel1.Controls.Add(this.TestingSetSize);
+            this.panel1.Controls.Add(this.ContentBased_MinimumItemsRated);
             this.panel1.Controls.Add(this.label10);
+            this.panel1.Controls.Add(this.label12);
             this.panel1.Controls.Add(this.label9);
+            this.panel1.Controls.Add(this.ContentBased_AmountOfUsers);
             this.panel1.Controls.Add(this.TrainingSetSize);
+            this.panel1.Controls.Add(this.UserLabel);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label7);
-            this.panel1.Location = new System.Drawing.Point(336, 199);
+            this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(327, 73);
+            this.panel1.Size = new System.Drawing.Size(327, 137);
             this.panel1.TabIndex = 2;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(279, 53);
+            this.label11.Location = new System.Drawing.Point(279, 106);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(15, 13);
             this.label11.TabIndex = 7;
@@ -869,7 +872,7 @@
             // 
             // TestingSetSize
             // 
-            this.TestingSetSize.Location = new System.Drawing.Point(139, 49);
+            this.TestingSetSize.Location = new System.Drawing.Point(139, 102);
             this.TestingSetSize.Maximum = new decimal(new int[] {
             99,
             0,
@@ -893,7 +896,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(15, 53);
+            this.label10.Location = new System.Drawing.Point(15, 106);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(80, 13);
             this.label10.TabIndex = 5;
@@ -902,7 +905,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(279, 26);
+            this.label9.Location = new System.Drawing.Point(279, 79);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(15, 13);
             this.label9.TabIndex = 4;
@@ -910,7 +913,7 @@
             // 
             // TrainingSetSize
             // 
-            this.TrainingSetSize.Location = new System.Drawing.Point(139, 22);
+            this.TrainingSetSize.Location = new System.Drawing.Point(139, 75);
             this.TrainingSetSize.Maximum = new decimal(new int[] {
             99,
             0,
@@ -934,7 +937,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(15, 26);
+            this.label8.Location = new System.Drawing.Point(15, 79);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(83, 13);
             this.label8.TabIndex = 3;
@@ -962,8 +965,19 @@
             this.panel2.Controls.Add(this.ResultContainer);
             this.panel2.Location = new System.Drawing.Point(0, 27);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(707, 555);
+            this.panel2.Size = new System.Drawing.Size(707, 638);
             this.panel2.TabIndex = 8;
+            // 
+            // LoadDataButton
+            // 
+            this.LoadDataButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LoadDataButton.Location = new System.Drawing.Point(6, 235);
+            this.LoadDataButton.Name = "LoadDataButton";
+            this.LoadDataButton.Size = new System.Drawing.Size(80, 23);
+            this.LoadDataButton.TabIndex = 13;
+            this.LoadDataButton.Text = "Load data";
+            this.LoadDataButton.UseVisualStyleBackColor = true;
+            this.LoadDataButton.Click += new System.EventHandler(this.LoadDataButton_Click);
             // 
             // dataSetOptionBindingSource
             // 
@@ -977,7 +991,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(714, 612);
+            this.ClientSize = new System.Drawing.Size(714, 690);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.StatusStrip);
             this.Controls.Add(this.menuStrip1);
@@ -1108,6 +1122,7 @@
         private System.Windows.Forms.Panel ContentBased_GeneticPanel;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button LoadDataButton;
     }
 }
 

@@ -21,6 +21,11 @@ namespace Recommender.Common.Logger
         {
             Logs.Add(new LogItem(LogType.ProgressReport, progress));
         }
+        
+        public void AddWarningReport(WarningReport report)
+        {
+            Logs.Add(new LogItem(LogType.WarningReport, report));
+        }
 
         public void AddErrorReport(int progress)
         {
@@ -64,6 +69,7 @@ namespace Recommender.Common.Logger
     public enum LogType
     {
         ProgressReport,
+        WarningReport,
         ErrorReport,
         Message
     }
