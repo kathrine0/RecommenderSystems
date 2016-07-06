@@ -57,8 +57,10 @@ namespace Recommender.GUI
             switch (logItem.Type)
             {
                 case LogType.ProgressReport:
-
                     ThreadSafeProgressReport(logItem.Value as ProgressState);
+                    break;
+                case LogType.IncrementProgress:
+                    ThreadSafeIncrementProgress((double)logItem.Value);
                     break;
                 case LogType.WarningReport:
                     ThreadSafeWarningReport(logItem.Value as WarningReport);
@@ -66,11 +68,13 @@ namespace Recommender.GUI
             }
         }
 
+        private double _progressStore = 0;
         private void ThreadSafeProgressReport(ProgressState progressState)
         {
             this.StatusStrip.PerformSafely(() =>
             {
                 //update progressbar
+                _progressStore = progressState.Percentage;
                 this.ProgressBar.Value = progressState.Percentage;
 
                 //update status text
@@ -79,13 +83,32 @@ namespace Recommender.GUI
                 if (!string.IsNullOrEmpty(progressState.StatusText))
                     statusText = progressState.StatusText;
 
-                this.StatusLabel.Text = progressState.StatusText + " " + ProgressBar.Value.ToString() + "%";
+                this.StatusLabel.Text = statusText;
+                this.ProcentLabel.Text = ProgressBar.Value.ToString() + "%";
 
             });
 
             //update resultbox text
             if (!string.IsNullOrEmpty(progressState.ResultBoxText))
                 this.ResultBox.PerformSafely(() => AddResultBoxText(progressState.ResultBoxText));
+
+            if (_progressStore >= 100)
+                _progressStore = 0;
+        }
+
+        private void ThreadSafeIncrementProgress(double progressStep)
+        {
+            this.StatusStrip.PerformSafely(() =>
+            {
+                _progressStore += progressStep;
+                this.ProgressBar.Value = (int)Math.Round(_progressStore);
+
+                this.ProcentLabel.Text = ProgressBar.Value.ToString() + "%";
+            });
+
+
+            if (_progressStore >= 100)
+                _progressStore = 0;
         }
 
         private void ThreadSafeWarningReport(WarningReport warningReport)
@@ -104,6 +127,11 @@ namespace Recommender.GUI
         private void SetupRecommenderEngine()
         {
             _recommenderEngine = new RecommenderEngine(_logger);
+
+            //data settings
+            _recommenderEngine.NumberOfUsers = decimal.ToInt32(this.ContentBased_AmountOfUsers.Value);
+            _recommenderEngine.MinimumItemsRated = decimal.ToInt32(this.ContentBased_MinimumItemsRated.Value);
+            _recommenderEngine.SetTrainingSetRatio(this.TrainingSetSize.Value);
         }
 
         private void SetupRecommender()
@@ -122,8 +150,6 @@ namespace Recommender.GUI
                 default:
                     throw new ArgumentOutOfRangeException("Unknown recommender type");
             }
-
-            _recommenderEngine.SetTrainingSetRatio(this.TrainingSetSize.Value);
         }
 
         private void ChooseCollaborativeAlgorithm()
@@ -166,11 +192,7 @@ namespace Recommender.GUI
                 default:
                     throw new ArgumentOutOfRangeException("Unknown recommender type");
             }
-
-            //data settings
-            _recommenderEngine.NumberOfUsers = decimal.ToInt32(this.ContentBased_AmountOfUsers.Value);
-            _recommenderEngine.MinimumItemsRated = decimal.ToInt32(this.ContentBased_MinimumItemsRated.Value);
-
+            
             ((NeuroRecommender)_recommenderEngine.Recommender).MinimumRepeatingFeatures = decimal.ToInt32(this.ContentBased_MinFeatures.Value);
 
             //neuro settings

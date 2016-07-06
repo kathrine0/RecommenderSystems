@@ -13,6 +13,7 @@ using Recommender.Core.Enums;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using Recommender.Common.Logger;
+using System.Text;
 
 namespace Recommender.Core.MachineLearning
 { 
@@ -21,9 +22,7 @@ namespace Recommender.Core.MachineLearning
     {
         ///Stores neural networks per every user
         private IDictionary<int, ActivationNetwork> _networks;
-
         private IActivationFunction _activationFunction;
-
         private IDictionary<int, NeuralData> _neuralData;
 
 
@@ -31,45 +30,43 @@ namespace Recommender.Core.MachineLearning
 
         //neural network parameters
         private int _iterationLimit = 1000;
+        private TeacherFunction _teacherFunction = TeacherFunction.BackProp;
+        private double _learningRate = 0.1;
+        private double _momentum = 0.0;
+        private double _sigmoidAlphaValue = 2.0;
+        private double _learningErrorLimit = 0.1;
+        private int _populationSize = 100;
+        private int _hiddenLayerNeurons = 1;
+        private bool _needToStop = false;
+        private int _minimumRepeatingFeatures = 2;
+        protected IFeaturedRatings _featuredRatings;
+
         public int IterationLimit
         {
             get { return _iterationLimit; }
             set { _iterationLimit = value; }
         }
-
-        private TeacherFunction _teacherFunction = TeacherFunction.BackProp;
         public TeacherFunction TeacherFunction
         {
             get { return _teacherFunction; }
             set { _teacherFunction = value; }
         }
-
-
-        private double _learningRate = 0.1;
         public double LearningRate {
             get { return _learningRate; }
             set { _learningRate = value; }
         }
-
-        private double _momentum = 0.0;
         public double Momentum {
             get { return _momentum; }
             set { _momentum = value; }
         }
-
-        private double _sigmoidAlphaValue = 2.0;
         public double SigmoidAlphaValue {
             get { return _sigmoidAlphaValue; }
             set { _sigmoidAlphaValue = value;  }
         }
-
-        private double _learningErrorLimit = 0.1;
         public double LearningErrorLimit {
             get { return _learningErrorLimit; }
             set { _learningErrorLimit = value; }
         }
-
-        private int _populationSize = 100;
         public int PopulationSize
         {
             get
@@ -82,29 +79,15 @@ namespace Recommender.Core.MachineLearning
                 _populationSize = value;
             }
         }
-
-        private int _hiddenLayerNeurons = 1;
         public int HiddenLayerNeurons {
             get { return _hiddenLayerNeurons; }
             set { _hiddenLayerNeurons = value; }
         }
-
-        private bool needToStop = false;
-
-        private int _minimumRepeatingFeatures = 2;
         public int MinimumRepeatingFeatures
         {
             get { return _minimumRepeatingFeatures = 2; }
             set { _minimumRepeatingFeatures = value; }
         }
-
-
-        public ActivationFunction ActivationFunctionType { get; set; }
-
-        public NeuroRecommender()
-        {
-        }
-
         public virtual IFeaturedRatings FeaturedRatings
         {
             get { return _featuredRatings; }
@@ -115,9 +98,6 @@ namespace Recommender.Core.MachineLearning
             }
         }
         /// <summary>rating data, including item features</summary>
-        protected IFeaturedRatings _featuredRatings;
-
-        ///
         public override IRatings Ratings
         {
             get { return ratings; }
@@ -129,6 +109,12 @@ namespace Recommender.Core.MachineLearning
                 base.Ratings = value;
                 _featuredRatings = (IFeaturedRatings)value;
             }
+        }
+        public ActivationFunction ActivationFunctionType { get; set; }
+
+
+        public NeuroRecommender()
+        {
         }
 
         public override float Predict(int user_id, int item_id)
@@ -152,8 +138,40 @@ namespace Recommender.Core.MachineLearning
             return Convert.ToSingle(result[0]*MaxRating);
         }
 
+        public void LogTrainining()
+        {
+            var message = new StringBuilder();
+            message.AppendFormat(@"
+Training network with parameters:
+    Iteration limit:            {0}
+    Sigmoidal Alpha Value:      {1}
+    Hidden Layer Neurons:       {2}
+    Minimum Repeating Features: {3}
+", IterationLimit, SigmoidAlphaValue, HiddenLayerNeurons, MinimumRepeatingFeatures);
+
+            switch(TeacherFunction)
+            {
+                case TeacherFunction.BackProp:
+                    message.AppendFormat(@"
+    Teacher:                    Backpropagation
+    LearningRate:               {0}
+    Momentum:                   {1}", LearningRate, Momentum);
+                    break;
+                case TeacherFunction.Genetic:
+                    message.AppendFormat(@"
+    Teacher:                    Genetic Algorithm
+    Population size:            {0} ", PopulationSize);
+                    break;
+            }
+
+
+            Logger.AddProgressReport(new ProgressState(0, message.ToString(), null));
+        }
+
         public override void Train()
         {
+            LogTrainining();
+
             //set activation function
             SetActivationFunction();
 
@@ -169,6 +187,8 @@ namespace Recommender.Core.MachineLearning
 
         protected internal virtual void InitModel()
         {
+            Logger.AddProgressReport(new ProgressState(1, null, "Initializing model..."));
+
             _neuralData = new Dictionary<int, NeuralData>();
 
             if (FeaturedRatings.Features.Count < 1)
@@ -241,6 +261,12 @@ namespace Recommender.Core.MachineLearning
         {
             _networks = new ConcurrentDictionary<int, ActivationNetwork>();
 
+            double count = _neuralData.Count();
+            double progressStep = 80 /count;
+            //od 10 do 90 --- 80 jednostek
+
+            Logger.AddProgressReport(new ProgressState(10, null, "Learning.."));
+
             Parallel.ForEach(_neuralData, data =>
             {
                 //todo add bias --> Average
@@ -270,7 +296,7 @@ namespace Recommender.Core.MachineLearning
                 int iteration = 1;
                 double error = 0;
  
-                while (!needToStop)
+                while (!_needToStop)
                 {
                     error = teacher.RunEpoch(input, output);
                     //errorsList.Add(error);
@@ -291,6 +317,8 @@ namespace Recommender.Core.MachineLearning
                 Console.WriteLine(data.Key + " error: " + error.ToString() + " iterations:" + iteration.ToString());
 
                 _networks.Add(data.Key, network);
+
+                Logger.IncrementProgress(progressStep);
 
                 // show error's dynamics
                 //double[,] errors = new double[errorsList.Count, 2];

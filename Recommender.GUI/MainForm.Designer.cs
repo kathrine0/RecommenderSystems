@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.LoadDataButton = new System.Windows.Forms.Button();
             this.ContentBasedAlghoritmChoice = new System.Windows.Forms.Panel();
             this.ContentBasedAlgorithmCombo = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -53,9 +54,22 @@
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ProcentLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ResultContainer = new System.Windows.Forms.GroupBox();
             this.ResultBox = new System.Windows.Forms.RichTextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label11 = new System.Windows.Forms.Label();
+            this.TestingSetSize = new System.Windows.Forms.NumericUpDown();
+            this.ContentBased_MinimumItemsRated = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.ContentBased_AmountOfUsers = new System.Windows.Forms.NumericUpDown();
+            this.TrainingSetSize = new System.Windows.Forms.NumericUpDown();
+            this.UserLabel = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label26 = new System.Windows.Forms.Label();
             this.ContentBased_Teacher = new System.Windows.Forms.ComboBox();
@@ -85,23 +99,10 @@
             this.ContentBasedOptions = new System.Windows.Forms.Panel();
             this.ContentBased_MinFeatures = new System.Windows.Forms.NumericUpDown();
             this.label14 = new System.Windows.Forms.Label();
-            this.ContentBased_MinimumItemsRated = new System.Windows.Forms.NumericUpDown();
-            this.label12 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.ContentBased_AmountOfUsers = new System.Windows.Forms.NumericUpDown();
-            this.UserLabel = new System.Windows.Forms.Label();
             this.CollaborativeOptions = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label11 = new System.Windows.Forms.Label();
-            this.TestingSetSize = new System.Windows.Forms.NumericUpDown();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.TrainingSetSize = new System.Windows.Forms.NumericUpDown();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.LoadDataButton = new System.Windows.Forms.Button();
             this.dataSetOptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.mainFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
@@ -111,6 +112,11 @@
             this.StatusStrip.SuspendLayout();
             this.ResultContainer.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TestingSetSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ContentBased_MinimumItemsRated)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ContentBased_AmountOfUsers)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TrainingSetSize)).BeginInit();
             this.panel3.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.ContentBased_BackPropPanel.SuspendLayout();
@@ -125,12 +131,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ContentBased_HiddenLayerNeurons)).BeginInit();
             this.ContentBasedOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ContentBased_MinFeatures)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ContentBased_MinimumItemsRated)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ContentBased_AmountOfUsers)).BeginInit();
             this.CollaborativeOptions.SuspendLayout();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.TestingSetSize)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TrainingSetSize)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataSetOptionBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).BeginInit();
@@ -155,6 +156,17 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
+            // 
+            // LoadDataButton
+            // 
+            this.LoadDataButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LoadDataButton.Location = new System.Drawing.Point(6, 235);
+            this.LoadDataButton.Name = "LoadDataButton";
+            this.LoadDataButton.Size = new System.Drawing.Size(80, 23);
+            this.LoadDataButton.TabIndex = 13;
+            this.LoadDataButton.Text = "Load data";
+            this.LoadDataButton.UseVisualStyleBackColor = true;
+            this.LoadDataButton.Click += new System.EventHandler(this.LoadDataButton_Click);
             // 
             // ContentBasedAlghoritmChoice
             // 
@@ -331,6 +343,7 @@
             // 
             this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ProgressBar,
+            this.ProcentLabel,
             this.StatusLabel});
             this.StatusStrip.Location = new System.Drawing.Point(0, 668);
             this.StatusStrip.Name = "StatusStrip";
@@ -348,6 +361,11 @@
             this.StatusLabel.Name = "StatusLabel";
             this.StatusLabel.Size = new System.Drawing.Size(26, 17);
             this.StatusLabel.Text = "Idle";
+            // 
+            // ProcentLabel
+            // 
+            this.ProcentLabel.Name = "ProcentLabel";
+            this.ProcentLabel.Size = new System.Drawing.Size(0, 17);
             // 
             // ResultContainer
             // 
@@ -385,6 +403,173 @@
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(673, 362);
             this.flowLayoutPanel1.TabIndex = 7;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.label11);
+            this.panel1.Controls.Add(this.TestingSetSize);
+            this.panel1.Controls.Add(this.ContentBased_MinimumItemsRated);
+            this.panel1.Controls.Add(this.label10);
+            this.panel1.Controls.Add(this.label12);
+            this.panel1.Controls.Add(this.label9);
+            this.panel1.Controls.Add(this.ContentBased_AmountOfUsers);
+            this.panel1.Controls.Add(this.TrainingSetSize);
+            this.panel1.Controls.Add(this.UserLabel);
+            this.panel1.Controls.Add(this.label8);
+            this.panel1.Controls.Add(this.label7);
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(327, 137);
+            this.panel1.TabIndex = 2;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(279, 106);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(15, 13);
+            this.label11.TabIndex = 7;
+            this.label11.Text = "%";
+            // 
+            // TestingSetSize
+            // 
+            this.TestingSetSize.Location = new System.Drawing.Point(139, 102);
+            this.TestingSetSize.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
+            this.TestingSetSize.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.TestingSetSize.Name = "TestingSetSize";
+            this.TestingSetSize.Size = new System.Drawing.Size(134, 20);
+            this.TestingSetSize.TabIndex = 6;
+            this.TestingSetSize.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.TestingSetSize.ValueChanged += new System.EventHandler(this.TestingSetSize_ValueChanged);
+            // 
+            // ContentBased_MinimumItemsRated
+            // 
+            this.ContentBased_MinimumItemsRated.Location = new System.Drawing.Point(139, 46);
+            this.ContentBased_MinimumItemsRated.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.ContentBased_MinimumItemsRated.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.ContentBased_MinimumItemsRated.Name = "ContentBased_MinimumItemsRated";
+            this.ContentBased_MinimumItemsRated.Size = new System.Drawing.Size(134, 20);
+            this.ContentBased_MinimumItemsRated.TabIndex = 4;
+            this.ContentBased_MinimumItemsRated.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(15, 106);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(80, 13);
+            this.label10.TabIndex = 5;
+            this.label10.Text = "Testing set size";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(15, 48);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(102, 13);
+            this.label12.TabIndex = 3;
+            this.label12.Text = "Minimum items rated";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(279, 79);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(15, 13);
+            this.label9.TabIndex = 4;
+            this.label9.Text = "%";
+            // 
+            // ContentBased_AmountOfUsers
+            // 
+            this.ContentBased_AmountOfUsers.Location = new System.Drawing.Point(139, 20);
+            this.ContentBased_AmountOfUsers.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.ContentBased_AmountOfUsers.Name = "ContentBased_AmountOfUsers";
+            this.ContentBased_AmountOfUsers.Size = new System.Drawing.Size(134, 20);
+            this.ContentBased_AmountOfUsers.TabIndex = 1;
+            this.ContentBased_AmountOfUsers.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // TrainingSetSize
+            // 
+            this.TrainingSetSize.Location = new System.Drawing.Point(139, 75);
+            this.TrainingSetSize.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
+            this.TrainingSetSize.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.TrainingSetSize.Name = "TrainingSetSize";
+            this.TrainingSetSize.Size = new System.Drawing.Size(134, 20);
+            this.TrainingSetSize.TabIndex = 3;
+            this.TrainingSetSize.Value = new decimal(new int[] {
+            80,
+            0,
+            0,
+            0});
+            this.TrainingSetSize.ValueChanged += new System.EventHandler(this.TrainingSetSize_ValueChanged);
+            // 
+            // UserLabel
+            // 
+            this.UserLabel.AutoSize = true;
+            this.UserLabel.Location = new System.Drawing.Point(15, 22);
+            this.UserLabel.Name = "UserLabel";
+            this.UserLabel.Size = new System.Drawing.Size(84, 13);
+            this.UserLabel.TabIndex = 0;
+            this.UserLabel.Text = "Number of users";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(15, 79);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(83, 13);
+            this.label8.TabIndex = 3;
+            this.label8.Text = "Training set size";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label7.Location = new System.Drawing.Point(15, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(81, 13);
+            this.label7.TabIndex = 3;
+            this.label7.Text = "General options";
             // 
             // panel3
             // 
@@ -716,7 +901,7 @@
             this.ContentBased_HiddenLayerNeurons.Size = new System.Drawing.Size(150, 20);
             this.ContentBased_HiddenLayerNeurons.TabIndex = 23;
             this.ContentBased_HiddenLayerNeurons.Value = new decimal(new int[] {
-            10,
+            1,
             0,
             0,
             0});
@@ -757,37 +942,6 @@
             this.label14.TabIndex = 12;
             this.label14.Text = "Min repeating features";
             // 
-            // ContentBased_MinimumItemsRated
-            // 
-            this.ContentBased_MinimumItemsRated.Location = new System.Drawing.Point(139, 46);
-            this.ContentBased_MinimumItemsRated.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.ContentBased_MinimumItemsRated.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.ContentBased_MinimumItemsRated.Name = "ContentBased_MinimumItemsRated";
-            this.ContentBased_MinimumItemsRated.Size = new System.Drawing.Size(134, 20);
-            this.ContentBased_MinimumItemsRated.TabIndex = 4;
-            this.ContentBased_MinimumItemsRated.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(15, 48);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(102, 13);
-            this.label12.TabIndex = 3;
-            this.label12.Text = "Minimum items rated";
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -797,32 +951,6 @@
             this.label4.Size = new System.Drawing.Size(155, 13);
             this.label4.TabIndex = 2;
             this.label4.Text = "Content-Based Filtering Options";
-            // 
-            // ContentBased_AmountOfUsers
-            // 
-            this.ContentBased_AmountOfUsers.Location = new System.Drawing.Point(139, 20);
-            this.ContentBased_AmountOfUsers.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.ContentBased_AmountOfUsers.Name = "ContentBased_AmountOfUsers";
-            this.ContentBased_AmountOfUsers.Size = new System.Drawing.Size(134, 20);
-            this.ContentBased_AmountOfUsers.TabIndex = 1;
-            this.ContentBased_AmountOfUsers.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // UserLabel
-            // 
-            this.UserLabel.AutoSize = true;
-            this.UserLabel.Location = new System.Drawing.Point(15, 22);
-            this.UserLabel.Name = "UserLabel";
-            this.UserLabel.Size = new System.Drawing.Size(84, 13);
-            this.UserLabel.TabIndex = 0;
-            this.UserLabel.Text = "Number of users";
             // 
             // CollaborativeOptions
             // 
@@ -843,116 +971,6 @@
             this.label5.TabIndex = 3;
             this.label5.Text = "Collaborative Filtering Options";
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.label11);
-            this.panel1.Controls.Add(this.TestingSetSize);
-            this.panel1.Controls.Add(this.ContentBased_MinimumItemsRated);
-            this.panel1.Controls.Add(this.label10);
-            this.panel1.Controls.Add(this.label12);
-            this.panel1.Controls.Add(this.label9);
-            this.panel1.Controls.Add(this.ContentBased_AmountOfUsers);
-            this.panel1.Controls.Add(this.TrainingSetSize);
-            this.panel1.Controls.Add(this.UserLabel);
-            this.panel1.Controls.Add(this.label8);
-            this.panel1.Controls.Add(this.label7);
-            this.panel1.Location = new System.Drawing.Point(3, 3);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(327, 137);
-            this.panel1.TabIndex = 2;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(279, 106);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(15, 13);
-            this.label11.TabIndex = 7;
-            this.label11.Text = "%";
-            // 
-            // TestingSetSize
-            // 
-            this.TestingSetSize.Location = new System.Drawing.Point(139, 102);
-            this.TestingSetSize.Maximum = new decimal(new int[] {
-            99,
-            0,
-            0,
-            0});
-            this.TestingSetSize.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.TestingSetSize.Name = "TestingSetSize";
-            this.TestingSetSize.Size = new System.Drawing.Size(134, 20);
-            this.TestingSetSize.TabIndex = 6;
-            this.TestingSetSize.Value = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-            this.TestingSetSize.ValueChanged += new System.EventHandler(this.TestingSetSize_ValueChanged);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(15, 106);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(80, 13);
-            this.label10.TabIndex = 5;
-            this.label10.Text = "Testing set size";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(279, 79);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(15, 13);
-            this.label9.TabIndex = 4;
-            this.label9.Text = "%";
-            // 
-            // TrainingSetSize
-            // 
-            this.TrainingSetSize.Location = new System.Drawing.Point(139, 75);
-            this.TrainingSetSize.Maximum = new decimal(new int[] {
-            99,
-            0,
-            0,
-            0});
-            this.TrainingSetSize.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.TrainingSetSize.Name = "TrainingSetSize";
-            this.TrainingSetSize.Size = new System.Drawing.Size(134, 20);
-            this.TrainingSetSize.TabIndex = 3;
-            this.TrainingSetSize.Value = new decimal(new int[] {
-            80,
-            0,
-            0,
-            0});
-            this.TrainingSetSize.ValueChanged += new System.EventHandler(this.TrainingSetSize_ValueChanged);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(15, 79);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(83, 13);
-            this.label8.TabIndex = 3;
-            this.label8.Text = "Training set size";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label7.Location = new System.Drawing.Point(15, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(81, 13);
-            this.label7.TabIndex = 3;
-            this.label7.Text = "General options";
-            // 
             // panel2
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -967,17 +985,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(707, 638);
             this.panel2.TabIndex = 8;
-            // 
-            // LoadDataButton
-            // 
-            this.LoadDataButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LoadDataButton.Location = new System.Drawing.Point(6, 235);
-            this.LoadDataButton.Name = "LoadDataButton";
-            this.LoadDataButton.Size = new System.Drawing.Size(80, 23);
-            this.LoadDataButton.TabIndex = 13;
-            this.LoadDataButton.Text = "Load data";
-            this.LoadDataButton.UseVisualStyleBackColor = true;
-            this.LoadDataButton.Click += new System.EventHandler(this.LoadDataButton_Click);
             // 
             // dataSetOptionBindingSource
             // 
@@ -1012,6 +1019,12 @@
             this.StatusStrip.PerformLayout();
             this.ResultContainer.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TestingSetSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ContentBased_MinimumItemsRated)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ContentBased_AmountOfUsers)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TrainingSetSize)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.flowLayoutPanel2.ResumeLayout(false);
@@ -1030,14 +1043,8 @@
             this.ContentBasedOptions.ResumeLayout(false);
             this.ContentBasedOptions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ContentBased_MinFeatures)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ContentBased_MinimumItemsRated)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ContentBased_AmountOfUsers)).EndInit();
             this.CollaborativeOptions.ResumeLayout(false);
             this.CollaborativeOptions.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.TestingSetSize)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TrainingSetSize)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataSetOptionBindingSource)).EndInit();
@@ -1123,6 +1130,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button LoadDataButton;
+        private System.Windows.Forms.ToolStripStatusLabel ProcentLabel;
     }
 }
 

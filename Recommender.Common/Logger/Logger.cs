@@ -36,6 +36,11 @@ namespace Recommender.Common.Logger
         {
             throw new NotImplementedException();
         }
+
+        public void IncrementProgress(double progressStep)
+        {
+            Logs.Add(new LogItem(LogType.IncrementProgress, progressStep));
+        }
     }
 
 
@@ -69,6 +74,7 @@ namespace Recommender.Common.Logger
     public enum LogType
     {
         ProgressReport,
+        IncrementProgress,
         WarningReport,
         ErrorReport,
         Message

@@ -45,7 +45,6 @@ namespace Recommender.Core.Engine
         public bool DataLoaded { get; protected set; }
         public Logger Logger { get; protected set; }
 
-
         public RecommenderEngine(Logger logger)
         {
             Logger = logger;
@@ -89,17 +88,18 @@ Loading data:
     Minimum rated items: {1}
     Ratio: {2}/{3}", NumberOfUsers, MinimumItemsRated, TrainingSetRatio * 100, 100 - TrainingSetRatio * 100);
 
-            Logger.Logs.Add(new LogItem(LogType.ProgressReport, new ProgressState(0, reportText, "Loading data...")));
+
+            Logger.AddProgressReport(new ProgressState(0, reportText, "Loading data..."));
 
             //PrepareSets();
             //for now - always load featured sets. Will be easier to handle
             _service.LoadFeaturedData(out _trainingData, out _testData, TrainingSetRatio, NumberOfUsers, MinimumItemsRated);
 
-            Logger.Logs.Add(new LogItem(LogType.ProgressReport, new ProgressState(90, null, null)));
+            Logger.AddProgressReport(new ProgressState(90, null, null));
 
             DataLoaded = true;
 
-            Logger.Logs.Add(new LogItem(LogType.ProgressReport, new ProgressState(100, "Data Loaded", "Finished...")));
+            Logger.AddProgressReport(new ProgressState(100, "Data Loaded", "Finished..."));
         }
 
         //public abstract void PrepareSets();
@@ -128,10 +128,15 @@ Loading data:
 
         public RatingPredictionEvaluationResults GetResults()
         {
-            
+            Logger.AddProgressReport(new ProgressState(90, "", "Evaluating results..."));
             // measure the accuracy on the test data set
-            return Recommender.Evaluate(TestData);
-            
+            var result = Recommender.Evaluate(TestData);
+
+            var resString = result.ToString() + "\n =========================================";
+
+            Logger.AddProgressReport(new ProgressState(100, resString, "Finished"));
+
+            return result;
             // make a prediction for a certain user and item
             //Console.WriteLine(_recommender.Predict(1, 1));
 
