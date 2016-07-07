@@ -16,7 +16,7 @@ namespace Recommender.Core.Engine
     /// <summary>
     /// This is the main application class
     /// </summary>
-    public class RecommenderEngine
+    public abstract class RecommenderEngine
     {
 
         protected IRatingService _service;
@@ -33,6 +33,8 @@ namespace Recommender.Core.Engine
             get { return _testData; }
             protected set { _testData = value; }
         }
+
+
         public double TrainingSetRatio { get; protected set; }
         [Range(1, int.MaxValue)]
         public int NumberOfUsers { get; set; }
@@ -87,15 +89,14 @@ namespace Recommender.Core.Engine
 Loading data:
     Number of users: {0} 
     Minimum rated items: {1}
-    Ratio: {2}/{3}", NumberOfUsers, MinimumItemsRated, TrainingSetRatio * 100, 100 - TrainingSetRatio * 100);
+    Ratio: {2}/{3}
+", NumberOfUsers, MinimumItemsRated, TrainingSetRatio * 100, 100 - TrainingSetRatio * 100);
 
 
             Logger.AddProgressReport(new ProgressState(0, reportText, "Loading data..."));
 
-            //PrepareSets();
-            //for now - always load featured sets. Will be easier to handle
-            _service.LoadFeaturedData(out _trainingData, out _testData, TrainingSetRatio, NumberOfUsers, MinimumItemsRated);
-
+            PrepareSets();
+            
             Logger.AddProgressReport(new ProgressState(90, null, null));
 
             DataLoaded = true;
@@ -103,7 +104,7 @@ Loading data:
             Logger.AddProgressReport(new ProgressState(100, "Data Loaded", "Finished..."));
         }
 
-        //public abstract void PrepareSets();
+        public abstract void PrepareSets();
 
         public virtual bool TeachRecommender()
         {
@@ -124,8 +125,12 @@ Loading data:
             
             Recommender.Train();
 
-            return true;
-            //return ((NeuroRecommender)Recommender).RecommenderStatus;
+
+            //if recommender supports logs:
+            if(Recommender is ILoggable)
+                return ((ILoggable)Recommender).RecommenderStatus;
+            else
+                return true;
         }
 
         public RatingPredictionEvaluationResults GetResults()

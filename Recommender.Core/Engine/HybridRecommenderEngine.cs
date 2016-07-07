@@ -7,14 +7,15 @@ namespace Recommender.Core.Engine
     public class HybridRecommenderEngine : RecommenderEngine
     {
 
+        public HybridRecommenderEngine(RecommenderEngine engine) : base(engine)
+        { }
+
         public HybridRecommenderEngine(Logger logger) : base(logger)
+        { }
+
+        public override void PrepareSets()
         {
-
+            throw new NotImplementedException();
         }
-
-        //public override void PrepareSets()
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

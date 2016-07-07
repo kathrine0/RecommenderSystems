@@ -141,16 +141,6 @@ namespace Recommender.GUI
 
         private void SetupRecommenderEngine()
         {
-            _recommenderEngine = new RecommenderEngine(_logger);
-
-            //data settings
-            _recommenderEngine.NumberOfUsers = decimal.ToInt32(this.ContentBased_AmountOfUsers.Value);
-            _recommenderEngine.MinimumItemsRated = decimal.ToInt32(this.ContentBased_MinimumItemsRated.Value);
-            _recommenderEngine.SetTrainingSetRatio(this.TrainingSetSize.Value);
-        }
-
-        private void SetupRecommender()
-        {
             switch ((RecommenderType)(this.recommenderCombo.SelectedValue))
             {
                 case RecommenderType.Collaborative:
@@ -165,25 +155,45 @@ namespace Recommender.GUI
                 default:
                     throw new ArgumentOutOfRangeException("Unknown recommender type");
             }
+
+            //data settings
+            _recommenderEngine.NumberOfUsers = decimal.ToInt32(this.ContentBased_AmountOfUsers.Value);
+            _recommenderEngine.MinimumItemsRated = decimal.ToInt32(this.ContentBased_MinimumItemsRated.Value);
+            _recommenderEngine.SetTrainingSetRatio(this.TrainingSetSize.Value);
+        }
+
+        private void SetupRecommenderSettings()
+        {
+            switch ((RecommenderType)(this.recommenderCombo.SelectedValue))
+            {
+                case RecommenderType.Collaborative:
+                    //ChooseCollaborativeAlgorithm();
+                    break;
+                case RecommenderType.ContentBased:
+                    SetupNeuroSettings();
+                    break;
+                case RecommenderType.Hybrid:
+                    //ChooseHybridAlgorithm();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("Unknown recommender type");
+            }
         }
 
         private void ChooseCollaborativeAlgorithm()
         {
-            _recommenderEngine = new CollaborativeRecommenderEngine(_recommenderEngine);
+            _recommenderEngine = new CollaborativeRecommenderEngine(_logger);
 
             switch ((CollaborativeAlgorithm)(this.CollaborativeAlgorithmCombo.SelectedValue))
             {
                 case CollaborativeAlgorithm.MatrixFactorization:
                     _recommenderEngine.Recommender = new MatrixFactorization();
-                    AddResultBoxText("Selected algorithm: Matrix Factorization");
                     break;
                 case CollaborativeAlgorithm.BiasedMatrixFactorization:
                     _recommenderEngine.Recommender = new BiasedMatrixFactorization();
-                    AddResultBoxText("Selected algorithm: Biased Matrix Factorization");
                     break;
                 case CollaborativeAlgorithm.SVDplusplus:
                     _recommenderEngine.Recommender = new SVDPlusPlus();
-                    AddResultBoxText("Selected algorithm: SVD++");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("Unknown recommender type");
@@ -192,22 +202,12 @@ namespace Recommender.GUI
 
         private void ChooseContentBasedAlgorithm()
         {
-            _recommenderEngine = new ContentRecommenderEngine(_recommenderEngine);
+            _recommenderEngine = new ContentRecommenderEngine(_logger);
             _recommenderEngine.Recommender = new NeuroRecommender();
+        }
 
-            switch ((ContentBasedAlgorithm)(this.ContentBasedAlgorithmCombo.SelectedValue))
-            {
-                case ContentBasedAlgorithm.NeuralNetwork:
-                    AddResultBoxText("Selected algorithm: Neural Network");
-                    break;
-                case ContentBasedAlgorithm.NeuralNetworkWithBias:
-                    AddResultBoxText("Selected algorithm: Biased Neural Network");
-                    throw new NotImplementedException();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("Unknown recommender type");
-            }
-            
+        private void SetupNeuroSettings()
+        {
             ((NeuroRecommender)_recommenderEngine.Recommender).MinimumRepeatingFeatures = decimal.ToInt32(this.ContentBased_MinFeatures.Value);
 
             //neuro settings
@@ -223,7 +223,6 @@ namespace Recommender.GUI
 
             //logger
             ((NeuroRecommender)_recommenderEngine.Recommender).Logger = _logger;
-
         }
 
         private void ChooseHybridAlgorithm()
@@ -268,7 +267,7 @@ namespace Recommender.GUI
 
         private void RunButton_Click(object sender, EventArgs e)
         {
-            SetupRecommender();
+            SetupRecommenderSettings();
                         
             var cts = new CancellationToken();
 
@@ -308,6 +307,8 @@ namespace Recommender.GUI
                     this.ContentBasedOptions.Visible = true;
                     break;
             }
+
+            ThreadSafeButtonToggle(true, false, false);
         }
 
         private void ContentBased_Teacher_SelectedIndexChanged(object sender, EventArgs e)

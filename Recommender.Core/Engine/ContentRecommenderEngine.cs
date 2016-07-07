@@ -7,9 +7,10 @@ namespace Recommender.Core.Engine
     public class ContentRecommenderEngine : RecommenderEngine
     {
         public ContentRecommenderEngine(RecommenderEngine engine) : base(engine)
-        {
+        { }
 
-        }
+        public ContentRecommenderEngine(Logger logger) : base(logger)
+        { }
 
         public override IRatingPredictor Recommender
         {
@@ -23,31 +24,12 @@ namespace Recommender.Core.Engine
             }
         }
 
-        //public override void PrepareSets()
-        //{
-        //    _service.LoadFeaturedData(out TrainingData, out TestData, _trainingSetRatio, NumberOfUsers, MinimumItemsRated);
-        //}
-
-        public override bool TeachRecommender()
+        public override void PrepareSets()
         {
-            if (!DataLoaded)
-            {
-                Logger.AddWarningReport(new WarningReport("No data loaded"));
-                return false;
-            }
+            var reportText = "    Data type: FEATURED\n";
+            Logger.AddProgressReport(new ProgressState(1, reportText, null));
 
-            Recommender.Ratings = TrainingData;
-            if (Recommender == null)
-            {
-                Logger.AddWarningReport(new WarningReport("Recommender not set"));
-                return false;
-            }
-
-            // set up the recommender
-
-            Recommender.Train();
-
-            return ((NeuroRecommender)Recommender).RecommenderStatus;
+            _service.LoadFeaturedData(out _trainingData, out _testData, TrainingSetRatio, NumberOfUsers, MinimumItemsRated);
         }
     }
 }
