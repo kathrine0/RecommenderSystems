@@ -27,9 +27,9 @@ namespace Recommender.Common.Logger
             Logs.Add(new LogItem(LogType.WarningReport, report));
         }
 
-        public void AddErrorReport(int progress)
+        public void AddErrorReport(ErrorReport report)
         {
-            throw new NotImplementedException();
+            Logs.Add(new LogItem(LogType.ErrorReport, report));
         }
 
         public void AddMessage(int progress)

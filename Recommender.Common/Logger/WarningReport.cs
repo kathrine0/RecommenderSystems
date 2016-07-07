@@ -6,14 +6,29 @@ using System.Threading.Tasks;
 
 namespace Recommender.Common.Logger
 {
-    public class WarningReport
+
+    public class Report
     {
-        public WarningReport(string message)
+        public Report(string message)
         {
             Message = message;
         }
 
 
         public string Message { get; set; }
+    }
+
+    public class ErrorReport : Report
+    {
+        public ErrorReport(string message): base(message)
+        { }
+
+    }
+
+    public class WarningReport : Report
+    {
+        public WarningReport(string message) : base(message)
+        { }
+
     }
 }

@@ -506,6 +506,11 @@
             // ContentBased_AmountOfUsers
             // 
             this.ContentBased_AmountOfUsers.Location = new System.Drawing.Point(139, 20);
+            this.ContentBased_AmountOfUsers.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
             this.ContentBased_AmountOfUsers.Minimum = new decimal(new int[] {
             1,
             0,

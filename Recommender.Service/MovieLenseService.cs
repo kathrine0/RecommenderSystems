@@ -60,11 +60,13 @@ namespace Recommender.Service
 
             var sets = GetRatingSetsByUser(percentage, numberOfUsers, minimumItemsRated);
 
-            sets[0].MapTo<RatingWithFeaturesDTO>().ForEach(x => {
+            sets[0].MapTo<RatingWithFeaturesDTO>().ForEach(x =>
+            {
                 trainRatings.Add(x.UserId, x.ItemId, x.Rating, x.ItemFeatures);
             });
 
-            sets[1].MapTo<RatingWithFeaturesDTO>().ForEach(x => {
+            sets[1].MapTo<RatingWithFeaturesDTO>().ForEach(x =>
+            {
                 testRatings.Add(x.UserId, x.ItemId, x.Rating, x.ItemFeatures);
             });
 

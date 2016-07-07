@@ -2,6 +2,7 @@
 using MyMediaLite.Eval;
 using MyMediaLite.RatingPrediction;
 using Recommender.Common.Logger;
+using Recommender.Core.MachineLearning;
 using Recommender.Service;
 using System;
 using System.Collections.Generic;
@@ -104,7 +105,7 @@ Loading data:
 
         //public abstract void PrepareSets();
 
-        public bool TeachRecommender()
+        public virtual bool TeachRecommender()
         {
             if (!DataLoaded)
             {
@@ -124,6 +125,7 @@ Loading data:
             Recommender.Train();
 
             return true;
+            //return ((NeuroRecommender)Recommender).RecommenderStatus;
         }
 
         public RatingPredictionEvaluationResults GetResults()

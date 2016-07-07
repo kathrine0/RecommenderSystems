@@ -51,6 +51,7 @@ namespace Recommender.Core.MachineLearning
             get { return _teacherFunction; }
             set { _teacherFunction = value; }
         }
+        public bool RecommenderStatus { get; set; }
         public double LearningRate {
             get { return _learningRate; }
             set { _learningRate = value; }
@@ -85,7 +86,7 @@ namespace Recommender.Core.MachineLearning
         }
         public int MinimumRepeatingFeatures
         {
-            get { return _minimumRepeatingFeatures = 2; }
+            get { return _minimumRepeatingFeatures; }
             set { _minimumRepeatingFeatures = value; }
         }
         public virtual IFeaturedRatings FeaturedRatings
@@ -115,6 +116,7 @@ namespace Recommender.Core.MachineLearning
 
         public NeuroRecommender()
         {
+            RecommenderStatus = true;
         }
 
         public override float Predict(int user_id, int item_id)
@@ -172,6 +174,7 @@ Training network with parameters:
             Logger.AddProgressReport(new ProgressState(0, message.ToString(), null));
         }
 
+       
         public override void Train()
         {
             LogTrainining();
@@ -180,6 +183,8 @@ Training network with parameters:
             SetActivationFunction();
 
             InitModel();//ratings.RandomIndex
+
+            if (!RecommenderStatus) return;
 
             TrainNetworks();
         }
@@ -208,6 +213,14 @@ Training network with parameters:
                 var ratedItems = ParseRatedItems(userRatings);
                 var allFeatures = FetchDistinctFeatures(ratedItems);
                 var neuralData = BuildNeuralData(ratedItems, allFeatures);
+
+                if (neuralData.Input[0].Length == 0)
+                {
+                    Logger.AddErrorReport(new ErrorReport("Not enough features"));
+                    RecommenderStatus = false;
+                    return;
+                }
+
 
                 _neuralData.Add(userId, neuralData);
             }

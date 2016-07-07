@@ -65,6 +65,9 @@ namespace Recommender.GUI
                 case LogType.WarningReport:
                     ThreadSafeWarningReport(logItem.Value as WarningReport);
                     break;
+                case LogType.ErrorReport:
+                    ThreadSafeErrorReport(logItem.Value as ErrorReport);
+                    break;
             }
         }
 
@@ -114,6 +117,18 @@ namespace Recommender.GUI
         private void ThreadSafeWarningReport(WarningReport warningReport)
         {
             MessageBox.Show(warningReport.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        }
+
+        private void ThreadSafeErrorReport(ErrorReport errorReport)
+        {
+            MessageBox.Show(errorReport.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            this.StatusStrip.PerformSafely(() =>
+            {
+                this.ProgressBar.Value = 0;
+                this.ProcentLabel.Text = "";
+                this.StatusLabel.Text = "Finished";
+            });
         }
 
         #endregion logger
@@ -224,7 +239,11 @@ namespace Recommender.GUI
 
             var teachingResult = _recommenderEngine.TeachRecommender();
 
-            if (!teachingResult) return;//report error
+            if (!teachingResult)
+            {
+                ThreadSafeButtonToggle(true, true, false);
+                return;
+            }
 
             var result = _recommenderEngine.GetResults();
 
