@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Recommender.Service.DTO;
 using System.Data.Entity;
 using Recommender.Service.Data;
+using System.Threading;
 
 namespace Recommender.Service
 {
@@ -22,23 +23,23 @@ namespace Recommender.Service
 
         //LOAD BY USER
 
-        public void LoadBasicData(out IRatings _trainingData, out IRatings _testData, double ratio, int numberOfUsers, int minimumItemsRated)
+        public void LoadBasicData(out IRatings _trainingData, out IRatings _testData, double ratio, int numberOfUsers, int minimumItemsRated, CancellationToken token)
         {
             if (ratio < 0 || ratio > 1)
                 throw new ArgumentOutOfRangeException("ratio should be in range from 0 to 1");
 
-            var sets = GetBasicSets(ratio, numberOfUsers, minimumItemsRated);
+            var sets = GetBasicSets(ratio, numberOfUsers, minimumItemsRated, token);
 
             _trainingData = sets[0];
             _testData = sets[1];
         }
 
-        public void LoadFeaturedData(out IRatings _trainingData, out IRatings _testData, double ratio, int numberOfUsers, int minimumItemsRated)
+        public void LoadFeaturedData(out IRatings _trainingData, out IRatings _testData, double ratio, int numberOfUsers, int minimumItemsRated, CancellationToken token)
         {
             if (ratio < 0 || ratio > 1)
                 throw new ArgumentOutOfRangeException("ratio should be in range from 0 to 1");
 
-            var sets = GetFeaturedSets(ratio, numberOfUsers, minimumItemsRated);
+            var sets = GetFeaturedSets(ratio, numberOfUsers, minimumItemsRated, token);
 
             _trainingData = sets[0];
             _testData = sets[1];
@@ -47,7 +48,7 @@ namespace Recommender.Service
 
 
 
-        private IRatings[] GetBasicSets(double percentage, int numberOfUsers, int minimumItemsRated)
+        private IRatings[] GetBasicSets(double percentage, int numberOfUsers, int minimumItemsRated, CancellationToken token)
         {
             var trainRatings = new Ratings();
             var testRatings = new Ratings();
@@ -57,15 +58,21 @@ namespace Recommender.Service
                                 .Where(x => x.Count() > minimumItemsRated)
                                 .Take(numberOfUsers);
 
-            var sets = SplitSets(percentage, groupedRatings);
+            var sets = SplitSets(percentage, groupedRatings, token);
 
             sets[0].MapTo<RatingDTO>().ForEach(x =>
             {
+                if (token.IsCancellationRequested)
+                    throw new OperationCanceledException(token);
+
                 trainRatings.Add(x.UserId, x.ItemId, x.Rating);
             });
 
             sets[1].MapTo<RatingDTO>().ForEach(x =>
             {
+                if (token.IsCancellationRequested)
+                    throw new OperationCanceledException(token);
+
                 testRatings.Add(x.UserId, x.ItemId, x.Rating);
             });
 
@@ -73,7 +80,7 @@ namespace Recommender.Service
 
         }
 
-        private IFeaturedRatings[] GetFeaturedSets(double percentage, int numberOfUsers, int minimumItemsRated)
+        private IFeaturedRatings[] GetFeaturedSets(double percentage, int numberOfUsers, int minimumItemsRated, CancellationToken token)
         {
             var trainRatings = new FeaturedRatings();
             var testRatings = new FeaturedRatings();
@@ -83,28 +90,38 @@ namespace Recommender.Service
                                 .Where(x => x.Count() > minimumItemsRated)
                                 .Take(numberOfUsers);
 
-            var sets = SplitSets(percentage, groupedRatings);
+            var sets = SplitSets(percentage, groupedRatings, token);
 
             sets[0].MapTo<RatingWithFeaturesDTO>().ForEach(x =>
             {
+                if (token.IsCancellationRequested)
+                    throw new OperationCanceledException(token);
+
                 trainRatings.Add(x.UserId, x.ItemId, x.Rating, x.ItemFeatures);
             });
 
             sets[1].MapTo<RatingWithFeaturesDTO>().ForEach(x =>
             {
+                if (token.IsCancellationRequested)
+                    throw new OperationCanceledException(token);
+
                 testRatings.Add(x.UserId, x.ItemId, x.Rating, x.ItemFeatures);
             });
 
             return new IFeaturedRatings[2] { trainRatings, testRatings };
         }
 
-        private IEnumerable<Rating>[] SplitSets(double percentage, IQueryable<IGrouping<int?, Rating>> groupedRatings)
+        private IEnumerable<Rating>[] SplitSets(double percentage, IQueryable<IGrouping<int?, Rating>> groupedRatings, CancellationToken token)
         {
             var trainingSet = new List<Rating>();
             var testingSet = new List<Rating>();
 
             foreach (var groupedRating in groupedRatings)
             {
+                if (token.IsCancellationRequested)
+                    throw new OperationCanceledException(token);
+
+
                 var count = groupedRating.Count();
 
                 int trainingTake = (int)Math.Floor(count * percentage);

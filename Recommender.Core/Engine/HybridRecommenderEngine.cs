@@ -1,6 +1,7 @@
 ﻿using MyMediaLite.RatingPrediction;
 using Recommender.Common.Logger;
 using System;
+using System.Threading;
 
 namespace Recommender.Core.Engine
 {
@@ -13,7 +14,7 @@ namespace Recommender.Core.Engine
         public HybridRecommenderEngine(Logger logger) : base(logger)
         { }
 
-        public override void PrepareSets()
+        public override void PrepareSets(CancellationToken token)
         {
             throw new NotImplementedException();
         }

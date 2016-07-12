@@ -18,12 +18,13 @@ namespace Recommender.GUI
 
         RecommenderEngine _recommenderEngine;
         Logger _logger;
+        CancellationTokenSource _cts;
 
         public MainForm()
         {
             SetupLogger();
             InitializeComponent();
-            InitializeCombos();
+            InitializeCombos();            
         }
 
         private void SetupLogger()
@@ -148,6 +149,7 @@ namespace Recommender.GUI
                     break;
                 case RecommenderType.ContentBased:
                     ChooseContentBasedAlgorithm();
+                    SetupNeuroSettings();
                     break;
                 case RecommenderType.Hybrid:
                     ChooseHybridAlgorithm();
@@ -160,24 +162,6 @@ namespace Recommender.GUI
             _recommenderEngine.NumberOfUsers = decimal.ToInt32(this.ContentBased_AmountOfUsers.Value);
             _recommenderEngine.MinimumItemsRated = decimal.ToInt32(this.ContentBased_MinimumItemsRated.Value);
             _recommenderEngine.SetTrainingSetRatio(this.TrainingSetSize.Value);
-        }
-
-        private void SetupRecommenderSettings()
-        {
-            switch ((RecommenderType)(this.recommenderCombo.SelectedValue))
-            {
-                case RecommenderType.Collaborative:
-                    //ChooseCollaborativeAlgorithm();
-                    break;
-                case RecommenderType.ContentBased:
-                    SetupNeuroSettings();
-                    break;
-                case RecommenderType.Hybrid:
-                    //ChooseHybridAlgorithm();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("Unknown recommender type");
-            }
         }
 
         private void ChooseCollaborativeAlgorithm()
@@ -232,33 +216,14 @@ namespace Recommender.GUI
 
         #region Long actions
 
-        private void RunRecommenderAsync(CancellationToken cts)
+        private void DoWork(CancellationToken token)
         {
-            ThreadSafeButtonToggle(false, false, true);
+            _recommenderEngine.LoadData(token);
 
             var teachingResult = _recommenderEngine.TeachRecommender();
 
-            if (!teachingResult)
-            {
-                ThreadSafeButtonToggle(true, true, false);
-                return;
-            }
-
-            var result = _recommenderEngine.GetResults();
-
-            //var resultString = result.ToString() + "\n =========================================";
-            //progress.Report(new ProgressState(100, resultString, "Idle"));
-
-            ThreadSafeButtonToggle(true, true, false);
-        }
-        
-        private void LoadDataAsync()
-        {
-            ThreadSafeButtonToggle(false, false, true);
-
-            _recommenderEngine.LoadData();
-
-            ThreadSafeButtonToggle(true, true, false);
+            if (teachingResult)
+                _recommenderEngine.GetResults();
         }
 
         #endregion Long actions
@@ -267,17 +232,31 @@ namespace Recommender.GUI
 
         private void RunButton_Click(object sender, EventArgs e)
         {
-            SetupRecommenderSettings();
-                        
-            var cts = new CancellationToken();
-
-            var t = Task.Run(() => RunRecommenderAsync(cts));        }
-
-        private void LoadDataButton_Click(object sender, EventArgs e)
-        {
             SetupRecommenderEngine();
-            Task.Run(() => LoadDataAsync());
+
+            _cts = new CancellationTokenSource();
+            var token = _cts.Token;
+
+            Task.Run(() =>
+            {
+                ThreadSafeButtonToggle(false, true);
+
+                try
+                {
+                    DoWork(token);
+                }
+                catch (OperationCanceledException)
+                {
+                    _logger.AddProgressReport(new ProgressState(0, "Operation canceled", "Operation canceled"));
+                }
+                finally
+                {
+                    ThreadSafeButtonToggle(true, false);
+                    _cts.Dispose();
+                }
+            });
         }
+
 
         private void recommenderCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -291,6 +270,7 @@ namespace Recommender.GUI
 
                     this.CollaborativeOptions.Visible = true;
                     this.ContentBasedOptions.Visible = false;
+                    this.NeuralNetworkOptions.Visible = false;
                     break;
                 case RecommenderType.ContentBased:
                     this.CollaborativeAlgorithmChoice.Enabled = false;
@@ -298,6 +278,7 @@ namespace Recommender.GUI
 
                     this.CollaborativeOptions.Visible = false;
                     this.ContentBasedOptions.Visible = true;
+                    this.NeuralNetworkOptions.Visible = true;
                     break;
                 case RecommenderType.Hybrid:
                     this.CollaborativeAlgorithmChoice.Enabled = true;
@@ -305,10 +286,10 @@ namespace Recommender.GUI
 
                     this.CollaborativeOptions.Visible = true;
                     this.ContentBasedOptions.Visible = true;
+                    this.NeuralNetworkOptions.Visible = true;
                     break;
             }
 
-            ThreadSafeButtonToggle(true, false, false);
         }
 
         private void ContentBased_Teacher_SelectedIndexChanged(object sender, EventArgs e)
@@ -345,15 +326,13 @@ namespace Recommender.GUI
         }
         private void CancelButton_Click(object sender, EventArgs e)
         {
-            //if (backgroundWorker.IsBusy)
-            //{
-            //    backgroundWorker.CancelAsync();
-            //}
+            _cts.Cancel();
+            ThreadSafeButtonToggle(false, false);
         }
 
-        private void ThreadSafeButtonToggle(bool loadbtn, bool runbtn, bool cancelbtn)
+        private void ThreadSafeButtonToggle(bool runbtn, bool cancelbtn)
         {
-            this.LoadDataButton.PerformSafely(() => this.LoadDataButton.Enabled = loadbtn);
+            //this.LoadDataButton.PerformSafely(() => this.LoadDataButton.Enabled = loadbtn);
             this.RunButton.PerformSafely(() => this.RunButton.Enabled = runbtn);
             this.CancelButton.PerformSafely(() => this.CancelButton.Enabled = cancelbtn);
         }

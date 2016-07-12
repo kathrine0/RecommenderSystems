@@ -31,14 +31,12 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.LoadDataButton = new System.Windows.Forms.Button();
             this.ContentBasedAlghoritmChoice = new System.Windows.Forms.Panel();
             this.ContentBasedAlgorithmCombo = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.CollaborativeAlgorithmChoice = new System.Windows.Forms.Panel();
             this.CollaborativeAlgorithmCombo = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.CancelButton = new System.Windows.Forms.Button();
             this.recommenderCombo = new System.Windows.Forms.ComboBox();
             this.datasetCombo = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -53,8 +51,8 @@
             this.zakończToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ProcentLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ResultContainer = new System.Windows.Forms.GroupBox();
             this.ResultBox = new System.Windows.Forms.RichTextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -70,7 +68,7 @@
             this.UserLabel = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.NeuralNetworkOptions = new System.Windows.Forms.Panel();
             this.label26 = new System.Windows.Forms.Label();
             this.ContentBased_Teacher = new System.Windows.Forms.ComboBox();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
@@ -103,6 +101,7 @@
             this.CollaborativeOptions = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.CancelButton = new System.Windows.Forms.Button();
             this.dataSetOptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.mainFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
@@ -117,7 +116,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ContentBased_MinimumItemsRated)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ContentBased_AmountOfUsers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TrainingSetSize)).BeginInit();
-            this.panel3.SuspendLayout();
+            this.NeuralNetworkOptions.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.ContentBased_BackPropPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ContentBased_LearningRate)).BeginInit();
@@ -141,7 +140,6 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox1.Controls.Add(this.LoadDataButton);
             this.groupBox1.Controls.Add(this.ContentBasedAlghoritmChoice);
             this.groupBox1.Controls.Add(this.CollaborativeAlgorithmChoice);
             this.groupBox1.Controls.Add(this.CancelButton);
@@ -150,48 +148,42 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.RunButton);
-            this.groupBox1.Location = new System.Drawing.Point(6, 6);
+            this.groupBox1.Location = new System.Drawing.Point(8, 7);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(296, 264);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(395, 325);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
-            // 
-            // LoadDataButton
-            // 
-            this.LoadDataButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LoadDataButton.Location = new System.Drawing.Point(6, 235);
-            this.LoadDataButton.Name = "LoadDataButton";
-            this.LoadDataButton.Size = new System.Drawing.Size(80, 23);
-            this.LoadDataButton.TabIndex = 13;
-            this.LoadDataButton.Text = "Load data";
-            this.LoadDataButton.UseVisualStyleBackColor = true;
-            this.LoadDataButton.Click += new System.EventHandler(this.LoadDataButton_Click);
             // 
             // ContentBasedAlghoritmChoice
             // 
             this.ContentBasedAlghoritmChoice.Controls.Add(this.ContentBasedAlgorithmCombo);
             this.ContentBasedAlghoritmChoice.Controls.Add(this.label6);
-            this.ContentBasedAlghoritmChoice.Location = new System.Drawing.Point(6, 114);
+            this.ContentBasedAlghoritmChoice.Location = new System.Drawing.Point(8, 140);
+            this.ContentBasedAlghoritmChoice.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ContentBasedAlghoritmChoice.Name = "ContentBasedAlghoritmChoice";
-            this.ContentBasedAlghoritmChoice.Size = new System.Drawing.Size(274, 22);
+            this.ContentBasedAlghoritmChoice.Size = new System.Drawing.Size(365, 27);
             this.ContentBasedAlghoritmChoice.TabIndex = 12;
             // 
             // ContentBasedAlgorithmCombo
             // 
             this.ContentBasedAlgorithmCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ContentBasedAlgorithmCombo.FormattingEnabled = true;
-            this.ContentBasedAlgorithmCombo.Location = new System.Drawing.Point(124, 1);
+            this.ContentBasedAlgorithmCombo.Location = new System.Drawing.Point(165, 1);
+            this.ContentBasedAlgorithmCombo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ContentBasedAlgorithmCombo.Name = "ContentBasedAlgorithmCombo";
-            this.ContentBasedAlgorithmCombo.Size = new System.Drawing.Size(150, 21);
+            this.ContentBasedAlgorithmCombo.Size = new System.Drawing.Size(199, 24);
             this.ContentBasedAlgorithmCombo.TabIndex = 10;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(0, 4);
+            this.label6.Location = new System.Drawing.Point(0, 5);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(121, 13);
+            this.label6.Size = new System.Drawing.Size(163, 17);
             this.label6.TabIndex = 8;
             this.label6.Text = "Content-based algorithm";
             // 
@@ -200,48 +192,40 @@
             this.CollaborativeAlgorithmChoice.Controls.Add(this.CollaborativeAlgorithmCombo);
             this.CollaborativeAlgorithmChoice.Controls.Add(this.label3);
             this.CollaborativeAlgorithmChoice.Enabled = false;
-            this.CollaborativeAlgorithmChoice.Location = new System.Drawing.Point(6, 84);
+            this.CollaborativeAlgorithmChoice.Location = new System.Drawing.Point(8, 103);
+            this.CollaborativeAlgorithmChoice.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.CollaborativeAlgorithmChoice.Name = "CollaborativeAlgorithmChoice";
-            this.CollaborativeAlgorithmChoice.Size = new System.Drawing.Size(274, 28);
+            this.CollaborativeAlgorithmChoice.Size = new System.Drawing.Size(365, 34);
             this.CollaborativeAlgorithmChoice.TabIndex = 11;
             // 
             // CollaborativeAlgorithmCombo
             // 
             this.CollaborativeAlgorithmCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CollaborativeAlgorithmCombo.FormattingEnabled = true;
-            this.CollaborativeAlgorithmCombo.Location = new System.Drawing.Point(124, 3);
+            this.CollaborativeAlgorithmCombo.Location = new System.Drawing.Point(165, 4);
+            this.CollaborativeAlgorithmCombo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.CollaborativeAlgorithmCombo.Name = "CollaborativeAlgorithmCombo";
-            this.CollaborativeAlgorithmCombo.Size = new System.Drawing.Size(150, 21);
+            this.CollaborativeAlgorithmCombo.Size = new System.Drawing.Size(199, 24);
             this.CollaborativeAlgorithmCombo.TabIndex = 9;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(0, 6);
+            this.label3.Location = new System.Drawing.Point(0, 7);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(113, 13);
+            this.label3.Size = new System.Drawing.Size(152, 17);
             this.label3.TabIndex = 7;
             this.label3.Text = "Collaborative algorithm";
-            // 
-            // CancelButton
-            // 
-            this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CancelButton.Enabled = false;
-            this.CancelButton.Location = new System.Drawing.Point(178, 235);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(69, 23);
-            this.CancelButton.TabIndex = 6;
-            this.CancelButton.Text = "Cancel";
-            this.CancelButton.UseVisualStyleBackColor = true;
-            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // recommenderCombo
             // 
             this.recommenderCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.recommenderCombo.FormattingEnabled = true;
-            this.recommenderCombo.Location = new System.Drawing.Point(130, 58);
+            this.recommenderCombo.Location = new System.Drawing.Point(173, 71);
+            this.recommenderCombo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.recommenderCombo.Name = "recommenderCombo";
-            this.recommenderCombo.Size = new System.Drawing.Size(150, 21);
+            this.recommenderCombo.Size = new System.Drawing.Size(199, 24);
             this.recommenderCombo.TabIndex = 5;
             this.recommenderCombo.SelectedIndexChanged += new System.EventHandler(this.recommenderCombo_SelectedIndexChanged);
             // 
@@ -250,37 +234,40 @@
             this.datasetCombo.DisplayMember = "Value";
             this.datasetCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.datasetCombo.FormattingEnabled = true;
-            this.datasetCombo.Location = new System.Drawing.Point(130, 31);
+            this.datasetCombo.Location = new System.Drawing.Point(173, 38);
+            this.datasetCombo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.datasetCombo.Name = "datasetCombo";
-            this.datasetCombo.Size = new System.Drawing.Size(150, 21);
+            this.datasetCombo.Size = new System.Drawing.Size(199, 24);
             this.datasetCombo.TabIndex = 4;
             this.datasetCombo.ValueMember = "Value";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 61);
+            this.label2.Location = new System.Drawing.Point(8, 75);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(99, 13);
+            this.label2.Size = new System.Drawing.Size(131, 17);
             this.label2.TabIndex = 2;
             this.label2.Text = "Recommender type";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 34);
+            this.label1.Location = new System.Drawing.Point(8, 42);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 13);
+            this.label1.Size = new System.Drawing.Size(57, 17);
             this.label1.TabIndex = 1;
             this.label1.Text = "Dataset";
             // 
             // RunButton
             // 
             this.RunButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.RunButton.Enabled = false;
-            this.RunButton.Location = new System.Drawing.Point(92, 235);
+            this.RunButton.Location = new System.Drawing.Point(11, 289);
+            this.RunButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.RunButton.Name = "RunButton";
-            this.RunButton.Size = new System.Drawing.Size(80, 23);
+            this.RunButton.Size = new System.Drawing.Size(107, 28);
             this.RunButton.TabIndex = 0;
             this.RunButton.Text = "Start";
             this.RunButton.UseVisualStyleBackColor = true;
@@ -288,12 +275,14 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.opcjeToolStripMenuItem,
             this.zakończToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(714, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(952, 28);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -303,7 +292,7 @@
             this.opcja1ToolStripMenuItem,
             this.opcja2ToolStripMenuItem});
             this.opcjeToolStripMenuItem.Name = "opcjeToolStripMenuItem";
-            this.opcjeToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.opcjeToolStripMenuItem.Size = new System.Drawing.Size(73, 24);
             this.opcjeToolStripMenuItem.Text = "Options";
             // 
             // opcja1ToolStripMenuItem
@@ -312,60 +301,62 @@
             this.opcja1aToolStripMenuItem,
             this.opcja1bToolStripMenuItem});
             this.opcja1ToolStripMenuItem.Name = "opcja1ToolStripMenuItem";
-            this.opcja1ToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.opcja1ToolStripMenuItem.Size = new System.Drawing.Size(131, 26);
             this.opcja1ToolStripMenuItem.Text = "Opcja1";
             // 
             // opcja1aToolStripMenuItem
             // 
             this.opcja1aToolStripMenuItem.Name = "opcja1aToolStripMenuItem";
-            this.opcja1aToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.opcja1aToolStripMenuItem.Size = new System.Drawing.Size(140, 26);
             this.opcja1aToolStripMenuItem.Text = "Opcja1a";
             // 
             // opcja1bToolStripMenuItem
             // 
             this.opcja1bToolStripMenuItem.Name = "opcja1bToolStripMenuItem";
-            this.opcja1bToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.opcja1bToolStripMenuItem.Size = new System.Drawing.Size(140, 26);
             this.opcja1bToolStripMenuItem.Text = "Opcja1b";
             // 
             // opcja2ToolStripMenuItem
             // 
             this.opcja2ToolStripMenuItem.Name = "opcja2ToolStripMenuItem";
-            this.opcja2ToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.opcja2ToolStripMenuItem.Size = new System.Drawing.Size(131, 26);
             this.opcja2ToolStripMenuItem.Text = "Opcja2";
             // 
             // zakończToolStripMenuItem
             // 
             this.zakończToolStripMenuItem.Name = "zakończToolStripMenuItem";
-            this.zakończToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.zakończToolStripMenuItem.Size = new System.Drawing.Size(57, 24);
             this.zakończToolStripMenuItem.Text = "Close";
             // 
             // StatusStrip
             // 
+            this.StatusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ProgressBar,
             this.ProcentLabel,
             this.StatusLabel});
-            this.StatusStrip.Location = new System.Drawing.Point(0, 668);
+            this.StatusStrip.Location = new System.Drawing.Point(0, 823);
             this.StatusStrip.Name = "StatusStrip";
-            this.StatusStrip.Size = new System.Drawing.Size(714, 22);
+            this.StatusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
+            this.StatusStrip.Size = new System.Drawing.Size(952, 26);
             this.StatusStrip.TabIndex = 2;
             this.StatusStrip.Text = "statusStrip1";
             // 
             // ProgressBar
             // 
             this.ProgressBar.Name = "ProgressBar";
-            this.ProgressBar.Size = new System.Drawing.Size(100, 16);
-            // 
-            // StatusLabel
-            // 
-            this.StatusLabel.Name = "StatusLabel";
-            this.StatusLabel.Size = new System.Drawing.Size(26, 17);
-            this.StatusLabel.Text = "Idle";
+            this.ProgressBar.Size = new System.Drawing.Size(133, 20);
             // 
             // ProcentLabel
             // 
             this.ProcentLabel.Name = "ProcentLabel";
-            this.ProcentLabel.Size = new System.Drawing.Size(0, 17);
+            this.ProcentLabel.Size = new System.Drawing.Size(0, 21);
+            // 
+            // StatusLabel
+            // 
+            this.StatusLabel.Name = "StatusLabel";
+            this.StatusLabel.Size = new System.Drawing.Size(34, 21);
+            this.StatusLabel.Text = "Idle";
             // 
             // ResultContainer
             // 
@@ -374,9 +365,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ResultContainer.AutoSize = true;
             this.ResultContainer.Controls.Add(this.ResultBox);
-            this.ResultContainer.Location = new System.Drawing.Point(308, 6);
+            this.ResultContainer.Location = new System.Drawing.Point(411, 7);
+            this.ResultContainer.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ResultContainer.Name = "ResultContainer";
-            this.ResultContainer.Size = new System.Drawing.Size(366, 261);
+            this.ResultContainer.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ResultContainer.Size = new System.Drawing.Size(488, 321);
             this.ResultContainer.TabIndex = 4;
             this.ResultContainer.TabStop = false;
             this.ResultContainer.Text = "Results";
@@ -384,10 +377,11 @@
             // ResultBox
             // 
             this.ResultBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ResultBox.Location = new System.Drawing.Point(3, 16);
+            this.ResultBox.Location = new System.Drawing.Point(4, 19);
+            this.ResultBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ResultBox.Name = "ResultBox";
             this.ResultBox.ReadOnly = true;
-            this.ResultBox.Size = new System.Drawing.Size(360, 242);
+            this.ResultBox.Size = new System.Drawing.Size(480, 298);
             this.ResultBox.TabIndex = 0;
             this.ResultBox.Text = "";
             // 
@@ -396,12 +390,13 @@
             this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel1.Controls.Add(this.panel1);
-            this.flowLayoutPanel1.Controls.Add(this.panel3);
+            this.flowLayoutPanel1.Controls.Add(this.NeuralNetworkOptions);
             this.flowLayoutPanel1.Controls.Add(this.ContentBasedOptions);
             this.flowLayoutPanel1.Controls.Add(this.CollaborativeOptions);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(1, 273);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(1, 336);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(673, 362);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(897, 446);
             this.flowLayoutPanel1.TabIndex = 7;
             // 
             // panel1
@@ -417,23 +412,26 @@
             this.panel1.Controls.Add(this.UserLabel);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label7);
-            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Location = new System.Drawing.Point(4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(327, 137);
+            this.panel1.Size = new System.Drawing.Size(436, 169);
             this.panel1.TabIndex = 2;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(279, 106);
+            this.label11.Location = new System.Drawing.Point(372, 130);
+            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(15, 13);
+            this.label11.Size = new System.Drawing.Size(20, 17);
             this.label11.TabIndex = 7;
             this.label11.Text = "%";
             // 
             // TestingSetSize
             // 
-            this.TestingSetSize.Location = new System.Drawing.Point(139, 102);
+            this.TestingSetSize.Location = new System.Drawing.Point(185, 126);
+            this.TestingSetSize.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.TestingSetSize.Maximum = new decimal(new int[] {
             99,
             0,
@@ -445,7 +443,7 @@
             0,
             0});
             this.TestingSetSize.Name = "TestingSetSize";
-            this.TestingSetSize.Size = new System.Drawing.Size(134, 20);
+            this.TestingSetSize.Size = new System.Drawing.Size(179, 22);
             this.TestingSetSize.TabIndex = 6;
             this.TestingSetSize.Value = new decimal(new int[] {
             20,
@@ -456,7 +454,8 @@
             // 
             // ContentBased_MinimumItemsRated
             // 
-            this.ContentBased_MinimumItemsRated.Location = new System.Drawing.Point(139, 46);
+            this.ContentBased_MinimumItemsRated.Location = new System.Drawing.Point(185, 57);
+            this.ContentBased_MinimumItemsRated.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ContentBased_MinimumItemsRated.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -468,7 +467,7 @@
             0,
             0});
             this.ContentBased_MinimumItemsRated.Name = "ContentBased_MinimumItemsRated";
-            this.ContentBased_MinimumItemsRated.Size = new System.Drawing.Size(134, 20);
+            this.ContentBased_MinimumItemsRated.Size = new System.Drawing.Size(179, 22);
             this.ContentBased_MinimumItemsRated.TabIndex = 4;
             this.ContentBased_MinimumItemsRated.Value = new decimal(new int[] {
             100,
@@ -479,33 +478,37 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(15, 106);
+            this.label10.Location = new System.Drawing.Point(20, 130);
+            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(80, 13);
+            this.label10.Size = new System.Drawing.Size(107, 17);
             this.label10.TabIndex = 5;
             this.label10.Text = "Testing set size";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(15, 48);
+            this.label12.Location = new System.Drawing.Point(20, 59);
+            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(102, 13);
+            this.label12.Size = new System.Drawing.Size(137, 17);
             this.label12.TabIndex = 3;
             this.label12.Text = "Minimum items rated";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(279, 79);
+            this.label9.Location = new System.Drawing.Point(372, 97);
+            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(15, 13);
+            this.label9.Size = new System.Drawing.Size(20, 17);
             this.label9.TabIndex = 4;
             this.label9.Text = "%";
             // 
             // ContentBased_AmountOfUsers
             // 
-            this.ContentBased_AmountOfUsers.Location = new System.Drawing.Point(139, 20);
+            this.ContentBased_AmountOfUsers.Location = new System.Drawing.Point(185, 25);
+            this.ContentBased_AmountOfUsers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ContentBased_AmountOfUsers.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -517,7 +520,7 @@
             0,
             0});
             this.ContentBased_AmountOfUsers.Name = "ContentBased_AmountOfUsers";
-            this.ContentBased_AmountOfUsers.Size = new System.Drawing.Size(134, 20);
+            this.ContentBased_AmountOfUsers.Size = new System.Drawing.Size(179, 22);
             this.ContentBased_AmountOfUsers.TabIndex = 1;
             this.ContentBased_AmountOfUsers.Value = new decimal(new int[] {
             1,
@@ -527,7 +530,8 @@
             // 
             // TrainingSetSize
             // 
-            this.TrainingSetSize.Location = new System.Drawing.Point(139, 75);
+            this.TrainingSetSize.Location = new System.Drawing.Point(185, 92);
+            this.TrainingSetSize.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.TrainingSetSize.Maximum = new decimal(new int[] {
             99,
             0,
@@ -539,7 +543,7 @@
             0,
             0});
             this.TrainingSetSize.Name = "TrainingSetSize";
-            this.TrainingSetSize.Size = new System.Drawing.Size(134, 20);
+            this.TrainingSetSize.Size = new System.Drawing.Size(179, 22);
             this.TrainingSetSize.TabIndex = 3;
             this.TrainingSetSize.Value = new decimal(new int[] {
             80,
@@ -551,18 +555,20 @@
             // UserLabel
             // 
             this.UserLabel.AutoSize = true;
-            this.UserLabel.Location = new System.Drawing.Point(15, 22);
+            this.UserLabel.Location = new System.Drawing.Point(20, 27);
+            this.UserLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.UserLabel.Name = "UserLabel";
-            this.UserLabel.Size = new System.Drawing.Size(84, 13);
+            this.UserLabel.Size = new System.Drawing.Size(113, 17);
             this.UserLabel.TabIndex = 0;
             this.UserLabel.Text = "Number of users";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(15, 79);
+            this.label8.Location = new System.Drawing.Point(20, 97);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(83, 13);
+            this.label8.Size = new System.Drawing.Size(112, 17);
             this.label8.TabIndex = 3;
             this.label8.Text = "Training set size";
             // 
@@ -570,37 +576,40 @@
             // 
             this.label7.AutoSize = true;
             this.label7.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label7.Location = new System.Drawing.Point(15, 0);
+            this.label7.Location = new System.Drawing.Point(20, 0);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(81, 13);
+            this.label7.Size = new System.Drawing.Size(109, 17);
             this.label7.TabIndex = 3;
             this.label7.Text = "General options";
             // 
-            // panel3
+            // NeuralNetworkOptions
             // 
-            this.panel3.Controls.Add(this.label26);
-            this.panel3.Controls.Add(this.ContentBased_Teacher);
-            this.panel3.Controls.Add(this.flowLayoutPanel2);
-            this.panel3.Controls.Add(this.label17);
-            this.panel3.Controls.Add(this.label19);
-            this.panel3.Controls.Add(this.label16);
-            this.panel3.Controls.Add(this.label13);
-            this.panel3.Controls.Add(this.ContentBased_Iterations);
-            this.panel3.Controls.Add(this.ContentBased_SigmoidAlpha);
-            this.panel3.Controls.Add(this.label15);
-            this.panel3.Controls.Add(this.ContentBased_HiddenLayerNeurons);
-            this.panel3.Location = new System.Drawing.Point(336, 3);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(327, 190);
-            this.panel3.TabIndex = 4;
+            this.NeuralNetworkOptions.Controls.Add(this.label26);
+            this.NeuralNetworkOptions.Controls.Add(this.ContentBased_Teacher);
+            this.NeuralNetworkOptions.Controls.Add(this.flowLayoutPanel2);
+            this.NeuralNetworkOptions.Controls.Add(this.label17);
+            this.NeuralNetworkOptions.Controls.Add(this.label19);
+            this.NeuralNetworkOptions.Controls.Add(this.label16);
+            this.NeuralNetworkOptions.Controls.Add(this.label13);
+            this.NeuralNetworkOptions.Controls.Add(this.ContentBased_Iterations);
+            this.NeuralNetworkOptions.Controls.Add(this.ContentBased_SigmoidAlpha);
+            this.NeuralNetworkOptions.Controls.Add(this.label15);
+            this.NeuralNetworkOptions.Controls.Add(this.ContentBased_HiddenLayerNeurons);
+            this.NeuralNetworkOptions.Location = new System.Drawing.Point(448, 4);
+            this.NeuralNetworkOptions.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.NeuralNetworkOptions.Name = "NeuralNetworkOptions";
+            this.NeuralNetworkOptions.Size = new System.Drawing.Size(436, 234);
+            this.NeuralNetworkOptions.TabIndex = 4;
             // 
             // label26
             // 
             this.label26.AutoSize = true;
             this.label26.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label26.Location = new System.Drawing.Point(6, 0);
+            this.label26.Location = new System.Drawing.Point(8, 0);
+            this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(120, 13);
+            this.label26.Size = new System.Drawing.Size(158, 17);
             this.label26.TabIndex = 2;
             this.label26.Text = "Neural Network Options";
             // 
@@ -608,9 +617,10 @@
             // 
             this.ContentBased_Teacher.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ContentBased_Teacher.FormattingEnabled = true;
-            this.ContentBased_Teacher.Location = new System.Drawing.Point(139, 101);
+            this.ContentBased_Teacher.Location = new System.Drawing.Point(185, 124);
+            this.ContentBased_Teacher.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ContentBased_Teacher.Name = "ContentBased_Teacher";
-            this.ContentBased_Teacher.Size = new System.Drawing.Size(150, 21);
+            this.ContentBased_Teacher.Size = new System.Drawing.Size(199, 24);
             this.ContentBased_Teacher.TabIndex = 11;
             this.ContentBased_Teacher.SelectedIndexChanged += new System.EventHandler(this.ContentBased_Teacher_SelectedIndexChanged);
             // 
@@ -618,9 +628,10 @@
             // 
             this.flowLayoutPanel2.Controls.Add(this.ContentBased_BackPropPanel);
             this.flowLayoutPanel2.Controls.Add(this.ContentBased_GeneticPanel);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 126);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(4, 155);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(321, 57);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(428, 70);
             this.flowLayoutPanel2.TabIndex = 29;
             // 
             // ContentBased_BackPropPanel
@@ -632,9 +643,10 @@
             this.ContentBased_BackPropPanel.Controls.Add(this.ContentBased_Momentum);
             this.ContentBased_BackPropPanel.Controls.Add(this.label23);
             this.ContentBased_BackPropPanel.Controls.Add(this.label18);
-            this.ContentBased_BackPropPanel.Location = new System.Drawing.Point(3, 3);
+            this.ContentBased_BackPropPanel.Location = new System.Drawing.Point(4, 4);
+            this.ContentBased_BackPropPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ContentBased_BackPropPanel.Name = "ContentBased_BackPropPanel";
-            this.ContentBased_BackPropPanel.Size = new System.Drawing.Size(303, 52);
+            this.ContentBased_BackPropPanel.Size = new System.Drawing.Size(404, 64);
             this.ContentBased_BackPropPanel.TabIndex = 27;
             this.ContentBased_BackPropPanel.Visible = false;
             // 
@@ -642,9 +654,10 @@
             // 
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label21.Location = new System.Drawing.Point(59, 85);
+            this.label21.Location = new System.Drawing.Point(79, 105);
+            this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(44, 9);
+            this.label21.Size = new System.Drawing.Size(57, 13);
             this.label21.TabIndex = 26;
             this.label21.Text = "(0 - infinity)";
             // 
@@ -656,9 +669,10 @@
             0,
             0,
             131072});
-            this.ContentBased_LearningRate.Location = new System.Drawing.Point(133, 2);
+            this.ContentBased_LearningRate.Location = new System.Drawing.Point(177, 2);
+            this.ContentBased_LearningRate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ContentBased_LearningRate.Name = "ContentBased_LearningRate";
-            this.ContentBased_LearningRate.Size = new System.Drawing.Size(150, 20);
+            this.ContentBased_LearningRate.Size = new System.Drawing.Size(200, 22);
             this.ContentBased_LearningRate.TabIndex = 22;
             this.ContentBased_LearningRate.Value = new decimal(new int[] {
             1,
@@ -673,14 +687,15 @@
             0,
             0,
             0});
-            this.numericUpDown1.Location = new System.Drawing.Point(127, 81);
+            this.numericUpDown1.Location = new System.Drawing.Point(169, 100);
+            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             276447232,
             23283,
             0,
             0});
             this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(150, 20);
+            this.numericUpDown1.Size = new System.Drawing.Size(200, 22);
             this.numericUpDown1.TabIndex = 25;
             this.numericUpDown1.Value = new decimal(new int[] {
             1000,
@@ -691,9 +706,10 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(9, 4);
+            this.label20.Location = new System.Drawing.Point(12, 5);
+            this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(69, 13);
+            this.label20.Size = new System.Drawing.Size(93, 17);
             this.label20.TabIndex = 18;
             this.label20.Text = "Learning rate";
             // 
@@ -705,31 +721,34 @@
             0,
             0,
             131072});
-            this.ContentBased_Momentum.Location = new System.Drawing.Point(133, 28);
+            this.ContentBased_Momentum.Location = new System.Drawing.Point(177, 34);
+            this.ContentBased_Momentum.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ContentBased_Momentum.Maximum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.ContentBased_Momentum.Name = "ContentBased_Momentum";
-            this.ContentBased_Momentum.Size = new System.Drawing.Size(150, 20);
+            this.ContentBased_Momentum.Size = new System.Drawing.Size(200, 22);
             this.ContentBased_Momentum.TabIndex = 20;
             // 
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(3, 81);
+            this.label23.Location = new System.Drawing.Point(4, 100);
+            this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(50, 13);
+            this.label23.Size = new System.Drawing.Size(66, 17);
             this.label23.TabIndex = 24;
             this.label23.Text = "Iterations";
             // 
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(9, 30);
+            this.label18.Location = new System.Drawing.Point(12, 37);
+            this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(59, 13);
+            this.label18.Size = new System.Drawing.Size(77, 17);
             this.label18.TabIndex = 16;
             this.label18.Text = "Momentum";
             // 
@@ -740,9 +759,10 @@
             this.ContentBased_GeneticPanel.Controls.Add(this.numericUpDown3);
             this.ContentBased_GeneticPanel.Controls.Add(this.label24);
             this.ContentBased_GeneticPanel.Controls.Add(this.label25);
-            this.ContentBased_GeneticPanel.Location = new System.Drawing.Point(3, 61);
+            this.ContentBased_GeneticPanel.Location = new System.Drawing.Point(4, 76);
+            this.ContentBased_GeneticPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ContentBased_GeneticPanel.Name = "ContentBased_GeneticPanel";
-            this.ContentBased_GeneticPanel.Size = new System.Drawing.Size(303, 24);
+            this.ContentBased_GeneticPanel.Size = new System.Drawing.Size(404, 30);
             this.ContentBased_GeneticPanel.TabIndex = 28;
             this.ContentBased_GeneticPanel.Visible = false;
             // 
@@ -750,22 +770,24 @@
             // 
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label22.Location = new System.Drawing.Point(59, 85);
+            this.label22.Location = new System.Drawing.Point(79, 105);
+            this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(44, 9);
+            this.label22.Size = new System.Drawing.Size(57, 13);
             this.label22.TabIndex = 26;
             this.label22.Text = "(0 - infinity)";
             // 
             // ContentBased_PopulationSize
             // 
-            this.ContentBased_PopulationSize.Location = new System.Drawing.Point(133, 1);
+            this.ContentBased_PopulationSize.Location = new System.Drawing.Point(177, 1);
+            this.ContentBased_PopulationSize.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ContentBased_PopulationSize.Minimum = new decimal(new int[] {
             10,
             0,
             0,
             0});
             this.ContentBased_PopulationSize.Name = "ContentBased_PopulationSize";
-            this.ContentBased_PopulationSize.Size = new System.Drawing.Size(150, 20);
+            this.ContentBased_PopulationSize.Size = new System.Drawing.Size(200, 22);
             this.ContentBased_PopulationSize.TabIndex = 22;
             this.ContentBased_PopulationSize.Value = new decimal(new int[] {
             100,
@@ -780,14 +802,15 @@
             0,
             0,
             0});
-            this.numericUpDown3.Location = new System.Drawing.Point(127, 81);
+            this.numericUpDown3.Location = new System.Drawing.Point(169, 100);
+            this.numericUpDown3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numericUpDown3.Maximum = new decimal(new int[] {
             276447232,
             23283,
             0,
             0});
             this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(150, 20);
+            this.numericUpDown3.Size = new System.Drawing.Size(200, 22);
             this.numericUpDown3.TabIndex = 25;
             this.numericUpDown3.Value = new decimal(new int[] {
             1000,
@@ -798,36 +821,40 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(9, 1);
+            this.label24.Location = new System.Drawing.Point(12, 1);
+            this.label24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(78, 13);
+            this.label24.Size = new System.Drawing.Size(104, 17);
             this.label24.TabIndex = 18;
             this.label24.Text = "Population size";
             // 
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(3, 81);
+            this.label25.Location = new System.Drawing.Point(4, 100);
+            this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(50, 13);
+            this.label25.Size = new System.Drawing.Size(66, 17);
             this.label25.TabIndex = 24;
             this.label25.Text = "Iterations";
             // 
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(15, 104);
+            this.label17.Location = new System.Drawing.Point(20, 128);
+            this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(47, 13);
+            this.label17.Size = new System.Drawing.Size(61, 17);
             this.label17.TabIndex = 27;
             this.label17.Text = "Teacher";
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(15, 25);
+            this.label19.Location = new System.Drawing.Point(20, 31);
+            this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(102, 13);
+            this.label19.Size = new System.Drawing.Size(135, 17);
             this.label19.TabIndex = 17;
             this.label19.Text = "Sigmoid alpha value";
             // 
@@ -835,18 +862,20 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label16.Location = new System.Drawing.Point(64, 78);
+            this.label16.Location = new System.Drawing.Point(85, 96);
+            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(44, 9);
+            this.label16.Size = new System.Drawing.Size(57, 13);
             this.label16.TabIndex = 26;
             this.label16.Text = "(0 - infinity)";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(15, 53);
+            this.label13.Location = new System.Drawing.Point(20, 65);
+            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(107, 13);
+            this.label13.Size = new System.Drawing.Size(144, 17);
             this.label13.TabIndex = 19;
             this.label13.Text = "Hidden layer neurons";
             // 
@@ -857,14 +886,15 @@
             0,
             0,
             0});
-            this.ContentBased_Iterations.Location = new System.Drawing.Point(139, 75);
+            this.ContentBased_Iterations.Location = new System.Drawing.Point(185, 92);
+            this.ContentBased_Iterations.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ContentBased_Iterations.Maximum = new decimal(new int[] {
             276447232,
             23283,
             0,
             0});
             this.ContentBased_Iterations.Name = "ContentBased_Iterations";
-            this.ContentBased_Iterations.Size = new System.Drawing.Size(150, 20);
+            this.ContentBased_Iterations.Size = new System.Drawing.Size(200, 22);
             this.ContentBased_Iterations.TabIndex = 25;
             this.ContentBased_Iterations.Value = new decimal(new int[] {
             1000,
@@ -880,9 +910,10 @@
             0,
             0,
             131072});
-            this.ContentBased_SigmoidAlpha.Location = new System.Drawing.Point(139, 23);
+            this.ContentBased_SigmoidAlpha.Location = new System.Drawing.Point(185, 28);
+            this.ContentBased_SigmoidAlpha.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ContentBased_SigmoidAlpha.Name = "ContentBased_SigmoidAlpha";
-            this.ContentBased_SigmoidAlpha.Size = new System.Drawing.Size(150, 20);
+            this.ContentBased_SigmoidAlpha.Size = new System.Drawing.Size(200, 22);
             this.ContentBased_SigmoidAlpha.TabIndex = 21;
             this.ContentBased_SigmoidAlpha.Value = new decimal(new int[] {
             2,
@@ -893,17 +924,19 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(15, 77);
+            this.label15.Location = new System.Drawing.Point(20, 95);
+            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(50, 13);
+            this.label15.Size = new System.Drawing.Size(66, 17);
             this.label15.TabIndex = 24;
             this.label15.Text = "Iterations";
             // 
             // ContentBased_HiddenLayerNeurons
             // 
-            this.ContentBased_HiddenLayerNeurons.Location = new System.Drawing.Point(139, 49);
+            this.ContentBased_HiddenLayerNeurons.Location = new System.Drawing.Point(185, 60);
+            this.ContentBased_HiddenLayerNeurons.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ContentBased_HiddenLayerNeurons.Name = "ContentBased_HiddenLayerNeurons";
-            this.ContentBased_HiddenLayerNeurons.Size = new System.Drawing.Size(150, 20);
+            this.ContentBased_HiddenLayerNeurons.Size = new System.Drawing.Size(200, 22);
             this.ContentBased_HiddenLayerNeurons.TabIndex = 23;
             this.ContentBased_HiddenLayerNeurons.Value = new decimal(new int[] {
             1,
@@ -916,21 +949,23 @@
             this.ContentBasedOptions.Controls.Add(this.ContentBased_MinFeatures);
             this.ContentBasedOptions.Controls.Add(this.label14);
             this.ContentBasedOptions.Controls.Add(this.label4);
-            this.ContentBasedOptions.Location = new System.Drawing.Point(3, 199);
+            this.ContentBasedOptions.Location = new System.Drawing.Point(4, 246);
+            this.ContentBasedOptions.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ContentBasedOptions.Name = "ContentBasedOptions";
-            this.ContentBasedOptions.Size = new System.Drawing.Size(327, 116);
+            this.ContentBasedOptions.Size = new System.Drawing.Size(436, 143);
             this.ContentBasedOptions.TabIndex = 0;
             // 
             // ContentBased_MinFeatures
             // 
-            this.ContentBased_MinFeatures.Location = new System.Drawing.Point(139, 22);
+            this.ContentBased_MinFeatures.Location = new System.Drawing.Point(185, 27);
+            this.ContentBased_MinFeatures.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ContentBased_MinFeatures.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.ContentBased_MinFeatures.Name = "ContentBased_MinFeatures";
-            this.ContentBased_MinFeatures.Size = new System.Drawing.Size(150, 20);
+            this.ContentBased_MinFeatures.Size = new System.Drawing.Size(200, 22);
             this.ContentBased_MinFeatures.TabIndex = 13;
             this.ContentBased_MinFeatures.Value = new decimal(new int[] {
             2,
@@ -941,9 +976,10 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(15, 25);
+            this.label14.Location = new System.Drawing.Point(20, 31);
+            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(112, 13);
+            this.label14.Size = new System.Drawing.Size(150, 17);
             this.label14.TabIndex = 12;
             this.label14.Text = "Min repeating features";
             // 
@@ -951,18 +987,20 @@
             // 
             this.label4.AutoSize = true;
             this.label4.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label4.Location = new System.Drawing.Point(15, 0);
+            this.label4.Location = new System.Drawing.Point(20, 0);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(155, 13);
+            this.label4.Size = new System.Drawing.Size(209, 17);
             this.label4.TabIndex = 2;
             this.label4.Text = "Content-Based Filtering Options";
             // 
             // CollaborativeOptions
             // 
             this.CollaborativeOptions.Controls.Add(this.label5);
-            this.CollaborativeOptions.Location = new System.Drawing.Point(336, 199);
+            this.CollaborativeOptions.Location = new System.Drawing.Point(448, 246);
+            this.CollaborativeOptions.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.CollaborativeOptions.Name = "CollaborativeOptions";
-            this.CollaborativeOptions.Size = new System.Drawing.Size(327, 51);
+            this.CollaborativeOptions.Size = new System.Drawing.Size(436, 63);
             this.CollaborativeOptions.TabIndex = 1;
             this.CollaborativeOptions.Visible = false;
             // 
@@ -970,9 +1008,10 @@
             // 
             this.label5.AutoSize = true;
             this.label5.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label5.Location = new System.Drawing.Point(18, 0);
+            this.label5.Location = new System.Drawing.Point(24, 0);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(146, 13);
+            this.label5.Size = new System.Drawing.Size(197, 17);
             this.label5.TabIndex = 3;
             this.label5.Text = "Collaborative Filtering Options";
             // 
@@ -986,10 +1025,24 @@
             this.panel2.Controls.Add(this.groupBox1);
             this.panel2.Controls.Add(this.flowLayoutPanel1);
             this.panel2.Controls.Add(this.ResultContainer);
-            this.panel2.Location = new System.Drawing.Point(0, 27);
+            this.panel2.Location = new System.Drawing.Point(0, 33);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(707, 638);
+            this.panel2.Size = new System.Drawing.Size(943, 785);
             this.panel2.TabIndex = 8;
+            // 
+            // CancelButton
+            // 
+            this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CancelButton.Enabled = false;
+            this.CancelButton.Location = new System.Drawing.Point(125, 289);
+            this.CancelButton.Margin = new System.Windows.Forms.Padding(4);
+            this.CancelButton.Name = "CancelButton";
+            this.CancelButton.Size = new System.Drawing.Size(92, 28);
+            this.CancelButton.TabIndex = 6;
+            this.CancelButton.Text = "Cancel";
+            this.CancelButton.UseVisualStyleBackColor = true;
+            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // dataSetOptionBindingSource
             // 
@@ -1001,15 +1054,16 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(714, 690);
+            this.ClientSize = new System.Drawing.Size(952, 849);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.StatusStrip);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.MinimumSize = new System.Drawing.Size(600, 500);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MinimumSize = new System.Drawing.Size(794, 605);
             this.Name = "MainForm";
             this.Text = "Recommender Systems Research";
             this.groupBox1.ResumeLayout(false);
@@ -1030,8 +1084,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.ContentBased_MinimumItemsRated)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ContentBased_AmountOfUsers)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TrainingSetSize)).EndInit();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
+            this.NeuralNetworkOptions.ResumeLayout(false);
+            this.NeuralNetworkOptions.PerformLayout();
             this.flowLayoutPanel2.ResumeLayout(false);
             this.ContentBased_BackPropPanel.ResumeLayout(false);
             this.ContentBased_BackPropPanel.PerformLayout();
@@ -1080,7 +1134,6 @@
         private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
         private System.Windows.Forms.ToolStripProgressBar ProgressBar;
         private System.Windows.Forms.BindingSource mainFormBindingSource;
-        private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel CollaborativeAlgorithmChoice;
@@ -1119,7 +1172,7 @@
         private System.Windows.Forms.NumericUpDown ContentBased_Iterations;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel NeuralNetworkOptions;
         private System.Windows.Forms.Panel ContentBased_BackPropPanel;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
@@ -1134,8 +1187,8 @@
         private System.Windows.Forms.Panel ContentBased_GeneticPanel;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button LoadDataButton;
         private System.Windows.Forms.ToolStripStatusLabel ProcentLabel;
+        private System.Windows.Forms.Button CancelButton;
     }
 }
 

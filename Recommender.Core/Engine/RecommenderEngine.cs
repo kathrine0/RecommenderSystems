@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Recommender.Core.Engine
@@ -83,7 +84,7 @@ namespace Recommender.Core.Engine
             TrainingSetRatio = (double)value / 100;
         }
 
-        public void LoadData()
+        public void LoadData(CancellationToken token)
         {
             var reportText = string.Format(@"
 Loading data:
@@ -95,7 +96,7 @@ Loading data:
 
             Logger.AddProgressReport(new ProgressState(0, reportText, "Loading data..."));
 
-            PrepareSets();
+            PrepareSets(token);
             
             Logger.AddProgressReport(new ProgressState(90, null, null));
 
@@ -104,7 +105,7 @@ Loading data:
             Logger.AddProgressReport(new ProgressState(100, "Data Loaded", "Finished..."));
         }
 
-        public abstract void PrepareSets();
+        public abstract void PrepareSets(CancellationToken token);
 
         public virtual bool TeachRecommender()
         {

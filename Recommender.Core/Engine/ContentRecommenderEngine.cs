@@ -1,6 +1,7 @@
 ﻿using MyMediaLite.RatingPrediction;
 using Recommender.Common.Logger;
 using Recommender.Core.MachineLearning;
+using System.Threading;
 
 namespace Recommender.Core.Engine
 {
@@ -24,12 +25,12 @@ namespace Recommender.Core.Engine
             }
         }
 
-        public override void PrepareSets()
+        public override void PrepareSets(CancellationToken token)
         {
             var reportText = "    Data type: FEATURED\n";
             Logger.AddProgressReport(new ProgressState(1, reportText, null));
 
-            _service.LoadFeaturedData(out _trainingData, out _testData, TrainingSetRatio, NumberOfUsers, MinimumItemsRated);
+            _service.LoadFeaturedData(out _trainingData, out _testData, TrainingSetRatio, NumberOfUsers, MinimumItemsRated, token);
         }
     }
 }
