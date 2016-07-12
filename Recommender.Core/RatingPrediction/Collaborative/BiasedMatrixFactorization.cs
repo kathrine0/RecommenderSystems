@@ -40,7 +40,7 @@ namespace Recommender.Core.RatingPrediction.Collaborative
         MaxThreads:                {8}
     ", Regularization, LearnRate, Decay, NumIter, InitStdDev, NumFactors, BiasReg, BiasLearnRate, MaxThreads);
 
-            Logger.AddProgressReport(new ProgressState(0, message.ToString(), null));
+            Logger.AddProgressReport(new ProgressState(0, message.ToString(), "Learning.."));
         }
     }
 

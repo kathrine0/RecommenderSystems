@@ -8,11 +8,14 @@ using Recommender.Service.DTO;
 using System.Data.Entity;
 using Recommender.Service.Data;
 using System.Threading;
+using Recommender.Common.Logger;
 
 namespace Recommender.Service
 {
     public class MovieLenseService : IRatingService
     {
+
+        public Logger Logger { get; set; }
         //todo dependency injection
         MovieLenseContext _context;
 
@@ -57,7 +60,7 @@ namespace Recommender.Service
                                 .GroupBy(x => x.UserId)
                                 .Where(x => x.Count() > minimumItemsRated)
                                 .Take(numberOfUsers);
-
+            
             var sets = SplitSets(percentage, groupedRatings, token);
 
             sets[0].MapTo<RatingDTO>().ForEach(x =>
@@ -92,12 +95,15 @@ namespace Recommender.Service
 
             var sets = SplitSets(percentage, groupedRatings, token);
 
+            double progressStep = (double) 50 / (double)(sets[0].Count() + sets[1].Count());
+
             sets[0].MapTo<RatingWithFeaturesDTO>().ForEach(x =>
             {
                 if (token.IsCancellationRequested)
                     throw new OperationCanceledException(token);
 
                 trainRatings.Add(x.UserId, x.ItemId, x.Rating, x.ItemFeatures);
+                Logger.IncrementProgress(progressStep);
             });
 
             sets[1].MapTo<RatingWithFeaturesDTO>().ForEach(x =>
@@ -106,6 +112,7 @@ namespace Recommender.Service
                     throw new OperationCanceledException(token);
 
                 testRatings.Add(x.UserId, x.ItemId, x.Rating, x.ItemFeatures);
+                Logger.IncrementProgress(progressStep);
             });
 
             return new IFeaturedRatings[2] { trainRatings, testRatings };
@@ -113,6 +120,9 @@ namespace Recommender.Service
 
         private IEnumerable<Rating>[] SplitSets(double percentage, IQueryable<IGrouping<int?, Rating>> groupedRatings, CancellationToken token)
         {
+            double progressStep = (double) 50 / (double) groupedRatings.Count();
+            //od 0 do 50 --- 50 jednostek
+
             var trainingSet = new List<Rating>();
             var testingSet = new List<Rating>();
 
@@ -132,6 +142,8 @@ namespace Recommender.Service
                 testingSet.AddRange(groupedRating
                                             .Skip(trainingTake)
                                             .Take(testingTake));
+
+                Logger.IncrementProgress(progressStep);
             }
             
             return new List<Rating>[2] { trainingSet, testingSet };

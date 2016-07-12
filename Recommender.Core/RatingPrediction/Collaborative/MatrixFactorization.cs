@@ -36,7 +36,7 @@ Matrix Factorization with parameters:
 ", Regularization, LearnRate, Decay, NumIter, InitStdDev, NumFactors);
 
 
-            Logger.AddProgressReport(new ProgressState(0, message.ToString(), null));
+            Logger.AddProgressReport(new ProgressState(0, message.ToString(), "Learning..."));
         }
 
 

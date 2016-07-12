@@ -38,7 +38,7 @@ namespace Recommender.Core.RatingPrediction.Collaborative
         BiasLearnRate:             {7}
     ", Regularization, LearnRate, Decay, NumIter, InitStdDev, NumFactors, BiasReg, BiasLearnRate);
 
-            Logger.AddProgressReport(new ProgressState(0, message.ToString(), null));
+            Logger.AddProgressReport(new ProgressState(0, message.ToString(), "Learning..."));
         }
     }
 }

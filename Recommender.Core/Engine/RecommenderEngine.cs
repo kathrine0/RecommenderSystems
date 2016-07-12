@@ -58,6 +58,7 @@ namespace Recommender.Core.Engine
         {
             Logger = logger;
             _service = new MovieLenseService();
+            _service.Logger = Logger;
 
             DataLoaded = false;
             NumberOfUsers = 1;
@@ -68,6 +69,7 @@ namespace Recommender.Core.Engine
         {
             //create shallow copy
             _service = new MovieLenseService();
+            _service.Logger = Logger;
 
             TrainingData = engine.TrainingData;
             TestData = engine.TestData;
