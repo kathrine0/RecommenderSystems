@@ -18,6 +18,13 @@ namespace Recommender.Common.Logger
         public string Message { get; set; }
     }
 
+    public class LoudReport : Report
+    {
+        public LoudReport(string message) : base(message)
+        { }
+
+    }
+
     public class ErrorReport : Report
     {
         public ErrorReport(string message): base(message)

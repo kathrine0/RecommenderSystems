@@ -31,13 +31,15 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.MagicButton = new System.Windows.Forms.Button();
             this.ContentBasedAlghoritmChoice = new System.Windows.Forms.Panel();
             this.ContentBasedAlgorithmCombo = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.CollaborativeAlgorithmChoice = new System.Windows.Forms.Panel();
             this.CollaborativeAlgorithmCombo = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.recommenderCombo = new System.Windows.Forms.ComboBox();
+            this.CancelButton = new System.Windows.Forms.Button();
+            this.RecommenderCombo = new System.Windows.Forms.ComboBox();
             this.datasetCombo = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -47,7 +49,7 @@
             this.opcja1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.opcja1aToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.opcja1bToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.opcja2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ClearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zakończToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
@@ -101,7 +103,6 @@
             this.CollaborativeOptions = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.CancelButton = new System.Windows.Forms.Button();
             this.dataSetOptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.mainFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
@@ -140,29 +141,42 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Controls.Add(this.MagicButton);
             this.groupBox1.Controls.Add(this.ContentBasedAlghoritmChoice);
             this.groupBox1.Controls.Add(this.CollaborativeAlgorithmChoice);
             this.groupBox1.Controls.Add(this.CancelButton);
-            this.groupBox1.Controls.Add(this.recommenderCombo);
+            this.groupBox1.Controls.Add(this.RecommenderCombo);
             this.groupBox1.Controls.Add(this.datasetCombo);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.RunButton);
             this.groupBox1.Location = new System.Drawing.Point(8, 7);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(395, 325);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
+            // 
+            // MagicButton
+            // 
+            this.MagicButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.MagicButton.Location = new System.Drawing.Point(225, 289);
+            this.MagicButton.Margin = new System.Windows.Forms.Padding(4);
+            this.MagicButton.Name = "MagicButton";
+            this.MagicButton.Size = new System.Drawing.Size(107, 28);
+            this.MagicButton.TabIndex = 13;
+            this.MagicButton.Text = "MagicButton";
+            this.MagicButton.UseVisualStyleBackColor = true;
+            this.MagicButton.Click += new System.EventHandler(this.MagicButton_Click);
             // 
             // ContentBasedAlghoritmChoice
             // 
             this.ContentBasedAlghoritmChoice.Controls.Add(this.ContentBasedAlgorithmCombo);
             this.ContentBasedAlghoritmChoice.Controls.Add(this.label6);
             this.ContentBasedAlghoritmChoice.Location = new System.Drawing.Point(8, 140);
-            this.ContentBasedAlghoritmChoice.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ContentBasedAlghoritmChoice.Margin = new System.Windows.Forms.Padding(4);
             this.ContentBasedAlghoritmChoice.Name = "ContentBasedAlghoritmChoice";
             this.ContentBasedAlghoritmChoice.Size = new System.Drawing.Size(365, 27);
             this.ContentBasedAlghoritmChoice.TabIndex = 12;
@@ -172,7 +186,7 @@
             this.ContentBasedAlgorithmCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ContentBasedAlgorithmCombo.FormattingEnabled = true;
             this.ContentBasedAlgorithmCombo.Location = new System.Drawing.Point(165, 1);
-            this.ContentBasedAlgorithmCombo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ContentBasedAlgorithmCombo.Margin = new System.Windows.Forms.Padding(4);
             this.ContentBasedAlgorithmCombo.Name = "ContentBasedAlgorithmCombo";
             this.ContentBasedAlgorithmCombo.Size = new System.Drawing.Size(199, 24);
             this.ContentBasedAlgorithmCombo.TabIndex = 10;
@@ -193,7 +207,7 @@
             this.CollaborativeAlgorithmChoice.Controls.Add(this.label3);
             this.CollaborativeAlgorithmChoice.Enabled = false;
             this.CollaborativeAlgorithmChoice.Location = new System.Drawing.Point(8, 103);
-            this.CollaborativeAlgorithmChoice.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CollaborativeAlgorithmChoice.Margin = new System.Windows.Forms.Padding(4);
             this.CollaborativeAlgorithmChoice.Name = "CollaborativeAlgorithmChoice";
             this.CollaborativeAlgorithmChoice.Size = new System.Drawing.Size(365, 34);
             this.CollaborativeAlgorithmChoice.TabIndex = 11;
@@ -203,7 +217,7 @@
             this.CollaborativeAlgorithmCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CollaborativeAlgorithmCombo.FormattingEnabled = true;
             this.CollaborativeAlgorithmCombo.Location = new System.Drawing.Point(165, 4);
-            this.CollaborativeAlgorithmCombo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CollaborativeAlgorithmCombo.Margin = new System.Windows.Forms.Padding(4);
             this.CollaborativeAlgorithmCombo.Name = "CollaborativeAlgorithmCombo";
             this.CollaborativeAlgorithmCombo.Size = new System.Drawing.Size(199, 24);
             this.CollaborativeAlgorithmCombo.TabIndex = 9;
@@ -218,16 +232,29 @@
             this.label3.TabIndex = 7;
             this.label3.Text = "Collaborative algorithm";
             // 
+            // CancelButton
+            // 
+            this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CancelButton.Enabled = false;
+            this.CancelButton.Location = new System.Drawing.Point(125, 289);
+            this.CancelButton.Margin = new System.Windows.Forms.Padding(4);
+            this.CancelButton.Name = "CancelButton";
+            this.CancelButton.Size = new System.Drawing.Size(92, 28);
+            this.CancelButton.TabIndex = 6;
+            this.CancelButton.Text = "Cancel";
+            this.CancelButton.UseVisualStyleBackColor = true;
+            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            // 
             // recommenderCombo
             // 
-            this.recommenderCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.recommenderCombo.FormattingEnabled = true;
-            this.recommenderCombo.Location = new System.Drawing.Point(173, 71);
-            this.recommenderCombo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.recommenderCombo.Name = "recommenderCombo";
-            this.recommenderCombo.Size = new System.Drawing.Size(199, 24);
-            this.recommenderCombo.TabIndex = 5;
-            this.recommenderCombo.SelectedIndexChanged += new System.EventHandler(this.recommenderCombo_SelectedIndexChanged);
+            this.RecommenderCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.RecommenderCombo.FormattingEnabled = true;
+            this.RecommenderCombo.Location = new System.Drawing.Point(173, 71);
+            this.RecommenderCombo.Margin = new System.Windows.Forms.Padding(4);
+            this.RecommenderCombo.Name = "recommenderCombo";
+            this.RecommenderCombo.Size = new System.Drawing.Size(199, 24);
+            this.RecommenderCombo.TabIndex = 5;
+            this.RecommenderCombo.SelectedIndexChanged += new System.EventHandler(this.recommenderCombo_SelectedIndexChanged);
             // 
             // datasetCombo
             // 
@@ -235,7 +262,7 @@
             this.datasetCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.datasetCombo.FormattingEnabled = true;
             this.datasetCombo.Location = new System.Drawing.Point(173, 38);
-            this.datasetCombo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.datasetCombo.Margin = new System.Windows.Forms.Padding(4);
             this.datasetCombo.Name = "datasetCombo";
             this.datasetCombo.Size = new System.Drawing.Size(199, 24);
             this.datasetCombo.TabIndex = 4;
@@ -265,7 +292,7 @@
             // 
             this.RunButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.RunButton.Location = new System.Drawing.Point(11, 289);
-            this.RunButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.RunButton.Margin = new System.Windows.Forms.Padding(4);
             this.RunButton.Name = "RunButton";
             this.RunButton.Size = new System.Drawing.Size(107, 28);
             this.RunButton.TabIndex = 0;
@@ -290,7 +317,7 @@
             // 
             this.opcjeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.opcja1ToolStripMenuItem,
-            this.opcja2ToolStripMenuItem});
+            this.ClearToolStripMenuItem});
             this.opcjeToolStripMenuItem.Name = "opcjeToolStripMenuItem";
             this.opcjeToolStripMenuItem.Size = new System.Drawing.Size(73, 24);
             this.opcjeToolStripMenuItem.Text = "Options";
@@ -301,7 +328,7 @@
             this.opcja1aToolStripMenuItem,
             this.opcja1bToolStripMenuItem});
             this.opcja1ToolStripMenuItem.Name = "opcja1ToolStripMenuItem";
-            this.opcja1ToolStripMenuItem.Size = new System.Drawing.Size(131, 26);
+            this.opcja1ToolStripMenuItem.Size = new System.Drawing.Size(168, 26);
             this.opcja1ToolStripMenuItem.Text = "Opcja1";
             // 
             // opcja1aToolStripMenuItem
@@ -316,11 +343,12 @@
             this.opcja1bToolStripMenuItem.Size = new System.Drawing.Size(140, 26);
             this.opcja1bToolStripMenuItem.Text = "Opcja1b";
             // 
-            // opcja2ToolStripMenuItem
+            // ClearToolStripMenuItem
             // 
-            this.opcja2ToolStripMenuItem.Name = "opcja2ToolStripMenuItem";
-            this.opcja2ToolStripMenuItem.Size = new System.Drawing.Size(131, 26);
-            this.opcja2ToolStripMenuItem.Text = "Opcja2";
+            this.ClearToolStripMenuItem.Name = "ClearToolStripMenuItem";
+            this.ClearToolStripMenuItem.Size = new System.Drawing.Size(168, 26);
+            this.ClearToolStripMenuItem.Text = "Clear Results";
+            this.ClearToolStripMenuItem.Click += new System.EventHandler(this.ClearToolStripMenuItem_Click);
             // 
             // zakończToolStripMenuItem
             // 
@@ -366,9 +394,9 @@
             this.ResultContainer.AutoSize = true;
             this.ResultContainer.Controls.Add(this.ResultBox);
             this.ResultContainer.Location = new System.Drawing.Point(411, 7);
-            this.ResultContainer.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ResultContainer.Margin = new System.Windows.Forms.Padding(4);
             this.ResultContainer.Name = "ResultContainer";
-            this.ResultContainer.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ResultContainer.Padding = new System.Windows.Forms.Padding(4);
             this.ResultContainer.Size = new System.Drawing.Size(488, 321);
             this.ResultContainer.TabIndex = 4;
             this.ResultContainer.TabStop = false;
@@ -376,9 +404,10 @@
             // 
             // ResultBox
             // 
+            this.ResultBox.AcceptsTab = true;
             this.ResultBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ResultBox.Location = new System.Drawing.Point(4, 19);
-            this.ResultBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ResultBox.Margin = new System.Windows.Forms.Padding(4);
             this.ResultBox.Name = "ResultBox";
             this.ResultBox.ReadOnly = true;
             this.ResultBox.Size = new System.Drawing.Size(480, 298);
@@ -394,7 +423,7 @@
             this.flowLayoutPanel1.Controls.Add(this.ContentBasedOptions);
             this.flowLayoutPanel1.Controls.Add(this.CollaborativeOptions);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(1, 336);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(897, 446);
             this.flowLayoutPanel1.TabIndex = 7;
@@ -413,7 +442,7 @@
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Location = new System.Drawing.Point(4, 4);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(436, 169);
             this.panel1.TabIndex = 2;
@@ -431,7 +460,7 @@
             // TestingSetSize
             // 
             this.TestingSetSize.Location = new System.Drawing.Point(185, 126);
-            this.TestingSetSize.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TestingSetSize.Margin = new System.Windows.Forms.Padding(4);
             this.TestingSetSize.Maximum = new decimal(new int[] {
             99,
             0,
@@ -455,7 +484,7 @@
             // ContentBased_MinimumItemsRated
             // 
             this.ContentBased_MinimumItemsRated.Location = new System.Drawing.Point(185, 57);
-            this.ContentBased_MinimumItemsRated.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ContentBased_MinimumItemsRated.Margin = new System.Windows.Forms.Padding(4);
             this.ContentBased_MinimumItemsRated.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -508,7 +537,7 @@
             // ContentBased_AmountOfUsers
             // 
             this.ContentBased_AmountOfUsers.Location = new System.Drawing.Point(185, 25);
-            this.ContentBased_AmountOfUsers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ContentBased_AmountOfUsers.Margin = new System.Windows.Forms.Padding(4);
             this.ContentBased_AmountOfUsers.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -531,7 +560,7 @@
             // TrainingSetSize
             // 
             this.TrainingSetSize.Location = new System.Drawing.Point(185, 92);
-            this.TrainingSetSize.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TrainingSetSize.Margin = new System.Windows.Forms.Padding(4);
             this.TrainingSetSize.Maximum = new decimal(new int[] {
             99,
             0,
@@ -597,7 +626,7 @@
             this.NeuralNetworkOptions.Controls.Add(this.label15);
             this.NeuralNetworkOptions.Controls.Add(this.ContentBased_HiddenLayerNeurons);
             this.NeuralNetworkOptions.Location = new System.Drawing.Point(448, 4);
-            this.NeuralNetworkOptions.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.NeuralNetworkOptions.Margin = new System.Windows.Forms.Padding(4);
             this.NeuralNetworkOptions.Name = "NeuralNetworkOptions";
             this.NeuralNetworkOptions.Size = new System.Drawing.Size(436, 234);
             this.NeuralNetworkOptions.TabIndex = 4;
@@ -618,7 +647,7 @@
             this.ContentBased_Teacher.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ContentBased_Teacher.FormattingEnabled = true;
             this.ContentBased_Teacher.Location = new System.Drawing.Point(185, 124);
-            this.ContentBased_Teacher.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ContentBased_Teacher.Margin = new System.Windows.Forms.Padding(4);
             this.ContentBased_Teacher.Name = "ContentBased_Teacher";
             this.ContentBased_Teacher.Size = new System.Drawing.Size(199, 24);
             this.ContentBased_Teacher.TabIndex = 11;
@@ -629,7 +658,7 @@
             this.flowLayoutPanel2.Controls.Add(this.ContentBased_BackPropPanel);
             this.flowLayoutPanel2.Controls.Add(this.ContentBased_GeneticPanel);
             this.flowLayoutPanel2.Location = new System.Drawing.Point(4, 155);
-            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(428, 70);
             this.flowLayoutPanel2.TabIndex = 29;
@@ -644,7 +673,7 @@
             this.ContentBased_BackPropPanel.Controls.Add(this.label23);
             this.ContentBased_BackPropPanel.Controls.Add(this.label18);
             this.ContentBased_BackPropPanel.Location = new System.Drawing.Point(4, 4);
-            this.ContentBased_BackPropPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ContentBased_BackPropPanel.Margin = new System.Windows.Forms.Padding(4);
             this.ContentBased_BackPropPanel.Name = "ContentBased_BackPropPanel";
             this.ContentBased_BackPropPanel.Size = new System.Drawing.Size(404, 64);
             this.ContentBased_BackPropPanel.TabIndex = 27;
@@ -670,7 +699,7 @@
             0,
             131072});
             this.ContentBased_LearningRate.Location = new System.Drawing.Point(177, 2);
-            this.ContentBased_LearningRate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ContentBased_LearningRate.Margin = new System.Windows.Forms.Padding(4);
             this.ContentBased_LearningRate.Name = "ContentBased_LearningRate";
             this.ContentBased_LearningRate.Size = new System.Drawing.Size(200, 22);
             this.ContentBased_LearningRate.TabIndex = 22;
@@ -688,7 +717,7 @@
             0,
             0});
             this.numericUpDown1.Location = new System.Drawing.Point(169, 100);
-            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             276447232,
             23283,
@@ -722,7 +751,7 @@
             0,
             131072});
             this.ContentBased_Momentum.Location = new System.Drawing.Point(177, 34);
-            this.ContentBased_Momentum.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ContentBased_Momentum.Margin = new System.Windows.Forms.Padding(4);
             this.ContentBased_Momentum.Maximum = new decimal(new int[] {
             1,
             0,
@@ -760,7 +789,7 @@
             this.ContentBased_GeneticPanel.Controls.Add(this.label24);
             this.ContentBased_GeneticPanel.Controls.Add(this.label25);
             this.ContentBased_GeneticPanel.Location = new System.Drawing.Point(4, 76);
-            this.ContentBased_GeneticPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ContentBased_GeneticPanel.Margin = new System.Windows.Forms.Padding(4);
             this.ContentBased_GeneticPanel.Name = "ContentBased_GeneticPanel";
             this.ContentBased_GeneticPanel.Size = new System.Drawing.Size(404, 30);
             this.ContentBased_GeneticPanel.TabIndex = 28;
@@ -780,7 +809,7 @@
             // ContentBased_PopulationSize
             // 
             this.ContentBased_PopulationSize.Location = new System.Drawing.Point(177, 1);
-            this.ContentBased_PopulationSize.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ContentBased_PopulationSize.Margin = new System.Windows.Forms.Padding(4);
             this.ContentBased_PopulationSize.Minimum = new decimal(new int[] {
             10,
             0,
@@ -803,7 +832,7 @@
             0,
             0});
             this.numericUpDown3.Location = new System.Drawing.Point(169, 100);
-            this.numericUpDown3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDown3.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDown3.Maximum = new decimal(new int[] {
             276447232,
             23283,
@@ -887,7 +916,7 @@
             0,
             0});
             this.ContentBased_Iterations.Location = new System.Drawing.Point(185, 92);
-            this.ContentBased_Iterations.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ContentBased_Iterations.Margin = new System.Windows.Forms.Padding(4);
             this.ContentBased_Iterations.Maximum = new decimal(new int[] {
             276447232,
             23283,
@@ -911,7 +940,7 @@
             0,
             131072});
             this.ContentBased_SigmoidAlpha.Location = new System.Drawing.Point(185, 28);
-            this.ContentBased_SigmoidAlpha.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ContentBased_SigmoidAlpha.Margin = new System.Windows.Forms.Padding(4);
             this.ContentBased_SigmoidAlpha.Name = "ContentBased_SigmoidAlpha";
             this.ContentBased_SigmoidAlpha.Size = new System.Drawing.Size(200, 22);
             this.ContentBased_SigmoidAlpha.TabIndex = 21;
@@ -934,7 +963,7 @@
             // ContentBased_HiddenLayerNeurons
             // 
             this.ContentBased_HiddenLayerNeurons.Location = new System.Drawing.Point(185, 60);
-            this.ContentBased_HiddenLayerNeurons.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ContentBased_HiddenLayerNeurons.Margin = new System.Windows.Forms.Padding(4);
             this.ContentBased_HiddenLayerNeurons.Name = "ContentBased_HiddenLayerNeurons";
             this.ContentBased_HiddenLayerNeurons.Size = new System.Drawing.Size(200, 22);
             this.ContentBased_HiddenLayerNeurons.TabIndex = 23;
@@ -950,7 +979,7 @@
             this.ContentBasedOptions.Controls.Add(this.label14);
             this.ContentBasedOptions.Controls.Add(this.label4);
             this.ContentBasedOptions.Location = new System.Drawing.Point(4, 246);
-            this.ContentBasedOptions.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ContentBasedOptions.Margin = new System.Windows.Forms.Padding(4);
             this.ContentBasedOptions.Name = "ContentBasedOptions";
             this.ContentBasedOptions.Size = new System.Drawing.Size(436, 143);
             this.ContentBasedOptions.TabIndex = 0;
@@ -958,7 +987,7 @@
             // ContentBased_MinFeatures
             // 
             this.ContentBased_MinFeatures.Location = new System.Drawing.Point(185, 27);
-            this.ContentBased_MinFeatures.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ContentBased_MinFeatures.Margin = new System.Windows.Forms.Padding(4);
             this.ContentBased_MinFeatures.Minimum = new decimal(new int[] {
             1,
             0,
@@ -998,7 +1027,7 @@
             // 
             this.CollaborativeOptions.Controls.Add(this.label5);
             this.CollaborativeOptions.Location = new System.Drawing.Point(448, 246);
-            this.CollaborativeOptions.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CollaborativeOptions.Margin = new System.Windows.Forms.Padding(4);
             this.CollaborativeOptions.Name = "CollaborativeOptions";
             this.CollaborativeOptions.Size = new System.Drawing.Size(436, 63);
             this.CollaborativeOptions.TabIndex = 1;
@@ -1026,23 +1055,10 @@
             this.panel2.Controls.Add(this.flowLayoutPanel1);
             this.panel2.Controls.Add(this.ResultContainer);
             this.panel2.Location = new System.Drawing.Point(0, 33);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(943, 785);
             this.panel2.TabIndex = 8;
-            // 
-            // CancelButton
-            // 
-            this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CancelButton.Enabled = false;
-            this.CancelButton.Location = new System.Drawing.Point(125, 289);
-            this.CancelButton.Margin = new System.Windows.Forms.Padding(4);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(92, 28);
-            this.CancelButton.TabIndex = 6;
-            this.CancelButton.Text = "Cancel";
-            this.CancelButton.UseVisualStyleBackColor = true;
-            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // dataSetOptionBindingSource
             // 
@@ -1062,7 +1078,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(794, 605);
             this.Name = "MainForm";
             this.Text = "Recommender Systems Research";
@@ -1121,7 +1137,7 @@
         private System.Windows.Forms.Button RunButton;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox recommenderCombo;
+        private System.Windows.Forms.ComboBox RecommenderCombo;
         private System.Windows.Forms.ComboBox datasetCombo;
         private System.Windows.Forms.GroupBox ResultContainer;
         private System.Windows.Forms.RichTextBox ResultBox;
@@ -1130,7 +1146,7 @@
         private System.Windows.Forms.ToolStripMenuItem opcja1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem opcja1aToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem opcja1bToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem opcja2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ClearToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
         private System.Windows.Forms.ToolStripProgressBar ProgressBar;
         private System.Windows.Forms.BindingSource mainFormBindingSource;
@@ -1189,6 +1205,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ToolStripStatusLabel ProcentLabel;
         private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button MagicButton;
     }
 }
 

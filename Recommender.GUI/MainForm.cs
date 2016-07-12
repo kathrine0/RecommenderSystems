@@ -10,6 +10,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MyMediaLite.Eval;
 
 namespace Recommender.GUI
 {
@@ -36,7 +37,7 @@ namespace Recommender.GUI
         private void InitializeCombos()
         {
             CreateCombo(this.datasetCombo, DataSetOption.OptionBuilder());
-            CreateCombo(this.recommenderCombo, RecommenderTypeOption.OptionBuilder());
+            CreateCombo(this.RecommenderCombo, RecommenderTypeOption.OptionBuilder());
             CreateCombo(this.CollaborativeAlgorithmCombo, CollaborativeAlgorithmOption.OptionBuilder());
             CreateCombo(this.ContentBasedAlgorithmCombo, ContentBasedAlgorithmOption.OptionBuilder());
             CreateCombo(this.ContentBased_Teacher, TeacherFunctionOption.OptionBuilder());
@@ -69,6 +70,10 @@ namespace Recommender.GUI
                 case LogType.ErrorReport:
                     ThreadSafeErrorReport(logItem.Value as ErrorReport);
                     break;
+                case LogType.LoudReport:
+                    ThreadSafeLoudReport(logItem.Value as LoudReport);
+                    break;
+
             }
         }
 
@@ -93,7 +98,7 @@ namespace Recommender.GUI
             });
 
             //update resultbox text
-            if (!string.IsNullOrEmpty(progressState.ResultBoxText))
+            if (!string.IsNullOrEmpty(progressState.ResultBoxText) && !_logger.SilentMode)
                 this.ResultBox.PerformSafely(() => AddResultBoxText(progressState.ResultBoxText));
 
             if (_progressStore >= 100)
@@ -132,6 +137,13 @@ namespace Recommender.GUI
             });
         }
 
+        private void ThreadSafeLoudReport(LoudReport report)
+        {
+            if (_logger.SilentMode)
+                this.ResultBox.PerformSafely(() => AddResultBoxText(report.Message));
+        }
+
+
         #endregion logger
 
         private void AddResultBoxText(string text)
@@ -142,7 +154,7 @@ namespace Recommender.GUI
 
         private void SetupRecommenderEngine()
         {
-            switch ((RecommenderType)(this.recommenderCombo.SelectedValue))
+            switch ((RecommenderType)(this.RecommenderCombo.SelectedValue))
             {
                 case RecommenderType.Collaborative:
                     ChooseCollaborativeAlgorithm();
@@ -213,14 +225,36 @@ namespace Recommender.GUI
 
         #region Long actions
 
+        private void DoWorkAsync()
+        {
+            _cts = new CancellationTokenSource();
+            var token = _cts.Token;
+
+            Task.Run(() => DoWork(token));
+        }
+
         private void DoWork(CancellationToken token)
         {
-            _recommenderEngine.LoadData(token);
+            ThreadSafeButtonToggle(false, true);
 
-            var teachingResult = _recommenderEngine.TeachRecommender();
+            try
+            {
+                _recommenderEngine.LoadData(token);
 
-            if (teachingResult)
-                _recommenderEngine.GetResults();
+                var teachingResult = _recommenderEngine.TeachRecommender();
+
+                if (teachingResult)
+                    _recommenderEngine.GetResults();
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.AddProgressReport(new ProgressState(0, "Operation canceled", "Operation canceled"));
+            }
+            finally
+            {
+                ThreadSafeButtonToggle(true, false);
+                _cts.Dispose();
+            }
         }
 
         #endregion Long actions
@@ -230,34 +264,13 @@ namespace Recommender.GUI
         private void RunButton_Click(object sender, EventArgs e)
         {
             SetupRecommenderEngine();
-
-            _cts = new CancellationTokenSource();
-            var token = _cts.Token;
-
-            Task.Run(() =>
-            {
-                ThreadSafeButtonToggle(false, true);
-
-                try
-                {
-                    DoWork(token);
-                }
-                catch (OperationCanceledException)
-                {
-                    _logger.AddProgressReport(new ProgressState(0, "Operation canceled", "Operation canceled"));
-                }
-                finally
-                {
-                    ThreadSafeButtonToggle(true, false);
-                    _cts.Dispose();
-                }
-            });
+            DoWorkAsync();
         }
 
 
         private void recommenderCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var selected = (RecommenderTypeOption)recommenderCombo.SelectedItem;
+            var selected = (RecommenderTypeOption)RecommenderCombo.SelectedItem;
 
             switch (selected.Value)
             {
@@ -333,7 +346,82 @@ namespace Recommender.GUI
             this.RunButton.PerformSafely(() => this.RunButton.Enabled = runbtn);
             this.CancelButton.PerformSafely(() => this.CancelButton.Enabled = cancelbtn);
         }
+        private void ClearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.ResultBox.Clear();
+        }
+        private void MagicButton_Click(object sender, EventArgs e)
+        {
+            this.RecommenderCombo.SelectedValue = RecommenderType.ContentBased;
+
+            this.ContentBased_AmountOfUsers.Value = 20;
+            this.ContentBased_MinimumItemsRated.Value = 100;
+            this.TrainingSetSize.Value = 80;
+
+            this.ContentBased_MinFeatures.Value = 2;
+
+            this.ContentBased_SigmoidAlpha.Value = 2;
+            this.ContentBased_HiddenLayerNeurons.Value = 5;
+            this.ContentBased_Iterations.Value = 1000;
+
+            this.ContentBased_Momentum.Value = 0;
+            this.ContentBased_LearningRate.Value = 0.1m;
+            this.ContentBased_PopulationSize.Value = 100;
+
+            this.ContentBased_Teacher.SelectedValue = TeacherFunction.ResilientBackProp;
+
+            _cts = new CancellationTokenSource();
+            var token = _cts.Token;
+
+            SetupRecommenderEngine();
+
+            ///test MinFeatures param
+            Task.Run(() => {
+
+                ThreadSafeButtonToggle(false, true);
+                _recommenderEngine.LoadData(token);
+                _logger.SilentMode = true;
+
+                int[] vals = new int[] { 1, 2, 5, 10, 20, 50, 75, 90 };
+
+                var changableName = "MinimumRepeatingFeatures";
+
+                foreach (var i in vals)
+                {
+                    ((NeuroRecommender)_recommenderEngine.Recommender).MinimumRepeatingFeatures = i;
+                    DoMagicAction(i, changableName);
+                }
+            });
+        }
 
         #endregion
+
+        private void DoMagicAction(int i, string changableName)
+        {
+            try
+            {
+                var teachingResult = _recommenderEngine.TeachRecommender();
+
+
+                if (teachingResult)
+                {
+                    var results = _recommenderEngine.GetResults();
+                    _logger.AddLoudReport(new LoudReport(string.Format("{0} {1} {2}", changableName, i, results.ToString())));
+                }
+
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.AddProgressReport(new ProgressState(0, "Operation canceled", "Operation canceled"));
+                _logger.AddLoudReport(new LoudReport("Operation canceled"));
+            }
+            finally
+            {
+                ThreadSafeButtonToggle(true, false);
+                _cts.Dispose();
+                }
+            
+        }
+
     }
 }

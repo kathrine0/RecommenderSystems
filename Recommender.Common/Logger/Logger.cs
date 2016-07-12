@@ -9,6 +9,7 @@ namespace Recommender.Common.Logger
 {
     public class Logger
     {
+        public bool SilentMode { get; set; }
 
         public ConcurrentLog<LogItem> Logs { get; private set; }
 
@@ -30,6 +31,11 @@ namespace Recommender.Common.Logger
         public void AddErrorReport(ErrorReport report)
         {
             Logs.Add(new LogItem(LogType.ErrorReport, report));
+        }
+
+        public void AddLoudReport(LoudReport report)
+        {
+            Logs.Add(new LogItem(LogType.LoudReport, report));
         }
 
         public void AddMessage(int progress)
@@ -77,6 +83,7 @@ namespace Recommender.Common.Logger
         IncrementProgress,
         WarningReport,
         ErrorReport,
+        LoudReport,
         Message
     }
 
