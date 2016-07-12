@@ -5,7 +5,7 @@ using MyMediaLite.Data;
 using MyMediaLite.RatingPrediction;
 using MyMediaLite.Eval;
 using Recommender.Service.Data;
-using Recommender.Core.MachineLearning;
+using Recommender.Core.RatingPrediction.ContentBased;
 
 namespace Recommender.Core.Engine
 {

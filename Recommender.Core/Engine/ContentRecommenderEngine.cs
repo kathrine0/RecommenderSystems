@@ -1,6 +1,6 @@
 ﻿using MyMediaLite.RatingPrediction;
 using Recommender.Common.Logger;
-using Recommender.Core.MachineLearning;
+using Recommender.Core.RatingPrediction.ContentBased;
 using System.Threading;
 
 namespace Recommender.Core.Engine
@@ -18,10 +18,13 @@ namespace Recommender.Core.Engine
             get { return _recommender; }
             set
             {
-                if (value is IFeaturedPredictor)
-                    _recommender = value;
-                else
+                if (!(value is IFeaturedPredictor))
                     throw new System.InvalidCastException("recommender must be IFeaturedPredictor");
+
+                _recommender = value;
+
+                if (_recommender is ILoggable)
+                    ((ILoggable)_recommender).Logger = Logger;
             }
         }
 

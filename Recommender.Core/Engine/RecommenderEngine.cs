@@ -2,7 +2,7 @@
 using MyMediaLite.Eval;
 using MyMediaLite.RatingPrediction;
 using Recommender.Common.Logger;
-using Recommender.Core.MachineLearning;
+using Recommender.Core.RatingPrediction.ContentBased;
 using Recommender.Service;
 using System;
 using System.Collections.Generic;
@@ -44,7 +44,12 @@ namespace Recommender.Core.Engine
         public virtual IRatingPredictor Recommender
         {
             get { return _recommender; }
-            set { _recommender = value; }
+            set {
+                _recommender = value;
+
+                if (_recommender is ILoggable)
+                    ((ILoggable)_recommender).Logger = Logger;
+            }
         }
         public bool DataLoaded { get; protected set; }
         public Logger Logger { get; protected set; }

@@ -2,12 +2,12 @@
 using Recommender.Service.Data;
 using System.Collections.Generic;
 
-namespace Recommender.Core.MachineLearning
+namespace Recommender.Core.RatingPrediction.ContentBased
 {
     public interface IFeaturedPredictor : IRatingPredictor
     {
         /// <summary>training data that also contains the features information</summary>
-		IFeaturedRatings FeaturedRatings { get; set; }
+        IFeaturedRatings FeaturedRatings { get; set; }
 
         /// <summary>predict rating at a certain point in time</summary>
         /// <param name='user_id'>the user ID</param>

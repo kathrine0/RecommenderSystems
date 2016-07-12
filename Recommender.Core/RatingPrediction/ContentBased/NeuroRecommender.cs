@@ -15,7 +15,7 @@ using System.Collections.Concurrent;
 using Recommender.Common.Logger;
 using System.Text;
 
-namespace Recommender.Core.MachineLearning
+namespace Recommender.Core.RatingPrediction.ContentBased
 { 
     //TODO make it handle more ppl at once
     public class NeuroRecommender : RatingPredictor, IFeaturedPredictor, ILoggable

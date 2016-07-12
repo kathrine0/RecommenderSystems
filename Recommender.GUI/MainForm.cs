@@ -1,8 +1,8 @@
-﻿using MyMediaLite.RatingPrediction;
-using Recommender.Common.Logger;
+﻿using Recommender.Common.Logger;
 using Recommender.Core.Engine;
 using Recommender.Core.Enums;
-using Recommender.Core.MachineLearning;
+using Recommender.Core.RatingPrediction.ContentBased;
+using Recommender.Core.RatingPrediction.Collaborative;
 using Recommender.GUI.Enums;
 using Recommender.GUI.Extensions;
 using Recommender.GUI.Options;
@@ -204,9 +204,6 @@ namespace Recommender.GUI
             ((NeuroRecommender)_recommenderEngine.Recommender).LearningRate = decimal.ToDouble(this.ContentBased_LearningRate.Value);
             ((NeuroRecommender)_recommenderEngine.Recommender).PopulationSize = decimal.ToInt32(this.ContentBased_PopulationSize.Value);
             ((NeuroRecommender)_recommenderEngine.Recommender).TeacherFunction = ((TeacherFunctionOption)ContentBased_Teacher.SelectedItem).Value;
-
-            //logger
-            ((NeuroRecommender)_recommenderEngine.Recommender).Logger = _logger;
         }
 
         private void ChooseHybridAlgorithm()
