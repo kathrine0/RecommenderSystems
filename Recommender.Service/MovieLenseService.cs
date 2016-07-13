@@ -48,7 +48,18 @@ namespace Recommender.Service
             _testData = sets[1];
         }
 
+        //public void LoadComplexData(out IFeaturedRatings _featuredTrainingData, out IFeaturedRatings _featuredTestData, out IRatings _simpleTrainingData, double ratio, int numberOfUsers, int numberForSimpleData, int minimumItemsRated, CancellationToken token)
+        //{
+        //    if (ratio < 0 || ratio > 1)
+        //        throw new ArgumentOutOfRangeException("ratio should be in range from 0 to 1");
 
+        //    var sets = GetFeaturedSets(ratio, numberOfUsers, minimumItemsRated, token);
+
+        //    _featuredTrainingData = sets[0];
+        //    _featuredTestData = sets[1];
+
+        //    _simpleTrainingData;
+        //}
 
 
         private IRatings[] GetBasicSets(double percentage, int numberOfUsers, int minimumItemsRated, CancellationToken token)
@@ -62,25 +73,25 @@ namespace Recommender.Service
                                 .Take(numberOfUsers);
             
             var sets = SplitSets(percentage, groupedRatings, token);
+            double progressStep = (double)50 / (double)(sets[0].Count() + sets[1].Count());
 
-            sets[0].MapTo<RatingDTO>().ForEach(x =>
-            {
-                if (token.IsCancellationRequested)
-                    throw new OperationCanceledException(token);
-
-                trainRatings.Add(x.UserId, x.ItemId, x.Rating);
-            });
-
-            sets[1].MapTo<RatingDTO>().ForEach(x =>
-            {
-                if (token.IsCancellationRequested)
-                    throw new OperationCanceledException(token);
-
-                testRatings.Add(x.UserId, x.ItemId, x.Rating);
-            });
+            CreateBasicSet(sets[0], trainRatings, token, progressStep);
+            CreateBasicSet(sets[1], testRatings, token, progressStep);
 
             return new IRatings[2] { trainRatings, testRatings };
 
+        }
+
+        private void CreateBasicSet(IEnumerable<Rating> set, Ratings ratings, CancellationToken token, double progressStep)
+        {
+            set.ToList().ForEach(x =>
+            {
+                if (token.IsCancellationRequested)
+                    throw new OperationCanceledException(token);
+
+                ratings.Add(x.UserId.Value, x.MovieId.Value, x.TheRating);
+                Logger.IncrementProgress(progressStep);
+            });
         }
 
         private IFeaturedRatings[] GetFeaturedSets(double percentage, int numberOfUsers, int minimumItemsRated, CancellationToken token)
@@ -97,26 +108,36 @@ namespace Recommender.Service
 
             double progressStep = (double) 50 / (double)(sets[0].Count() + sets[1].Count());
 
-            sets[0].MapTo<RatingWithFeaturesDTO>().ForEach(x =>
-            {
-                if (token.IsCancellationRequested)
-                    throw new OperationCanceledException(token);
-
-                trainRatings.Add(x.UserId, x.ItemId, x.Rating, x.ItemFeatures);
-                Logger.IncrementProgress(progressStep);
-            });
-
-            sets[1].MapTo<RatingWithFeaturesDTO>().ForEach(x =>
-            {
-                if (token.IsCancellationRequested)
-                    throw new OperationCanceledException(token);
-
-                testRatings.Add(x.UserId, x.ItemId, x.Rating, x.ItemFeatures);
-                Logger.IncrementProgress(progressStep);
-            });
+            CreateFeaturedSet(sets[0], trainRatings, token, progressStep);
+            CreateFeaturedSet(sets[1], testRatings, token, progressStep);
 
             return new IFeaturedRatings[2] { trainRatings, testRatings };
         }
+
+        private void CreateFeaturedSet(IEnumerable<Rating> set, FeaturedRatings ratings, CancellationToken token, double progressStep)
+        {
+            set.ToList().ForEach(x =>
+            {
+                if (token.IsCancellationRequested)
+                    throw new OperationCanceledException(token);
+
+                var itemFeatures = new Dictionary<string, object>()
+                {
+                    //{ "title", x.Movie.Title },
+                    { "director", x.Movie.Director },
+                    // { "year", x.Movie.Year.ToString() }, //TODO: remove toString here and parse is as int
+                    { "language", x.Movie.Language },
+                    { "country", x.Movie.Country },
+                    { "actors", x.Movie.Actors },
+                    { "genres", x.Movie.Genres },
+                    //{ "imdbRating", x.Movie.ImdbRating.ToString() }
+                };
+
+                ratings.Add(x.UserId.Value, x.MovieId.Value, x.TheRating, itemFeatures);
+                Logger.IncrementProgress(progressStep);
+            });
+        }
+
 
         private IEnumerable<Rating>[] SplitSets(double percentage, IQueryable<IGrouping<int?, Rating>> groupedRatings, CancellationToken token)
         {
