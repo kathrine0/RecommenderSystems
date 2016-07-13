@@ -26,41 +26,83 @@ namespace Recommender.Service
 
         //LOAD BY USER
 
-        public void LoadBasicData(out IRatings _trainingData, out IRatings _testData, double ratio, int numberOfUsers, int minimumItemsRated, CancellationToken token)
+        public void LoadBasicData(out IRatings trainingData, out IRatings testData, double ratio, int numberOfUsers, int minimumItemsRated, CancellationToken token)
         {
             if (ratio < 0 || ratio > 1)
                 throw new ArgumentOutOfRangeException("ratio should be in range from 0 to 1");
 
             var sets = GetBasicSets(ratio, numberOfUsers, minimumItemsRated, token);
 
-            _trainingData = sets[0];
-            _testData = sets[1];
+            trainingData = sets[0];
+            testData = sets[1];
         }
 
-        public void LoadFeaturedData(out IRatings _trainingData, out IRatings _testData, double ratio, int numberOfUsers, int minimumItemsRated, CancellationToken token)
+        public void LoadFeaturedData(out IRatings trainingData, out IRatings testData, double ratio, int numberOfUsers, int minimumItemsRated, CancellationToken token)
         {
             if (ratio < 0 || ratio > 1)
                 throw new ArgumentOutOfRangeException("ratio should be in range from 0 to 1");
 
             var sets = GetFeaturedSets(ratio, numberOfUsers, minimumItemsRated, token);
 
-            _trainingData = sets[0];
-            _testData = sets[1];
+            trainingData = sets[0];
+            testData = sets[1];
         }
 
-        //public void LoadComplexData(out IFeaturedRatings _featuredTrainingData, out IFeaturedRatings _featuredTestData, out IRatings _simpleTrainingData, double ratio, int numberOfUsers, int numberForSimpleData, int minimumItemsRated, CancellationToken token)
-        //{
-        //    if (ratio < 0 || ratio > 1)
-        //        throw new ArgumentOutOfRangeException("ratio should be in range from 0 to 1");
+        public void LoadComplexData(out IFeaturedRatings featuredTrainingData, out IFeaturedRatings featuredTestData, out IRatings simpleTrainingData, double ratio, int numberOfUsers, int numberForSimpleData, int minimumItemsRated, CancellationToken token)
+        {
+            if (ratio < 0 || ratio > 1)
+                throw new ArgumentOutOfRangeException("ratio should be in range from 0 to 1");
 
-        //    var sets = GetFeaturedSets(ratio, numberOfUsers, minimumItemsRated, token);
+            if (numberOfUsers > numberForSimpleData)
+                throw new ArgumentOutOfRangeException("numberOfUsers > numberForSimpleData");
 
-        //    _featuredTrainingData = sets[0];
-        //    _featuredTestData = sets[1];
+            var sets = GetComplexSets(ratio, numberOfUsers, numberForSimpleData, minimumItemsRated, token);
 
-        //    _simpleTrainingData;
-        //}
+            featuredTrainingData = (IFeaturedRatings)sets[0];
+            featuredTestData = (IFeaturedRatings)sets[1];
+            simpleTrainingData = sets[2];
 
+        }
+
+        private IRatings[] GetComplexSets(double percentage, int numberOfUsers, int numberForSimpleData, int minimumItemsRated, CancellationToken token)
+        {
+            var simpleTrainRatings = new Ratings();
+            var featuredTrainRatings = new FeaturedRatings();
+            var featuredTestRatings = new FeaturedRatings();
+
+            ///get data for content-based
+            var groupedRatings = _context.Ratings.Include(x => x.Movie)
+                                .GroupBy(x => x.UserId)
+                                .Where(x => x.Count() > minimumItemsRated)
+                                .OrderBy(x => x.Key)
+                                .Take(numberOfUsers);
+
+            var sets = SplitSets(percentage, groupedRatings, token);
+
+            double progressStep = (double)50 / (double)(sets[0].Count() + sets[1].Count());
+
+            CreateFeaturedSet(sets[0], featuredTrainRatings, token, progressStep);
+            CreateBasicSet(sets[0], simpleTrainRatings, token, progressStep);
+
+            CreateFeaturedSet(sets[1], featuredTestRatings, token, progressStep);
+
+            ///get data for collaborative
+            var simpleGroupedRatings = _context.Ratings
+                                .GroupBy(x => x.UserId)
+                                .Where(x => x.Count() > minimumItemsRated)
+                                .OrderBy(x => x.Key)
+                                .Skip(numberOfUsers)
+                                .Take(numberForSimpleData - numberOfUsers);
+
+            var simpleSets = SplitSets(1, simpleGroupedRatings, token);
+
+            double progressStep2 = (double)50 / (double)(simpleSets[0].Count());
+
+            CreateBasicSet(simpleSets[0], simpleTrainRatings, token, progressStep2);
+
+            return new IRatings[3] { featuredTrainRatings, featuredTestRatings, simpleTrainRatings };
+
+        }
 
         private IRatings[] GetBasicSets(double percentage, int numberOfUsers, int minimumItemsRated, CancellationToken token)
         {
@@ -70,6 +112,7 @@ namespace Recommender.Service
             var groupedRatings = _context.Ratings
                                 .GroupBy(x => x.UserId)
                                 .Where(x => x.Count() > minimumItemsRated)
+                                .OrderBy(x => x.Key)
                                 .Take(numberOfUsers);
             
             var sets = SplitSets(percentage, groupedRatings, token);
@@ -102,6 +145,7 @@ namespace Recommender.Service
             var groupedRatings = _context.Ratings.Include(x => x.Movie)
                                 .GroupBy(x => x.UserId)
                                 .Where(x => x.Count() > minimumItemsRated)
+                                .OrderBy(x => x.Key)
                                 .Take(numberOfUsers);
 
             var sets = SplitSets(percentage, groupedRatings, token);

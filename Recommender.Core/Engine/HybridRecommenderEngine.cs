@@ -14,8 +14,8 @@ namespace Recommender.Core.Engine
         protected IRatings _collaborativeTrainingData;
         protected IRatings _collaborativeTestData;
 
-        protected IRatings _contentTrainingData;
-        protected IRatings _contentTestData;
+        protected IFeaturedRatings _contentTrainingData;
+        protected IFeaturedRatings _contentTestData;
 
         public override IRatingPredictor Recommender
         {
@@ -42,10 +42,8 @@ namespace Recommender.Core.Engine
             var reportText = "    Data type: SIMPLE & FEATURED\n";
             Logger.AddProgressReport(new ProgressState(1, reportText, null));
 
-            _service.LoadBasicData(out _collaborativeTrainingData, out _collaborativeTestData, TrainingSetRatio, AmountOfUsersTrain, MinimumItemsRated, token);
-
-            _service.LoadFeaturedData(out _contentTrainingData, out _contentTestData, TrainingSetRatio, AmountOfUsersTest, MinimumItemsRated, token);
-
+            _service.LoadComplexData(out _contentTrainingData, out _contentTestData, out _collaborativeTrainingData, TrainingSetRatio, AmountOfUsersTest, AmountOfUsersTrain, MinimumItemsRated, token);
+        
             ((IHybridPredictor)_recommender).CollaborativeRatings = _collaborativeTrainingData;
             ((IHybridPredictor)_recommender).ContentRatings = (IFeaturedRatings) _contentTrainingData;
             TestData = _contentTestData;
