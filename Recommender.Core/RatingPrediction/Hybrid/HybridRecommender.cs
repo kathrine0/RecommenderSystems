@@ -13,6 +13,11 @@ namespace Recommender.Core.RatingPrediction.Hybrid
 {
     public class HybridRecommender : ILoggable, IHybridPredictor
     {
+        /// <summary>
+        /// Factor for y = (1/k)^x function
+        /// </summary>
+        public double Kfactor { get; set; }
+
         public Logger Logger { get;set; }
         public bool RecommenderStatus { get; set; }
         public float MaxRating { get; set; }
@@ -54,6 +59,7 @@ namespace Recommender.Core.RatingPrediction.Hybrid
         public HybridRecommender()
         {
             RecommenderStatus = true;
+            Kfactor = 2;
         }
 
         public bool CanPredict(int user_id, int item_id)
@@ -82,7 +88,9 @@ namespace Recommender.Core.RatingPrediction.Hybrid
 
             var contentError = ContentRecommender.GetError(user_id);
 
-            throw new NotImplementedException();
+            var ratio = Math.Pow(1/Kfactor, contentError); 
+
+            return (float) (ratio*contentPrediction + (1-ratio)*collaborativePrediction);
         }
 
         public IList<Tuple<int, float>> Recommend(int user_id, int n = -1, ICollection<int> ignore_items = null, ICollection<int> candidate_items = null)
