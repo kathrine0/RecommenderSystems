@@ -14,5 +14,7 @@ namespace Recommender.Core.RatingPrediction.ContentBased
         /// <param name='item_id'>the item ID</param>
         /// <param name='features'>the features of the rated item</param>
         float Predict(int user_id, int item_id, IList<IFeature> features);
+
+        double GetError(int user_id);
     }
 }

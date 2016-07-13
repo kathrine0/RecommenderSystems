@@ -2,15 +2,10 @@
 using MyMediaLite.Eval;
 using MyMediaLite.RatingPrediction;
 using Recommender.Common.Logger;
-using Recommender.Core.RatingPrediction.ContentBased;
 using Recommender.Service;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Recommender.Core.Engine
 {
@@ -38,7 +33,11 @@ namespace Recommender.Core.Engine
 
         public double TrainingSetRatio { get; protected set; }
         [Range(1, int.MaxValue)]
-        public int NumberOfUsers { get; set; }
+        public int AmountOfUsersTrain { get; set; }
+
+        [Range(1, int.MaxValue)]
+        public int AmountOfUsersTest { get; set; }
+
         [Range(1, int.MaxValue)]
         public int MinimumItemsRated { get; set; }
         public virtual IRatingPredictor Recommender
@@ -46,9 +45,7 @@ namespace Recommender.Core.Engine
             get { return _recommender; }
             set {
                 _recommender = value;
-
-                if (_recommender is ILoggable)
-                    ((ILoggable)_recommender).Logger = Logger;
+                AssignLogger(_recommender);
             }
         }
         public bool DataLoaded { get; protected set; }
@@ -61,7 +58,7 @@ namespace Recommender.Core.Engine
             _service.Logger = Logger;
 
             DataLoaded = false;
-            NumberOfUsers = 1;
+            AmountOfUsersTrain = 1;
             TrainingSetRatio = 0.8;
         }
 
@@ -74,7 +71,7 @@ namespace Recommender.Core.Engine
             TrainingData = engine.TrainingData;
             TestData = engine.TestData;
             TrainingSetRatio = engine.TrainingSetRatio;
-            NumberOfUsers = engine.NumberOfUsers;
+            AmountOfUsersTrain = engine.AmountOfUsersTrain;
             MinimumItemsRated = engine.MinimumItemsRated;
             DataLoaded = engine.DataLoaded;
             Logger = engine.Logger;
@@ -91,14 +88,14 @@ namespace Recommender.Core.Engine
             TrainingSetRatio = (double)value / 100;
         }
 
-        public void LoadData(CancellationToken token)
+        public virtual void LoadData(CancellationToken token)
         {
             var reportText = string.Format(@"
 Loading data:
     Number of users: {0} 
     Minimum rated items: {1}
     Ratio: {2}/{3}
-", NumberOfUsers, MinimumItemsRated, TrainingSetRatio * 100, 100 - TrainingSetRatio * 100);
+", AmountOfUsersTrain, MinimumItemsRated, TrainingSetRatio * 100, 100 - TrainingSetRatio * 100);
 
 
             Logger.AddProgressReport(new ProgressState(0, reportText, "Loading data..."));
@@ -107,9 +104,27 @@ Loading data:
             
             Logger.AddProgressReport(new ProgressState(90, null, null));
 
+            Recommender.Ratings = TrainingData;
             DataLoaded = true;
 
             Logger.AddProgressReport(new ProgressState(100, "Data Loaded", "Finished..."));
+        }
+
+
+        protected void PrepareSimpleSets(CancellationToken token)
+        {
+            var reportText = "    Data type: SIMPLE\n";
+            Logger.AddProgressReport(new ProgressState(1, reportText, null));
+
+            _service.LoadBasicData(out _trainingData, out _testData, TrainingSetRatio, AmountOfUsersTrain, MinimumItemsRated, token);
+        }
+
+        protected void PrepareFeaturedSets(CancellationToken token)
+        {
+            var reportText = "    Data type: FEATURED\n";
+            Logger.AddProgressReport(new ProgressState(1, reportText, null));
+
+            _service.LoadFeaturedData(out _trainingData, out _testData, TrainingSetRatio, AmountOfUsersTest, MinimumItemsRated, token);
         }
 
         public abstract void PrepareSets(CancellationToken token);
@@ -121,8 +136,7 @@ Loading data:
                 Logger.AddWarningReport(new WarningReport("No data loaded"));
                 return false;
             }
-
-            Recommender.Ratings = TrainingData;
+            
             if (Recommender == null)
             {
                 Logger.AddWarningReport(new WarningReport("Recommender not set"));
@@ -141,7 +155,7 @@ Loading data:
                 return true;
         }
 
-        public RatingPredictionEvaluationResults GetResults()
+        public virtual RatingPredictionEvaluationResults GetResults()
         {
             Logger.AddProgressReport(new ProgressState(90, "", "Evaluating results..."));
             // measure the accuracy on the test data set
@@ -157,6 +171,12 @@ Loading data:
 
             //var bmf = new BiasedMatrixFactorization { Ratings = training_data };
             //Console.WriteLine(bmf.DoCrossValidation());
+        }
+
+        protected void AssignLogger(IRatingPredictor recommender)
+        {
+            if (recommender is ILoggable)
+                ((ILoggable)recommender).Logger = Logger;
         }
     }
 }

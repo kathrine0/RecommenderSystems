@@ -61,11 +61,11 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label11 = new System.Windows.Forms.Label();
             this.TestingSetSize = new System.Windows.Forms.NumericUpDown();
-            this.ContentBased_MinimumItemsRated = new System.Windows.Forms.NumericUpDown();
+            this.MinimumItemsRated = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.ContentBased_AmountOfUsers = new System.Windows.Forms.NumericUpDown();
+            this.AmountOfUsersTrain = new System.Windows.Forms.NumericUpDown();
             this.TrainingSetSize = new System.Windows.Forms.NumericUpDown();
             this.UserLabel = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -105,6 +105,8 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataSetOptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.mainFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.AmountOfUsersTest = new System.Windows.Forms.NumericUpDown();
+            this.label27 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.ContentBasedAlghoritmChoice.SuspendLayout();
             this.CollaborativeAlgorithmChoice.SuspendLayout();
@@ -114,8 +116,8 @@
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TestingSetSize)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ContentBased_MinimumItemsRated)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ContentBased_AmountOfUsers)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MinimumItemsRated)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AmountOfUsersTrain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TrainingSetSize)).BeginInit();
             this.NeuralNetworkOptions.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -135,6 +137,7 @@
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataSetOptionBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AmountOfUsersTest)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -245,13 +248,13 @@
             this.CancelButton.UseVisualStyleBackColor = true;
             this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
-            // recommenderCombo
+            // RecommenderCombo
             // 
             this.RecommenderCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.RecommenderCombo.FormattingEnabled = true;
             this.RecommenderCombo.Location = new System.Drawing.Point(173, 71);
             this.RecommenderCombo.Margin = new System.Windows.Forms.Padding(4);
-            this.RecommenderCombo.Name = "recommenderCombo";
+            this.RecommenderCombo.Name = "RecommenderCombo";
             this.RecommenderCombo.Size = new System.Drawing.Size(199, 24);
             this.RecommenderCombo.TabIndex = 5;
             this.RecommenderCombo.SelectedIndexChanged += new System.EventHandler(this.recommenderCombo_SelectedIndexChanged);
@@ -430,13 +433,15 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.AmountOfUsersTest);
+            this.panel1.Controls.Add(this.label27);
             this.panel1.Controls.Add(this.label11);
             this.panel1.Controls.Add(this.TestingSetSize);
-            this.panel1.Controls.Add(this.ContentBased_MinimumItemsRated);
+            this.panel1.Controls.Add(this.MinimumItemsRated);
             this.panel1.Controls.Add(this.label10);
             this.panel1.Controls.Add(this.label12);
             this.panel1.Controls.Add(this.label9);
-            this.panel1.Controls.Add(this.ContentBased_AmountOfUsers);
+            this.panel1.Controls.Add(this.AmountOfUsersTrain);
             this.panel1.Controls.Add(this.TrainingSetSize);
             this.panel1.Controls.Add(this.UserLabel);
             this.panel1.Controls.Add(this.label8);
@@ -444,13 +449,13 @@
             this.panel1.Location = new System.Drawing.Point(4, 4);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(436, 169);
+            this.panel1.Size = new System.Drawing.Size(436, 192);
             this.panel1.TabIndex = 2;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(372, 130);
+            this.label11.Location = new System.Drawing.Point(372, 163);
             this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(20, 17);
@@ -459,7 +464,7 @@
             // 
             // TestingSetSize
             // 
-            this.TestingSetSize.Location = new System.Drawing.Point(185, 126);
+            this.TestingSetSize.Location = new System.Drawing.Point(185, 159);
             this.TestingSetSize.Margin = new System.Windows.Forms.Padding(4);
             this.TestingSetSize.Maximum = new decimal(new int[] {
             99,
@@ -481,24 +486,24 @@
             0});
             this.TestingSetSize.ValueChanged += new System.EventHandler(this.TestingSetSize_ValueChanged);
             // 
-            // ContentBased_MinimumItemsRated
+            // MinimumItemsRated
             // 
-            this.ContentBased_MinimumItemsRated.Location = new System.Drawing.Point(185, 57);
-            this.ContentBased_MinimumItemsRated.Margin = new System.Windows.Forms.Padding(4);
-            this.ContentBased_MinimumItemsRated.Maximum = new decimal(new int[] {
+            this.MinimumItemsRated.Location = new System.Drawing.Point(185, 90);
+            this.MinimumItemsRated.Margin = new System.Windows.Forms.Padding(4);
+            this.MinimumItemsRated.Maximum = new decimal(new int[] {
             10000000,
             0,
             0,
             0});
-            this.ContentBased_MinimumItemsRated.Minimum = new decimal(new int[] {
+            this.MinimumItemsRated.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.ContentBased_MinimumItemsRated.Name = "ContentBased_MinimumItemsRated";
-            this.ContentBased_MinimumItemsRated.Size = new System.Drawing.Size(179, 22);
-            this.ContentBased_MinimumItemsRated.TabIndex = 4;
-            this.ContentBased_MinimumItemsRated.Value = new decimal(new int[] {
+            this.MinimumItemsRated.Name = "MinimumItemsRated";
+            this.MinimumItemsRated.Size = new System.Drawing.Size(179, 22);
+            this.MinimumItemsRated.TabIndex = 4;
+            this.MinimumItemsRated.Value = new decimal(new int[] {
             100,
             0,
             0,
@@ -507,7 +512,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(20, 130);
+            this.label10.Location = new System.Drawing.Point(19, 161);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(107, 17);
@@ -517,7 +522,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(20, 59);
+            this.label12.Location = new System.Drawing.Point(20, 94);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(137, 17);
@@ -527,39 +532,39 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(372, 97);
+            this.label9.Location = new System.Drawing.Point(372, 130);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(20, 17);
             this.label9.TabIndex = 4;
             this.label9.Text = "%";
             // 
-            // ContentBased_AmountOfUsers
+            // AmountOfUsersTrain
             // 
-            this.ContentBased_AmountOfUsers.Location = new System.Drawing.Point(185, 25);
-            this.ContentBased_AmountOfUsers.Margin = new System.Windows.Forms.Padding(4);
-            this.ContentBased_AmountOfUsers.Maximum = new decimal(new int[] {
+            this.AmountOfUsersTrain.Location = new System.Drawing.Point(185, 59);
+            this.AmountOfUsersTrain.Margin = new System.Windows.Forms.Padding(4);
+            this.AmountOfUsersTrain.Maximum = new decimal(new int[] {
             10000000,
             0,
             0,
             0});
-            this.ContentBased_AmountOfUsers.Minimum = new decimal(new int[] {
+            this.AmountOfUsersTrain.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.ContentBased_AmountOfUsers.Name = "ContentBased_AmountOfUsers";
-            this.ContentBased_AmountOfUsers.Size = new System.Drawing.Size(179, 22);
-            this.ContentBased_AmountOfUsers.TabIndex = 1;
-            this.ContentBased_AmountOfUsers.Value = new decimal(new int[] {
-            1,
+            this.AmountOfUsersTrain.Name = "AmountOfUsersTrain";
+            this.AmountOfUsersTrain.Size = new System.Drawing.Size(179, 22);
+            this.AmountOfUsersTrain.TabIndex = 1;
+            this.AmountOfUsersTrain.Value = new decimal(new int[] {
+            20,
             0,
             0,
             0});
             // 
             // TrainingSetSize
             // 
-            this.TrainingSetSize.Location = new System.Drawing.Point(185, 92);
+            this.TrainingSetSize.Location = new System.Drawing.Point(185, 125);
             this.TrainingSetSize.Margin = new System.Windows.Forms.Padding(4);
             this.TrainingSetSize.Maximum = new decimal(new int[] {
             99,
@@ -584,17 +589,17 @@
             // UserLabel
             // 
             this.UserLabel.AutoSize = true;
-            this.UserLabel.Location = new System.Drawing.Point(20, 27);
+            this.UserLabel.Location = new System.Drawing.Point(20, 61);
             this.UserLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.UserLabel.Name = "UserLabel";
-            this.UserLabel.Size = new System.Drawing.Size(113, 17);
+            this.UserLabel.Size = new System.Drawing.Size(117, 17);
             this.UserLabel.TabIndex = 0;
-            this.UserLabel.Text = "Number of users";
+            this.UserLabel.Text = "Users for training";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(20, 97);
+            this.label8.Location = new System.Drawing.Point(19, 128);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(112, 17);
@@ -760,6 +765,11 @@
             this.ContentBased_Momentum.Name = "ContentBased_Momentum";
             this.ContentBased_Momentum.Size = new System.Drawing.Size(200, 22);
             this.ContentBased_Momentum.TabIndex = 20;
+            this.ContentBased_Momentum.Value = new decimal(new int[] {
+            9,
+            0,
+            0,
+            65536});
             // 
             // label23
             // 
@@ -1068,6 +1078,39 @@
             // 
             this.mainFormBindingSource.DataSource = typeof(Recommender.GUI.MainForm);
             // 
+            // AmountOfUsersTest
+            // 
+            this.AmountOfUsersTest.Location = new System.Drawing.Point(186, 29);
+            this.AmountOfUsersTest.Margin = new System.Windows.Forms.Padding(4);
+            this.AmountOfUsersTest.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.AmountOfUsersTest.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.AmountOfUsersTest.Name = "AmountOfUsersTest";
+            this.AmountOfUsersTest.Size = new System.Drawing.Size(179, 22);
+            this.AmountOfUsersTest.TabIndex = 9;
+            this.AmountOfUsersTest.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(19, 31);
+            this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(112, 17);
+            this.label27.TabIndex = 8;
+            this.label27.Text = "Users for testing";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1097,8 +1140,8 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TestingSetSize)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ContentBased_MinimumItemsRated)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ContentBased_AmountOfUsers)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MinimumItemsRated)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AmountOfUsersTrain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TrainingSetSize)).EndInit();
             this.NeuralNetworkOptions.ResumeLayout(false);
             this.NeuralNetworkOptions.PerformLayout();
@@ -1124,6 +1167,7 @@
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataSetOptionBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AmountOfUsersTest)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1160,7 +1204,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Panel ContentBasedOptions;
         private System.Windows.Forms.Panel CollaborativeOptions;
-        private System.Windows.Forms.NumericUpDown ContentBased_AmountOfUsers;
+        private System.Windows.Forms.NumericUpDown AmountOfUsersTrain;
         private System.Windows.Forms.Label UserLabel;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
@@ -1172,7 +1216,7 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.NumericUpDown TestingSetSize;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.NumericUpDown ContentBased_MinimumItemsRated;
+        private System.Windows.Forms.NumericUpDown MinimumItemsRated;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.NumericUpDown ContentBased_MinFeatures;
         private System.Windows.Forms.Label label14;
@@ -1206,6 +1250,8 @@
         private System.Windows.Forms.ToolStripStatusLabel ProcentLabel;
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Button MagicButton;
+        private System.Windows.Forms.NumericUpDown AmountOfUsersTest;
+        private System.Windows.Forms.Label label27;
     }
 }
 

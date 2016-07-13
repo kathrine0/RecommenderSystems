@@ -21,10 +21,9 @@ namespace Recommender.Core.RatingPrediction.ContentBased
     public class NeuroRecommender : RatingPredictor, IFeaturedPredictor, ILoggable
     {
         ///Stores neural networks per every user
-        private IDictionary<int, ActivationNetwork> _networks;
         private IActivationFunction _activationFunction;
         private IDictionary<int, NeuralData> _neuralData;
-
+        private ConcurrentBag<NeuralNetworkContainer> _networks;
 
         public Logger Logger { get; set; }
 
@@ -135,7 +134,7 @@ namespace Recommender.Core.RatingPrediction.ContentBased
                                 .Any(c => c.Name == d.Name && c.FeatureCategory == d.FeatureCategory) ?
                                 1 : 0));
 
-            var result = _networks[user_id].Compute(tmp.ToArray());
+            var result = _networks.First(x =>x.UserId == user_id).Network.Compute(tmp.ToArray());
 
             return Convert.ToSingle(result[0]*MaxRating);
         }
@@ -173,7 +172,6 @@ Training network with parameters:
 
             Logger.AddProgressReport(new ProgressState(0, message.ToString(), null));
         }
-
        
         public override void Train()
         {
@@ -276,7 +274,7 @@ Training network with parameters:
 
         private void TrainNetworks()
         {
-            _networks = new ConcurrentDictionary<int, ActivationNetwork>();
+            _networks = new ConcurrentBag<NeuralNetworkContainer>();
 
             double count = _neuralData.Count();
             double progressStep = 80 /count;
@@ -335,7 +333,7 @@ Training network with parameters:
 
                 Console.WriteLine(data.Key + " error: " + error.ToString() + " iterations:" + iteration.ToString());
 
-                _networks.Add(data.Key, network);
+                _networks.Add(new NeuralNetworkContainer(data.Key, network, error));
 
                 Logger.IncrementProgress(progressStep);
 
@@ -350,6 +348,10 @@ Training network with parameters:
             });
         }
 
+        public double GetError(int user_id)
+        {
+            return _networks.First(x => x.UserId == user_id).Error;
+        }
     }
 
     class NeuralData
@@ -365,6 +367,21 @@ Training network with parameters:
         public double[][] Output { get; private set; }
 
         public IList<IFeature> AllFeatures { get; private set; }
+    }
 
+    public class NeuralNetworkContainer
+    {
+        public NeuralNetworkContainer(int userId, ActivationNetwork network, double error)
+        {
+            UserId = userId;
+            Network = network;
+            Error = error;
+        }
+
+        public int UserId { get; set; }
+
+        public ActivationNetwork Network { get; set; }
+
+        public double Error { get; set; }
     }
 }

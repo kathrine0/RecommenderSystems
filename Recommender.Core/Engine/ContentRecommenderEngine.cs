@@ -22,18 +22,13 @@ namespace Recommender.Core.Engine
                     throw new System.InvalidCastException("recommender must be IFeaturedPredictor");
 
                 _recommender = value;
-
-                if (_recommender is ILoggable)
-                    ((ILoggable)_recommender).Logger = Logger;
+                AssignLogger(_recommender);
             }
         }
 
         public override void PrepareSets(CancellationToken token)
         {
-            var reportText = "    Data type: FEATURED\n";
-            Logger.AddProgressReport(new ProgressState(1, reportText, null));
-
-            _service.LoadFeaturedData(out _trainingData, out _testData, TrainingSetRatio, NumberOfUsers, MinimumItemsRated, token);
+            PrepareFeaturedSets(token);
         }
     }
 }

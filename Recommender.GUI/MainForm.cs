@@ -10,7 +10,8 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MyMediaLite.Eval;
+using Recommender.Core.RatingPrediction.Hybrid;
+using IRatingPredictor = MyMediaLite.RatingPrediction.IRatingPredictor;
 
 namespace Recommender.GUI
 {
@@ -107,17 +108,18 @@ namespace Recommender.GUI
 
         private void ThreadSafeIncrementProgress(double progressStep)
         {
+            _progressStore += progressStep;
+
+            if (_progressStore >= 100)
+                _progressStore = 0;
+
             this.StatusStrip.PerformSafely(() =>
             {
-                _progressStore += progressStep;
                 this.ProgressBar.Value = (int)Math.Round(_progressStore);
-
                 this.ProcentLabel.Text = ProgressBar.Value.ToString() + "%";
             });
 
 
-            if (_progressStore >= 100)
-                _progressStore = 0;
         }
 
         private void ThreadSafeWarningReport(WarningReport warningReport)
@@ -154,73 +156,85 @@ namespace Recommender.GUI
 
         private void SetupRecommenderEngine()
         {
-            switch ((RecommenderType)(this.RecommenderCombo.SelectedValue))
-            {
-                case RecommenderType.Collaborative:
-                    ChooseCollaborativeAlgorithm();
-                    break;
-                case RecommenderType.ContentBased:
-                    ChooseContentBasedAlgorithm();
-                    SetupNeuroSettings();
-                    break;
-                case RecommenderType.Hybrid:
-                    ChooseHybridAlgorithm();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("Unknown recommender type");
-            }
+            _recommenderEngine = ChooseRecommenderEngine();
 
             //data settings
-            _recommenderEngine.NumberOfUsers = decimal.ToInt32(this.ContentBased_AmountOfUsers.Value);
-            _recommenderEngine.MinimumItemsRated = decimal.ToInt32(this.ContentBased_MinimumItemsRated.Value);
+            _recommenderEngine.AmountOfUsersTrain = decimal.ToInt32(this.AmountOfUsersTrain.Value);
+            _recommenderEngine.AmountOfUsersTest = decimal.ToInt32(this.AmountOfUsersTest.Value);
+            _recommenderEngine.MinimumItemsRated = decimal.ToInt32(this.MinimumItemsRated.Value);
             _recommenderEngine.SetTrainingSetRatio(this.TrainingSetSize.Value);
         }
 
-        private void ChooseCollaborativeAlgorithm()
+        private RecommenderEngine ChooseRecommenderEngine()
         {
-            _recommenderEngine = new CollaborativeRecommenderEngine(_logger);
+            RecommenderEngine re;
 
+            switch ((RecommenderType)(this.RecommenderCombo.SelectedValue))
+            {
+                case RecommenderType.Collaborative:
+                    re = new CollaborativeRecommenderEngine(_logger);
+                    re.Recommender = ChooseCollaborativeAlgorithm();
+                    break;
+                case RecommenderType.ContentBased:
+                    re = new ContentRecommenderEngine(_logger);
+                    re.Recommender = ChooseContentBasedAlgorithm();
+                    break;
+                case RecommenderType.Hybrid:
+                    re = new HybridRecommenderEngine(_logger);
+                    re.Recommender = ChooseHybridAlgorithm();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("Unknown recommender type");
+            }
+
+            return re;
+        }
+
+        private IRatingPredictor ChooseCollaborativeAlgorithm()
+        {
             switch ((CollaborativeAlgorithm)(this.CollaborativeAlgorithmCombo.SelectedValue))
             {
                 case CollaborativeAlgorithm.MatrixFactorization:
-                    _recommenderEngine.Recommender = new MatrixFactorization();
-                    break;
+                    return new MatrixFactorization();
                 case CollaborativeAlgorithm.BiasedMatrixFactorization:
-                    _recommenderEngine.Recommender = new BiasedMatrixFactorization();
-                    break;
+                    return new BiasedMatrixFactorization();
                 case CollaborativeAlgorithm.SVDplusplus:
-                    _recommenderEngine.Recommender = new SVDPlusPlus();
-                    break;
+                    return new SVDPlusPlus();
                 default:
                     throw new ArgumentOutOfRangeException("Unknown recommender type");
             }
         }
 
-        private void ChooseContentBasedAlgorithm()
+        private IFeaturedPredictor ChooseContentBasedAlgorithm()
         {
-            _recommenderEngine = new ContentRecommenderEngine(_logger);
-            _recommenderEngine.Recommender = new NeuroRecommender();
-        }
+            var recommender = new NeuroRecommender();
 
-        private void SetupNeuroSettings()
-        {
-            ((NeuroRecommender)_recommenderEngine.Recommender).MinimumRepeatingFeatures = decimal.ToInt32(this.ContentBased_MinFeatures.Value);
+            recommender.MinimumRepeatingFeatures = decimal.ToInt32(this.ContentBased_MinFeatures.Value);
 
             //neuro settings
-            ((NeuroRecommender)_recommenderEngine.Recommender).SigmoidAlphaValue = decimal.ToDouble(this.ContentBased_SigmoidAlpha.Value);
-            ((NeuroRecommender)_recommenderEngine.Recommender).HiddenLayerNeurons = decimal.ToInt32(this.ContentBased_HiddenLayerNeurons.Value);
-            ((NeuroRecommender)_recommenderEngine.Recommender).IterationLimit = decimal.ToInt32(this.ContentBased_Iterations.Value);
+            recommender.SigmoidAlphaValue = decimal.ToDouble(this.ContentBased_SigmoidAlpha.Value);
+            recommender.HiddenLayerNeurons = decimal.ToInt32(this.ContentBased_HiddenLayerNeurons.Value);
+            recommender.IterationLimit = decimal.ToInt32(this.ContentBased_Iterations.Value);
 
             //teacher settings
-            ((NeuroRecommender)_recommenderEngine.Recommender).Momentum = decimal.ToDouble(this.ContentBased_Momentum.Value);
-            ((NeuroRecommender)_recommenderEngine.Recommender).LearningRate = decimal.ToDouble(this.ContentBased_LearningRate.Value);
-            ((NeuroRecommender)_recommenderEngine.Recommender).PopulationSize = decimal.ToInt32(this.ContentBased_PopulationSize.Value);
-            ((NeuroRecommender)_recommenderEngine.Recommender).TeacherFunction = ((TeacherFunctionOption)ContentBased_Teacher.SelectedItem).Value;
+            recommender.Momentum = decimal.ToDouble(this.ContentBased_Momentum.Value);
+            recommender.LearningRate = decimal.ToDouble(this.ContentBased_LearningRate.Value);
+            recommender.PopulationSize = decimal.ToInt32(this.ContentBased_PopulationSize.Value);
+            recommender.TeacherFunction = ((TeacherFunctionOption)ContentBased_Teacher.SelectedItem).Value;
+
+            return recommender;
         }
 
-        private void ChooseHybridAlgorithm()
+        private IHybridPredictor ChooseHybridAlgorithm()
         {
-            throw new NotImplementedException();
+            
+            var recommender = new HybridRecommender();
+
+            recommender.Logger = _logger;
+            recommender.CollaborativeRecommender = ChooseCollaborativeAlgorithm();
+            recommender.ContentRecommender = ChooseContentBasedAlgorithm();
+
+            return recommender;
         }
 
         #region Long actions
@@ -352,23 +366,59 @@ namespace Recommender.GUI
         }
         private void MagicButton_Click(object sender, EventArgs e)
         {
-            this.RecommenderCombo.SelectedValue = RecommenderType.ContentBased;
+            //this.RecommenderCombo.SelectedValue = RecommenderType.ContentBased;
 
-            this.ContentBased_AmountOfUsers.Value = 20;
-            this.ContentBased_MinimumItemsRated.Value = 100;
+            //this.ContentBased_AmountOfUsers.Value = 20;
+            //this.ContentBased_MinimumItemsRated.Value = 100;
+            //this.TrainingSetSize.Value = 80;
+
+            //this.ContentBased_MinFeatures.Value = 10;
+
+            //this.ContentBased_SigmoidAlpha.Value = 2;
+            //this.ContentBased_HiddenLayerNeurons.Value = 1;
+            //this.ContentBased_Iterations.Value = 1000;
+
+            //this.ContentBased_Momentum.Value = 0.9m;
+            //this.ContentBased_LearningRate.Value = 0.1m;
+            //this.ContentBased_PopulationSize.Value = 100;
+
+            //this.ContentBased_Teacher.SelectedValue = TeacherFunction.BackProp;
+
+            //_cts = new CancellationTokenSource();
+            //var token = _cts.Token;
+
+            //SetupRecommenderEngine();
+
+            /////test MinFeatures param
+            //Task.Run(() => {
+
+            //    ThreadSafeButtonToggle(false, true);
+            //    _recommenderEngine.LoadData(token);
+            //    _logger.SilentMode = true;
+
+            //    int[] vals = new int[] { 0, 1, 2 };
+
+            //    var changableName = "Momentum";
+
+            //    _logger.AddLoudReport(new LoudReport(string.Format("{0} RMSE MAE CBD", changableName)));
+
+            //    for (double i = 0; i<=1; i+=0.1)
+            //    {
+            //        ((NeuroRecommender)_recommenderEngine.Recommender).Momentum = i;
+            //        DoMagicAction(i, changableName);
+            //    }
+            //});
+
+
+
+            this.RecommenderCombo.SelectedValue = RecommenderType.Collaborative;
+            this.CollaborativeAlgorithmCombo.SelectedValue = CollaborativeAlgorithm.SVDplusplus;
+
+            this.AmountOfUsersTrain.Value = 20;
+            this.MinimumItemsRated.Value = 1;
             this.TrainingSetSize.Value = 80;
 
-            this.ContentBased_MinFeatures.Value = 2;
-
-            this.ContentBased_SigmoidAlpha.Value = 2;
-            this.ContentBased_HiddenLayerNeurons.Value = 5;
-            this.ContentBased_Iterations.Value = 1000;
-
-            this.ContentBased_Momentum.Value = 0;
-            this.ContentBased_LearningRate.Value = 0.1m;
-            this.ContentBased_PopulationSize.Value = 100;
-
-            this.ContentBased_Teacher.SelectedValue = TeacherFunction.ResilientBackProp;
+           
 
             _cts = new CancellationTokenSource();
             var token = _cts.Token;
@@ -379,24 +429,30 @@ namespace Recommender.GUI
             Task.Run(() => {
 
                 ThreadSafeButtonToggle(false, true);
-                _recommenderEngine.LoadData(token);
                 _logger.SilentMode = true;
 
-                int[] vals = new int[] { 1, 2, 5, 10, 20, 50, 75, 90 };
+                int[] vals = new int[] { 1, 20, 100, 500, 1000, 2000, 5000, 10000, 50000, 100000 };
 
-                var changableName = "MinimumRepeatingFeatures";
+                var changableName = "Users";
 
-                foreach (var i in vals)
+
+                _logger.AddLoudReport(new LoudReport(string.Format("{0} RMSE MAE CBD", changableName)));
+
+                foreach (int i in vals)
                 {
-                    ((NeuroRecommender)_recommenderEngine.Recommender).MinimumRepeatingFeatures = i;
+                    _recommenderEngine.AmountOfUsersTrain = i;
+
+                    _recommenderEngine.LoadData(token);
                     DoMagicAction(i, changableName);
                 }
+
+                _logger.SilentMode = false;
             });
         }
 
         #endregion
 
-        private void DoMagicAction(int i, string changableName)
+        private void DoMagicAction(double i, string changableName)
         {
             try
             {
@@ -406,7 +462,7 @@ namespace Recommender.GUI
                 if (teachingResult)
                 {
                     var results = _recommenderEngine.GetResults();
-                    _logger.AddLoudReport(new LoudReport(string.Format("{0} {1} {2}", changableName, i, results.ToString())));
+                    _logger.AddLoudReport(new LoudReport(string.Format("{0} {1} {2} {3}", i, results["RMSE"], results["MAE"], results["CBD"])));
                 }
 
             }
@@ -418,8 +474,8 @@ namespace Recommender.GUI
             finally
             {
                 ThreadSafeButtonToggle(true, false);
-                _cts.Dispose();
-                }
+                _cts.Dispose();               
+            }
             
         }
 
