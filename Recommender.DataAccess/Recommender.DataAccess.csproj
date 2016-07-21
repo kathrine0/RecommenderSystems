@@ -55,6 +55,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AmazonMeta\Entities\Load_Product_Category_Fact.cs" />
+    <Compile Include="AmazonMeta\Entities\Load_Product_Dimension.cs" />
+    <Compile Include="AmazonMeta\Entities\Load_Review_Fact.cs" />
+    <Compile Include="AmazonMeta\AmazonMetaContext.cs" />
+    <Compile Include="BaseContext.cs" />
+    <Compile Include="AmazonMeta\Migrations\Configuration.cs" />
+    <Compile Include="Migrations\201607211511231_InitialCreate.cs" />
+    <Compile Include="Migrations\201607211511231_InitialCreate.Designer.cs">
+      <DependentUpon>201607211511231_InitialCreate.cs</DependentUpon>
+    </Compile>
     <Compile Include="MovieLense\Entities\Link.cs" />
     <Compile Include="Helpers\EntityFrameworkUtilities.cs" />
     <Compile Include="Helpers\MovieDataDownloader.cs" />
@@ -122,6 +132,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Migrations\201607211511231_InitialCreate.resx">
+      <DependentUpon>201607211511231_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MovieLense\Migrations\201604020942133_initial-migration.resx">
       <DependentUpon>201604020942133_initial-migration.cs</DependentUpon>
     </EmbeddedResource>
@@ -162,6 +175,7 @@
       <DependentUpon>201604161545445_test.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

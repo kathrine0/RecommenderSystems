@@ -366,59 +366,93 @@ namespace Recommender.GUI
         }
         private void MagicButton_Click(object sender, EventArgs e)
         {
-            //this.RecommenderCombo.SelectedValue = RecommenderType.ContentBased;
+            MagicHybrid();
+        }
 
-            //this.ContentBased_AmountOfUsers.Value = 20;
-            //this.ContentBased_MinimumItemsRated.Value = 100;
-            //this.TrainingSetSize.Value = 80;
+        #endregion
 
-            //this.ContentBased_MinFeatures.Value = 10;
-
-            //this.ContentBased_SigmoidAlpha.Value = 2;
-            //this.ContentBased_HiddenLayerNeurons.Value = 1;
-            //this.ContentBased_Iterations.Value = 1000;
-
-            //this.ContentBased_Momentum.Value = 0.9m;
-            //this.ContentBased_LearningRate.Value = 0.1m;
-            //this.ContentBased_PopulationSize.Value = 100;
-
-            //this.ContentBased_Teacher.SelectedValue = TeacherFunction.BackProp;
-
-            //_cts = new CancellationTokenSource();
-            //var token = _cts.Token;
-
-            //SetupRecommenderEngine();
-
-            /////test MinFeatures param
-            //Task.Run(() => {
-
-            //    ThreadSafeButtonToggle(false, true);
-            //    _recommenderEngine.LoadData(token);
-            //    _logger.SilentMode = true;
-
-            //    int[] vals = new int[] { 0, 1, 2 };
-
-            //    var changableName = "Momentum";
-
-            //    _logger.AddLoudReport(new LoudReport(string.Format("{0} RMSE MAE CBD", changableName)));
-
-            //    for (double i = 0; i<=1; i+=0.1)
-            //    {
-            //        ((NeuroRecommender)_recommenderEngine.Recommender).Momentum = i;
-            //        DoMagicAction(i, changableName);
-            //    }
-            //});
+        private void DoMagicAction(double i, string changableName)
+        {
+            try
+            {
+                var teachingResult = _recommenderEngine.TeachRecommender();
 
 
+                if (teachingResult)
+                {
+                    var results = _recommenderEngine.GetResults();
+                    _logger.AddLoudReport(new LoudReport(string.Format("{0} {1} {2} {3}", i, results["RMSE"], results["MAE"], results["CBD"])));
+                }
 
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.AddProgressReport(new ProgressState(0, "Operation canceled", "Operation canceled"));
+                _logger.AddLoudReport(new LoudReport("Operation canceled"));
+            }
+            finally
+            {
+                ThreadSafeButtonToggle(true, false);
+                _cts.Dispose();               
+            }
+            
+        }
+
+        private void MagicContentBased()
+        {
+            this.RecommenderCombo.SelectedValue = RecommenderType.ContentBased;
+
+            this.AmountOfUsersTrain.Value = 20;
+            this.MinimumItemsRated.Value = 100;
+            this.TrainingSetSize.Value = 80;
+
+            this.ContentBased_MinFeatures.Value = 10;
+
+            this.ContentBased_SigmoidAlpha.Value = 2;
+            this.ContentBased_HiddenLayerNeurons.Value = 1;
+            this.ContentBased_Iterations.Value = 1000;
+
+            this.ContentBased_Momentum.Value = 0.9m;
+            this.ContentBased_LearningRate.Value = 0.1m;
+            this.ContentBased_PopulationSize.Value = 100;
+
+            this.ContentBased_Teacher.SelectedValue = TeacherFunction.BackProp;
+
+            _cts = new CancellationTokenSource();
+            var token = _cts.Token;
+
+            SetupRecommenderEngine();
+
+            ///test MinFeatures param
+            Task.Run(() =>
+            {
+
+                ThreadSafeButtonToggle(false, true);
+                _recommenderEngine.LoadData(token);
+                _logger.SilentMode = true;
+
+                int[] vals = new int[] { 0, 1, 2 };
+
+                var changableName = "Momentum";
+
+                _logger.AddLoudReport(new LoudReport(string.Format("{0} RMSE MAE CBD", changableName)));
+
+                for (double i = 0; i <= 1; i += 0.1)
+                {
+                    ((NeuroRecommender)_recommenderEngine.Recommender).Momentum = i;
+                    DoMagicAction(i, changableName);
+                }
+            });
+        }
+
+        private void MagicCollaborative()
+        {
             this.RecommenderCombo.SelectedValue = RecommenderType.Collaborative;
             this.CollaborativeAlgorithmCombo.SelectedValue = CollaborativeAlgorithm.SVDplusplus;
 
             this.AmountOfUsersTrain.Value = 20;
             this.MinimumItemsRated.Value = 1;
             this.TrainingSetSize.Value = 80;
-
-           
 
             _cts = new CancellationTokenSource();
             var token = _cts.Token;
@@ -450,33 +484,57 @@ namespace Recommender.GUI
             });
         }
 
-        #endregion
-
-        private void DoMagicAction(double i, string changableName)
+        private void MagicHybrid()
         {
-            try
-            {
-                var teachingResult = _recommenderEngine.TeachRecommender();
+            this.TrainingSetSize.Value = 80;
 
+            this.ContentBased_MinFeatures.Value = 5;
 
-                if (teachingResult)
+            this.ContentBased_SigmoidAlpha.Value = 2;
+            this.ContentBased_HiddenLayerNeurons.Value = 1;
+            this.ContentBased_Iterations.Value = 1000;
+
+            this.ContentBased_Momentum.Value = 0.9m;
+            this.ContentBased_LearningRate.Value = 0.1m;
+            this.ContentBased_PopulationSize.Value = 100;
+
+            this.ContentBased_Teacher.SelectedValue = TeacherFunction.BackProp;
+            
+            this.CollaborativeAlgorithmCombo.SelectedValue = CollaborativeAlgorithm.MatrixFactorization;
+
+            this.AmountOfUsersTrain.Value = 20;
+            this.AmountOfUsersTest.Value = 20;
+            this.TrainingSetSize.Value = 80;
+            this.MinimumItemsRated.Value = 50;     
+
+            _cts = new CancellationTokenSource();
+            var token = _cts.Token;
+
+            this.RecommenderCombo.SelectedValue = RecommenderType.Hybrid;
+            SetupRecommenderEngine();
+
+            ///test MinFeatures param
+            Task.Run(() => {
+
+                ThreadSafeButtonToggle(false, true);
+                _logger.SilentMode = true;
+
+                int[] vals = new int[] { 20, 100, 500, 1000, 2000, 5000, 10000, 50000  };
+
+                var changableName = "Users";
+
+                _logger.AddLoudReport(new LoudReport(string.Format("{0} RMSE MAE CBD", changableName)));
+
+                foreach (int i in vals)
                 {
-                    var results = _recommenderEngine.GetResults();
-                    _logger.AddLoudReport(new LoudReport(string.Format("{0} {1} {2} {3}", i, results["RMSE"], results["MAE"], results["CBD"])));
+                    _recommenderEngine.AmountOfUsersTrain = i;
+
+                    _recommenderEngine.LoadData(token);
+                    DoMagicAction(i, changableName);
                 }
 
-            }
-            catch (OperationCanceledException)
-            {
-                _logger.AddProgressReport(new ProgressState(0, "Operation canceled", "Operation canceled"));
-                _logger.AddLoudReport(new LoudReport("Operation canceled"));
-            }
-            finally
-            {
-                ThreadSafeButtonToggle(true, false);
-                _cts.Dispose();               
-            }
-            
+                _logger.SilentMode = false;
+            });
         }
 
     }

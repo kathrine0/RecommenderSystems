@@ -4,18 +4,13 @@ using System.Data.Entity;
 namespace Recommender.DataAccess.MovieLense
 {
 
-    public partial class MovieLenseContext : DbContext
+    public partial class MovieLenseContext : BaseContext
     {
         public MovieLenseContext()
             : base("Name=MovieLenseContext")
         {
         }
 
-        public bool IsCompatible {
-            get {
-                return Database.CompatibleWithModel(true);
-            }
-        }
 
         public virtual DbSet<Link> Links { get; set; }
         public virtual DbSet<Movie> Movies { get; set; }
