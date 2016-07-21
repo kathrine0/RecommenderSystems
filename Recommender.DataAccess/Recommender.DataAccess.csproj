@@ -61,10 +61,15 @@
     <Compile Include="AmazonMeta\AmazonMetaContext.cs" />
     <Compile Include="BaseContext.cs" />
     <Compile Include="AmazonMeta\Migrations\Configuration.cs" />
-    <Compile Include="Migrations\201607211511231_InitialCreate.cs" />
-    <Compile Include="Migrations\201607211511231_InitialCreate.Designer.cs">
+    <Compile Include="AmazonMeta\Migrations\201607211511231_InitialCreate.cs" />
+    <Compile Include="AmazonMeta\Migrations\201607211511231_InitialCreate.Designer.cs">
       <DependentUpon>201607211511231_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607212051084_InitialCreate.cs" />
+    <Compile Include="Migrations\201607212051084_InitialCreate.Designer.cs">
+      <DependentUpon>201607212051084_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="YahooMusic\Migrations\Configuration.cs" />
     <Compile Include="MovieLense\Entities\Link.cs" />
     <Compile Include="Helpers\EntityFrameworkUtilities.cs" />
     <Compile Include="Helpers\MovieDataDownloader.cs" />
@@ -126,14 +131,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MovieLense\Entities\Rating.cs" />
     <Compile Include="MovieLense\Entities\User.cs" />
+    <Compile Include="YahooMusic\Entities\GenreAttribute.cs" />
+    <Compile Include="YahooMusic\Entities\Rating.cs" />
+    <Compile Include="YahooMusic\Entities\SongAttribute.cs" />
+    <Compile Include="YahooMusic\YahooMusicContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607211511231_InitialCreate.resx">
+    <EmbeddedResource Include="AmazonMeta\Migrations\201607211511231_InitialCreate.resx">
       <DependentUpon>201607211511231_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607212051084_InitialCreate.resx">
+      <DependentUpon>201607212051084_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MovieLense\Migrations\201604020942133_initial-migration.resx">
       <DependentUpon>201604020942133_initial-migration.cs</DependentUpon>
