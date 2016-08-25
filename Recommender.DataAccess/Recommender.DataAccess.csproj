@@ -65,9 +65,41 @@
     <Compile Include="AmazonMeta\Migrations\201607211511231_InitialCreate.Designer.cs">
       <DependentUpon>201607211511231_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201607212051084_InitialCreate.cs" />
-    <Compile Include="Migrations\201607212051084_InitialCreate.Designer.cs">
+    <Compile Include="YahooMusic\Migrations\201607212051084_InitialCreate.cs" />
+    <Compile Include="YahooMusic\Migrations\201607212051084_InitialCreate.Designer.cs">
       <DependentUpon>201607212051084_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MovieLense\Migrations\201608251653201_UpdatedNames.cs" />
+    <Compile Include="MovieLense\Migrations\201608251653201_UpdatedNames.Designer.cs">
+      <DependentUpon>201608251653201_UpdatedNames.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MovieLense\Migrations\201608251655179_UpdatedNames2.cs" />
+    <Compile Include="MovieLense\Migrations\201608251655179_UpdatedNames2.Designer.cs">
+      <DependentUpon>201608251655179_UpdatedNames2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="YahooMusic\Migrations\201608251723282_UpdatedNames.cs" />
+    <Compile Include="YahooMusic\Migrations\201608251723282_UpdatedNames.Designer.cs">
+      <DependentUpon>201608251723282_UpdatedNames.cs</DependentUpon>
+    </Compile>
+    <Compile Include="YahooMusic\Migrations\201608251725181_UpdatedNames2.cs" />
+    <Compile Include="YahooMusic\Migrations\201608251725181_UpdatedNames2.Designer.cs">
+      <DependentUpon>201608251725181_UpdatedNames2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="YahooMusic\Migrations\201608251817540_ForeignKeys.cs" />
+    <Compile Include="YahooMusic\Migrations\201608251817540_ForeignKeys.Designer.cs">
+      <DependentUpon>201608251817540_ForeignKeys.cs</DependentUpon>
+    </Compile>
+    <Compile Include="YahooMusic\Migrations\201608251826094_SongFieldNames.cs" />
+    <Compile Include="YahooMusic\Migrations\201608251826094_SongFieldNames.Designer.cs">
+      <DependentUpon>201608251826094_SongFieldNames.cs</DependentUpon>
+    </Compile>
+    <Compile Include="YahooMusic\Migrations\201608251841182_GenreFieldNames.cs" />
+    <Compile Include="YahooMusic\Migrations\201608251841182_GenreFieldNames.Designer.cs">
+      <DependentUpon>201608251841182_GenreFieldNames.cs</DependentUpon>
+    </Compile>
+    <Compile Include="YahooMusic\Migrations\201608251846548_Ocochodzi.cs" />
+    <Compile Include="YahooMusic\Migrations\201608251846548_Ocochodzi.Designer.cs">
+      <DependentUpon>201608251846548_Ocochodzi.cs</DependentUpon>
     </Compile>
     <Compile Include="YahooMusic\Migrations\Configuration.cs" />
     <Compile Include="MovieLense\Entities\Link.cs" />
@@ -131,9 +163,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MovieLense\Entities\Rating.cs" />
     <Compile Include="MovieLense\Entities\User.cs" />
-    <Compile Include="YahooMusic\Entities\GenreAttribute.cs" />
+    <Compile Include="YahooMusic\Entities\Genre.cs" />
     <Compile Include="YahooMusic\Entities\Rating.cs" />
-    <Compile Include="YahooMusic\Entities\SongAttribute.cs" />
+    <Compile Include="YahooMusic\Entities\Song.cs" />
     <Compile Include="YahooMusic\YahooMusicContext.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -144,7 +176,7 @@
     <EmbeddedResource Include="AmazonMeta\Migrations\201607211511231_InitialCreate.resx">
       <DependentUpon>201607211511231_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607212051084_InitialCreate.resx">
+    <EmbeddedResource Include="YahooMusic\Migrations\201607212051084_InitialCreate.resx">
       <DependentUpon>201607212051084_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MovieLense\Migrations\201604020942133_initial-migration.resx">
@@ -185,6 +217,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MovieLense\Migrations\201604161545445_test.resx">
       <DependentUpon>201604161545445_test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MovieLense\Migrations\201608251653201_UpdatedNames.resx">
+      <DependentUpon>201608251653201_UpdatedNames.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MovieLense\Migrations\201608251655179_UpdatedNames2.resx">
+      <DependentUpon>201608251655179_UpdatedNames2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="YahooMusic\Migrations\201608251723282_UpdatedNames.resx">
+      <DependentUpon>201608251723282_UpdatedNames.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="YahooMusic\Migrations\201608251725181_UpdatedNames2.resx">
+      <DependentUpon>201608251725181_UpdatedNames2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="YahooMusic\Migrations\201608251817540_ForeignKeys.resx">
+      <DependentUpon>201608251817540_ForeignKeys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="YahooMusic\Migrations\201608251826094_SongFieldNames.resx">
+      <DependentUpon>201608251826094_SongFieldNames.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="YahooMusic\Migrations\201608251841182_GenreFieldNames.resx">
+      <DependentUpon>201608251841182_GenreFieldNames.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="YahooMusic\Migrations\201608251846548_Ocochodzi.resx">
+      <DependentUpon>201608251846548_Ocochodzi.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

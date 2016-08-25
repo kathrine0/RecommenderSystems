@@ -6,18 +6,21 @@ namespace Recommender.DataAccess.YahooMusic.Entities
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class GenreAttribute
+    public partial class Genre
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int genre_id { get; set; }
+        public int GenreId { get; set; }
 
-        public int? parent_genre_id { get; set; }
+        public int? ParentGenreId { get; set; }
 
-        public int genre_level { get; set; }
+        [ForeignKey("ParentGenreId")]
+        public virtual Genre ParentGenre { get; set; }
+
+        public int GenreLevel { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string genre_name { get; set; }
+        public string GenreName { get; set; }
     }
 }

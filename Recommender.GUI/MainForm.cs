@@ -3,7 +3,7 @@ using Recommender.Core.Engine;
 using Recommender.Core.Enums;
 using Recommender.Core.RatingPrediction.ContentBased;
 using Recommender.Core.RatingPrediction.Collaborative;
-using Recommender.GUI.Enums;
+using Recommender.Common.Enums;
 using Recommender.GUI.Extensions;
 using Recommender.GUI.Options;
 using System;
@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Recommender.Core.RatingPrediction.Hybrid;
 using IRatingPredictor = MyMediaLite.RatingPrediction.IRatingPredictor;
+using Recommender.Common.Enums;
 
 namespace Recommender.GUI
 {
@@ -153,16 +154,17 @@ namespace Recommender.GUI
             this.ResultBox.AppendText(text + "\n");
         }
 
-
         private void SetupRecommenderEngine()
         {
             _recommenderEngine = ChooseRecommenderEngine();
-
             //data settings
+            var dataset = (DataSetType) this.datasetCombo.SelectedValue;
+
             _recommenderEngine.AmountOfUsersTrain = decimal.ToInt32(this.AmountOfUsersTrain.Value);
             _recommenderEngine.AmountOfUsersTest = decimal.ToInt32(this.AmountOfUsersTest.Value);
             _recommenderEngine.MinimumItemsRated = decimal.ToInt32(this.MinimumItemsRated.Value);
             _recommenderEngine.SetTrainingSetRatio(this.TrainingSetSize.Value);
+            _recommenderEngine.SetDataSet(dataset);
         }
 
         private RecommenderEngine ChooseRecommenderEngine()
@@ -281,7 +283,6 @@ namespace Recommender.GUI
             DoWorkAsync();
         }
 
-
         private void recommenderCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selected = (RecommenderTypeOption)RecommenderCombo.SelectedItem;
@@ -360,10 +361,12 @@ namespace Recommender.GUI
             this.RunButton.PerformSafely(() => this.RunButton.Enabled = runbtn);
             this.CancelButton.PerformSafely(() => this.CancelButton.Enabled = cancelbtn);
         }
+
         private void ClearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.ResultBox.Clear();
         }
+
         private void MagicButton_Click(object sender, EventArgs e)
         {
             MagicHybrid();

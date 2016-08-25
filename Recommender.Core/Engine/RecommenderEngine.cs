@@ -1,6 +1,7 @@
 ﻿using MyMediaLite.Data;
 using MyMediaLite.Eval;
 using MyMediaLite.RatingPrediction;
+using Recommender.Common.Enums;
 using Recommender.Common.Logger;
 using Recommender.Service;
 using System;
@@ -30,6 +31,10 @@ namespace Recommender.Core.Engine
             protected set { _testData = value; }
         }
 
+        public IRatingService Service {
+            get { return _service; }
+            protected set { _service = value; }
+        }
 
         public double TrainingSetRatio { get; protected set; }
         [Range(1, int.MaxValue)]
@@ -50,6 +55,7 @@ namespace Recommender.Core.Engine
         }
         public bool DataLoaded { get; protected set; }
         public Logger Logger { get; protected set; }
+        public DataSetType DataSet { get; set; }
 
         public RecommenderEngine(Logger logger)
         {
@@ -65,9 +71,7 @@ namespace Recommender.Core.Engine
         public RecommenderEngine(RecommenderEngine engine)
         {
             //create shallow copy
-            _service = new MovieLenseService();
-            _service.Logger = Logger;
-
+           
             TrainingData = engine.TrainingData;
             TestData = engine.TestData;
             TrainingSetRatio = engine.TrainingSetRatio;
@@ -75,6 +79,9 @@ namespace Recommender.Core.Engine
             MinimumItemsRated = engine.MinimumItemsRated;
             DataLoaded = engine.DataLoaded;
             Logger = engine.Logger;
+
+            if (engine.Service != null)
+                Service = engine.Service;
 
             if (engine.Recommender != null)
                 Recommender = engine.Recommender;
@@ -110,7 +117,6 @@ Loading data:
             Logger.AddProgressReport(new ProgressState(100, "Data Loaded", "Finished..."));
         }
 
-
         protected void PrepareSimpleSets(CancellationToken token)
         {
             var reportText = "    Data type: SIMPLE\n";
@@ -131,6 +137,12 @@ Loading data:
 
         public virtual bool TeachRecommender()
         {
+            if (_service == null)
+            {
+                Logger.AddErrorReport(new ErrorReport("Dataset not set"));
+                return false;
+            }
+
             if (!DataLoaded)
             {
                 Logger.AddWarningReport(new WarningReport("No data loaded"));
@@ -171,6 +183,24 @@ Loading data:
 
             //var bmf = new BiasedMatrixFactorization { Ratings = training_data };
             //Console.WriteLine(bmf.DoCrossValidation());
+        }
+
+        public void SetDataSet(DataSetType dataset)
+        {
+            switch (dataset)
+            {
+                case DataSetType.AmazonMeta:
+                    throw new NotImplementedException();
+                    break;
+                case DataSetType.MovieLense:
+                    _service = new MovieLenseService();
+                    _service.Logger = Logger;
+                    break;
+                case DataSetType.YahooMusic:
+                    _service = new YahooMusicService();
+                    _service.Logger = Logger;
+                    break;
+            }
         }
 
         protected void AssignLogger(IRatingPredictor recommender)

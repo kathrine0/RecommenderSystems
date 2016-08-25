@@ -1,4 +1,5 @@
-﻿using Recommender.GUI.Enums;
+﻿using Recommender.Common.Enums;
+using Recommender.Common.Enums;
 using System.Collections.Generic;
 
 namespace Recommender.GUI.Options

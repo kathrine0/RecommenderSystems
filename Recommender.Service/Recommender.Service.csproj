@@ -67,6 +67,7 @@
     <Compile Include="DTO\RatingWithFeaturesDTO.cs" />
     <Compile Include="DTO\RatingDTO.cs" />
     <Compile Include="IRatingService.cs" />
+    <Compile Include="YahooMusicService.cs" />
     <Compile Include="MovieLenseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

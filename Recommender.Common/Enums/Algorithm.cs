@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Recommender.GUI.Enums
+namespace Recommender.Common.Enums
 {
     public enum CollaborativeAlgorithm
     {

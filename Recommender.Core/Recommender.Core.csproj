@@ -104,8 +104,6 @@
     <Compile Include="Engine\ContentRecommenderEngine.cs" />
     <Compile Include="Engine\HybridRecommenderEngine.cs" />
     <Compile Include="Engine\RecommenderRatings.cs" />
-    <Compile Include="Enums\Teacher.cs" />
-    <Compile Include="Enums\ActivationFunction.cs" />
     <Compile Include="RatingPrediction\Collaborative\BiasedMatrixFactorization.cs" />
     <Compile Include="RatingPrediction\Collaborative\MatrixFactorization.cs" />
     <Compile Include="RatingPrediction\Collaborative\SVDPlusPlus.cs" />

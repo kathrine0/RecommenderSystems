@@ -40,6 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\ActivationFunction.cs" />
+    <Compile Include="Enums\Algorithm.cs" />
+    <Compile Include="Enums\DataSetType.cs" />
+    <Compile Include="Enums\RecommenderType.cs" />
+    <Compile Include="Enums\Teacher.cs" />
     <Compile Include="LinqExtensions.cs" />
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="Logger\WarningReport.cs" />

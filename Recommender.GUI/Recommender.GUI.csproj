@@ -59,9 +59,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\Algorithm.cs" />
-    <Compile Include="Enums\DataSet.cs" />
-    <Compile Include="Enums\RecommenderType.cs" />
     <Compile Include="Extensions\CrossThreadExtensions.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

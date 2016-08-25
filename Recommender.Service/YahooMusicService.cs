@@ -1,30 +1,30 @@
-﻿using System.Linq;
-using System;
-using MyMediaLite.Data;
-using Recommender.DataAccess.MovieLense;
-using Recommender.DataAccess.MovieLense.Entities;
-using System.Collections.Generic;
-using Recommender.Service.DTO;
-using System.Data.Entity;
-using Recommender.Service.Data;
-using System.Threading;
+﻿using MyMediaLite.Data;
 using Recommender.Common.Logger;
+using Recommender.DataAccess.YahooMusic;
+using Recommender.DataAccess.YahooMusic.Entities;
+using Recommender.Service.Data;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading;
 
 namespace Recommender.Service
 {
-    public class MovieLenseService : IRatingService
+    public class YahooMusicService : IRatingService
     {
 
         public Logger Logger { get; set; }
         //todo dependency injection
-        MovieLenseContext _context;
+        YahooMusicContext _context;
 
-        public MovieLenseService()
+        public YahooMusicService()
         {
-            _context = new MovieLenseContext();
+            _context = new YahooMusicContext();
         }
 
         //LOAD BY USER
+        //todo make inheritable
         public void LoadBasicData(out IRatings trainingData, out IRatings testData, double ratio, int numberOfUsers, int minimumItemsRated, CancellationToken token)
         {
             if (ratio < 0 || ratio > 1)
@@ -36,6 +36,7 @@ namespace Recommender.Service
             testData = sets[1];
         }
 
+        //todo make inheritable
         public void LoadFeaturedData(out IRatings trainingData, out IRatings testData, double ratio, int numberOfUsers, int minimumItemsRated, CancellationToken token)
         {
             if (ratio < 0 || ratio > 1)
@@ -47,6 +48,7 @@ namespace Recommender.Service
             testData = sets[1];
         }
 
+        //todo make inheritable
         public void LoadComplexData(out IFeaturedRatings featuredTrainingData, out IFeaturedRatings featuredTestData, out IRatings simpleTrainingData, double ratio, int numberOfUsers, int numberForSimpleData, int minimumItemsRated, CancellationToken token)
         {
             if (ratio < 0 || ratio > 1)
@@ -70,7 +72,7 @@ namespace Recommender.Service
             var featuredTestRatings = new FeaturedRatings();
 
             ///get data for content-based
-            var groupedRatings = _context.Ratings.Include(x => x.Movie)
+            var groupedRatings = _context.Ratings.Include(x => x.Song)
                                 .GroupBy(x => x.UserId)
                                 .Where(x => x.Count() > minimumItemsRated)
                                 .OrderBy(x => x.Key)
@@ -113,7 +115,7 @@ namespace Recommender.Service
                                 .Where(x => x.Count() > minimumItemsRated)
                                 .OrderBy(x => x.Key)
                                 .Take(numberOfUsers);
-            
+
             var sets = SplitSets(percentage, groupedRatings, token);
             double progressStep = (double)50 / (double)(sets[0].Count() + sets[1].Count());
 
@@ -131,7 +133,7 @@ namespace Recommender.Service
                 if (token.IsCancellationRequested)
                     throw new OperationCanceledException(token);
 
-                ratings.Add(x.UserId.Value, x.MovieId.Value, x.TheRating);
+                ratings.Add(x.UserId, x.SongId, x.TheRating);
                 Logger.IncrementProgress(progressStep);
             });
         }
@@ -141,7 +143,7 @@ namespace Recommender.Service
             var trainRatings = new FeaturedRatings();
             var testRatings = new FeaturedRatings();
 
-            var groupedRatings = _context.Ratings.Include(x => x.Movie)
+            var groupedRatings = _context.Ratings.Include(x => x.Song)
                                 .GroupBy(x => x.UserId)
                                 .Where(x => x.Count() > minimumItemsRated)
                                 .OrderBy(x => x.Key)
@@ -149,7 +151,7 @@ namespace Recommender.Service
 
             var sets = SplitSets(percentage, groupedRatings, token);
 
-            double progressStep = (double) 50 / (double)(sets[0].Count() + sets[1].Count());
+            double progressStep = (double)50 / (double)(sets[0].Count() + sets[1].Count());
 
             CreateFeaturedSet(sets[0], trainRatings, token, progressStep);
             CreateFeaturedSet(sets[1], testRatings, token, progressStep);
@@ -166,25 +168,40 @@ namespace Recommender.Service
 
                 var itemFeatures = new Dictionary<string, object>()
                 {
-                    //{ "title", x.Movie.Title },
-                    { "director", x.Movie.Director },
-                    // { "year", x.Movie.Year.ToString() }, //TODO: remove toString here and parse is as int
-                    { "language", x.Movie.Language },
-                    { "country", x.Movie.Country },
-                    { "actors", x.Movie.Actors },
-                    { "genres", x.Movie.Genres },
-                    //{ "imdbRating", x.Movie.ImdbRating.ToString() }
+                    { "album", x.Song.AlbumId },
+                    { "main_genre", x.Song.Genre.GenreName },
+                    { "genre_tree", GetGenreTree(x.Song) }
                 };
 
-                ratings.Add(x.UserId.Value, x.MovieId.Value, x.TheRating, itemFeatures);
+                ratings.Add(x.UserId, x.SongId, x.TheRating, itemFeatures);
                 Logger.IncrementProgress(progressStep);
             });
         }
 
-
-        private IEnumerable<Rating>[] SplitSets(double percentage, IQueryable<IGrouping<int?, Rating>> groupedRatings, CancellationToken token)
+        private List<string> GetGenreTree(Song song)
         {
-            double progressStep = (double) 50 / (double) groupedRatings.Count();
+            var genre = song.Genre;
+
+            var genreList = new List<string>();
+
+            while (true)
+            {
+                genreList.Add(genre.GenreName);
+
+                if (!genre.ParentGenreId.HasValue ||
+                    genre.ParentGenreId == 0 ||
+                    genre.GenreId == genre.ParentGenreId)
+                    break;
+
+                genre = genre.ParentGenre;
+            }
+
+            return genreList;
+        }
+
+        private IEnumerable<Rating>[] SplitSets(double percentage, IQueryable<IGrouping<int, Rating>> groupedRatings, CancellationToken token)
+        {
+            double progressStep = (double)50 / (double)groupedRatings.Count();
             //od 0 do 50 --- 50 jednostek
 
             var trainingSet = new List<Rating>();
@@ -209,44 +226,9 @@ namespace Recommender.Service
 
                 Logger.IncrementProgress(progressStep);
             }
-            
+
             return new List<Rating>[2] { trainingSet, testingSet };
         }
 
-
-        //LOAD ALL
-        //public void LoadBasicData(out IRatings _trainingData, out IRatings _testData, double ratio)
-        //{
-        //    if (ratio < 0 || ratio > 1)
-        //        throw new ArgumentOutOfRangeException("ratio should be in range from 0 to 1");
-
-        //    _trainingData = GetBasicSet(ratio, false);
-        //    _testData = GetBasicSet(1 - ratio, true);
-        //}
-
-        //private IRatings GetBasicSet(double percentage, bool fromEnd)
-        //{
-        //    var ratings = new Ratings();
-        //    var set = GetRatingLimitedSets(percentage, fromEnd).MapTo<RatingDTO>();
-
-        //    set.ForEach(x => {
-        //        ratings.Add(x.UserId, x.ItemId, x.Rating);
-        //    });
-
-        //    return ratings;
-        //}
-
-        //private IEnumerable<Rating> GetRatingLimitedSets(double percentage, bool fromEnd)
-        //{
-        //    var count = _context.Ratings.Count();
-
-        //    int take = (int)Math.Floor(count * percentage);
-        //    int skip = fromEnd ? (int)Math.Ceiling(count * (1 - percentage)) : 0;
-
-        //    var result = _context.Ratings.OrderBy(x => x.Timestamp).Skip(skip).Take(take);
-
-        //    var ratings = result.AsEnumerable();
-        //    return ratings;
-        //}
     }
 }

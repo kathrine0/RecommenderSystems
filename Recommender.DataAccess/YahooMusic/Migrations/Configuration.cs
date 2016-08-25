@@ -10,6 +10,8 @@ namespace Recommender.DataAccess.YahooMusic.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            MigrationsDirectory = @"YahooMusic\Migrations";
+            CommandTimeout = 6000000;
         }
 
         protected override void Seed(Recommender.DataAccess.YahooMusic.YahooMusicContext context)

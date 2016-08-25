@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Recommender.GUI.Enums
+namespace Recommender.Common.Enums
 {
-    public enum  DataSet
+    public enum RecommenderType
     {
-         MovieLense,
-         AmazonMeta,
-         LastFm
+        Collaborative,
+        ContentBased,
+        Hybrid
     }
 }

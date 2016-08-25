@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Recommender.DataAccess
 {
-    public class BaseContext : DbContext
+    public abstract class BaseContext : DbContext
     {
         public BaseContext(string connectionString) : base(connectionString)
         {
