@@ -59,13 +59,15 @@
             this.ResultBox = new System.Windows.Forms.RichTextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.FeaturedDataUsersQuantity = new System.Windows.Forms.NumericUpDown();
+            this.label27 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.TestingSetSize = new System.Windows.Forms.NumericUpDown();
             this.MinimumItemsRated = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.AmountOfUsersTrain = new System.Windows.Forms.NumericUpDown();
+            this.BasicDataUsersQuantity = new System.Windows.Forms.NumericUpDown();
             this.TrainingSetSize = new System.Windows.Forms.NumericUpDown();
             this.UserLabel = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -105,8 +107,6 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataSetOptionBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.mainFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.AmountOfUsersTest = new System.Windows.Forms.NumericUpDown();
-            this.label27 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.ContentBasedAlghoritmChoice.SuspendLayout();
             this.CollaborativeAlgorithmChoice.SuspendLayout();
@@ -115,9 +115,10 @@
             this.ResultContainer.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FeaturedDataUsersQuantity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TestingSetSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinimumItemsRated)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AmountOfUsersTrain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BasicDataUsersQuantity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TrainingSetSize)).BeginInit();
             this.NeuralNetworkOptions.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -137,7 +138,6 @@
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataSetOptionBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AmountOfUsersTest)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -433,7 +433,7 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.AmountOfUsersTest);
+            this.panel1.Controls.Add(this.FeaturedDataUsersQuantity);
             this.panel1.Controls.Add(this.label27);
             this.panel1.Controls.Add(this.label11);
             this.panel1.Controls.Add(this.TestingSetSize);
@@ -441,7 +441,7 @@
             this.panel1.Controls.Add(this.label10);
             this.panel1.Controls.Add(this.label12);
             this.panel1.Controls.Add(this.label9);
-            this.panel1.Controls.Add(this.AmountOfUsersTrain);
+            this.panel1.Controls.Add(this.BasicDataUsersQuantity);
             this.panel1.Controls.Add(this.TrainingSetSize);
             this.panel1.Controls.Add(this.UserLabel);
             this.panel1.Controls.Add(this.label8);
@@ -451,6 +451,39 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(436, 192);
             this.panel1.TabIndex = 2;
+            // 
+            // FeaturedDataUsersQuantity
+            // 
+            this.FeaturedDataUsersQuantity.Location = new System.Drawing.Point(186, 29);
+            this.FeaturedDataUsersQuantity.Margin = new System.Windows.Forms.Padding(4);
+            this.FeaturedDataUsersQuantity.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.FeaturedDataUsersQuantity.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.FeaturedDataUsersQuantity.Name = "FeaturedDataUsersQuantity";
+            this.FeaturedDataUsersQuantity.Size = new System.Drawing.Size(179, 22);
+            this.FeaturedDataUsersQuantity.TabIndex = 9;
+            this.FeaturedDataUsersQuantity.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(19, 31);
+            this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(140, 17);
+            this.label27.TabIndex = 8;
+            this.label27.Text = "Content-based users";
             // 
             // label11
             // 
@@ -504,7 +537,7 @@
             this.MinimumItemsRated.Size = new System.Drawing.Size(179, 22);
             this.MinimumItemsRated.TabIndex = 4;
             this.MinimumItemsRated.Value = new decimal(new int[] {
-            100,
+            2,
             0,
             0,
             0});
@@ -539,25 +572,25 @@
             this.label9.TabIndex = 4;
             this.label9.Text = "%";
             // 
-            // AmountOfUsersTrain
+            // BasicDataUsersQuantity
             // 
-            this.AmountOfUsersTrain.Location = new System.Drawing.Point(185, 59);
-            this.AmountOfUsersTrain.Margin = new System.Windows.Forms.Padding(4);
-            this.AmountOfUsersTrain.Maximum = new decimal(new int[] {
+            this.BasicDataUsersQuantity.Location = new System.Drawing.Point(185, 59);
+            this.BasicDataUsersQuantity.Margin = new System.Windows.Forms.Padding(4);
+            this.BasicDataUsersQuantity.Maximum = new decimal(new int[] {
             10000000,
             0,
             0,
             0});
-            this.AmountOfUsersTrain.Minimum = new decimal(new int[] {
+            this.BasicDataUsersQuantity.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.AmountOfUsersTrain.Name = "AmountOfUsersTrain";
-            this.AmountOfUsersTrain.Size = new System.Drawing.Size(179, 22);
-            this.AmountOfUsersTrain.TabIndex = 1;
-            this.AmountOfUsersTrain.Value = new decimal(new int[] {
-            20,
+            this.BasicDataUsersQuantity.Name = "BasicDataUsersQuantity";
+            this.BasicDataUsersQuantity.Size = new System.Drawing.Size(179, 22);
+            this.BasicDataUsersQuantity.TabIndex = 1;
+            this.BasicDataUsersQuantity.Value = new decimal(new int[] {
+            500,
             0,
             0,
             0});
@@ -592,9 +625,9 @@
             this.UserLabel.Location = new System.Drawing.Point(20, 61);
             this.UserLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.UserLabel.Name = "UserLabel";
-            this.UserLabel.Size = new System.Drawing.Size(117, 17);
+            this.UserLabel.Size = new System.Drawing.Size(129, 17);
             this.UserLabel.TabIndex = 0;
-            this.UserLabel.Text = "Users for training";
+            this.UserLabel.Text = "Collaborative users";
             // 
             // label8
             // 
@@ -1078,39 +1111,6 @@
             // 
             this.mainFormBindingSource.DataSource = typeof(Recommender.GUI.MainForm);
             // 
-            // AmountOfUsersTest
-            // 
-            this.AmountOfUsersTest.Location = new System.Drawing.Point(186, 29);
-            this.AmountOfUsersTest.Margin = new System.Windows.Forms.Padding(4);
-            this.AmountOfUsersTest.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.AmountOfUsersTest.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.AmountOfUsersTest.Name = "AmountOfUsersTest";
-            this.AmountOfUsersTest.Size = new System.Drawing.Size(179, 22);
-            this.AmountOfUsersTest.TabIndex = 9;
-            this.AmountOfUsersTest.Value = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(19, 31);
-            this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(112, 17);
-            this.label27.TabIndex = 8;
-            this.label27.Text = "Users for testing";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1139,9 +1139,10 @@
             this.flowLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FeaturedDataUsersQuantity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TestingSetSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinimumItemsRated)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AmountOfUsersTrain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BasicDataUsersQuantity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TrainingSetSize)).EndInit();
             this.NeuralNetworkOptions.ResumeLayout(false);
             this.NeuralNetworkOptions.PerformLayout();
@@ -1167,7 +1168,6 @@
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataSetOptionBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AmountOfUsersTest)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1204,7 +1204,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Panel ContentBasedOptions;
         private System.Windows.Forms.Panel CollaborativeOptions;
-        private System.Windows.Forms.NumericUpDown AmountOfUsersTrain;
+        private System.Windows.Forms.NumericUpDown BasicDataUsersQuantity;
         private System.Windows.Forms.Label UserLabel;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
@@ -1250,7 +1250,7 @@
         private System.Windows.Forms.ToolStripStatusLabel ProcentLabel;
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Button MagicButton;
-        private System.Windows.Forms.NumericUpDown AmountOfUsersTest;
+        private System.Windows.Forms.NumericUpDown FeaturedDataUsersQuantity;
         private System.Windows.Forms.Label label27;
     }
 }

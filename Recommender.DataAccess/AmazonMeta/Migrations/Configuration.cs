@@ -7,6 +7,7 @@ namespace Recommender.DataAccess.AmazonMeta.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            MigrationsDirectory = @"AmazonMeta\Migrations";
         }
 
         protected override void Seed(Recommender.DataAccess.AmazonMeta.AmazonMetaContext context)

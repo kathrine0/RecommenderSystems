@@ -12,10 +12,8 @@ using Recommender.Common.Logger;
 
 namespace Recommender.Service
 {
-    public class MovieLenseService : IRatingService
+    public class MovieLenseService : RatingService
     {
-
-        public Logger Logger { get; set; }
         //todo dependency injection
         MovieLenseContext _context;
 
@@ -24,46 +22,7 @@ namespace Recommender.Service
             _context = new MovieLenseContext();
         }
 
-        //LOAD BY USER
-        public void LoadBasicData(out IRatings trainingData, out IRatings testData, double ratio, int numberOfUsers, int minimumItemsRated, CancellationToken token)
-        {
-            if (ratio < 0 || ratio > 1)
-                throw new ArgumentOutOfRangeException("ratio should be in range from 0 to 1");
-
-            var sets = GetBasicSets(ratio, numberOfUsers, minimumItemsRated, token);
-
-            trainingData = sets[0];
-            testData = sets[1];
-        }
-
-        public void LoadFeaturedData(out IRatings trainingData, out IRatings testData, double ratio, int numberOfUsers, int minimumItemsRated, CancellationToken token)
-        {
-            if (ratio < 0 || ratio > 1)
-                throw new ArgumentOutOfRangeException("ratio should be in range from 0 to 1");
-
-            var sets = GetFeaturedSets(ratio, numberOfUsers, minimumItemsRated, token);
-
-            trainingData = sets[0];
-            testData = sets[1];
-        }
-
-        public void LoadComplexData(out IFeaturedRatings featuredTrainingData, out IFeaturedRatings featuredTestData, out IRatings simpleTrainingData, double ratio, int numberOfUsers, int numberForSimpleData, int minimumItemsRated, CancellationToken token)
-        {
-            if (ratio < 0 || ratio > 1)
-                throw new ArgumentOutOfRangeException("ratio should be in range from 0 to 1");
-
-            if (numberOfUsers > numberForSimpleData)
-                throw new ArgumentOutOfRangeException("numberOfUsers > numberForSimpleData");
-
-            var sets = GetComplexSets(ratio, numberOfUsers, numberForSimpleData, minimumItemsRated, token);
-
-            featuredTrainingData = (IFeaturedRatings)sets[0];
-            featuredTestData = (IFeaturedRatings)sets[1];
-            simpleTrainingData = sets[2];
-
-        }
-
-        private IRatings[] GetComplexSets(double percentage, int numberOfUsers, int numberForSimpleData, int minimumItemsRated, CancellationToken token)
+        protected override IRatings[] GetComplexSets(double percentage, int numberOfUsers, int numberForSimpleData, int minimumItemsRated, CancellationToken token)
         {
             var simpleTrainRatings = new Ratings();
             var featuredTrainRatings = new FeaturedRatings();
@@ -103,7 +62,7 @@ namespace Recommender.Service
 
         }
 
-        private IRatings[] GetBasicSets(double percentage, int numberOfUsers, int minimumItemsRated, CancellationToken token)
+        protected override IRatings[] GetBasicSets(double percentage, int numberOfUsers, int minimumItemsRated, CancellationToken token)
         {
             var trainRatings = new Ratings();
             var testRatings = new Ratings();
@@ -136,7 +95,7 @@ namespace Recommender.Service
             });
         }
 
-        private IFeaturedRatings[] GetFeaturedSets(double percentage, int numberOfUsers, int minimumItemsRated, CancellationToken token)
+        protected override IFeaturedRatings[] GetFeaturedSets(double percentage, int numberOfUsers, int minimumItemsRated, CancellationToken token)
         {
             var trainRatings = new FeaturedRatings();
             var testRatings = new FeaturedRatings();

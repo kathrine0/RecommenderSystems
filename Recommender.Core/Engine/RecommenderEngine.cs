@@ -38,10 +38,10 @@ namespace Recommender.Core.Engine
 
         public double TrainingSetRatio { get; protected set; }
         [Range(1, int.MaxValue)]
-        public int AmountOfUsersTrain { get; set; }
+        public int BasicDataUsersQuantity { get; set; }
 
         [Range(1, int.MaxValue)]
-        public int AmountOfUsersTest { get; set; }
+        public int FeaturedDataUsersQuantity { get; set; }
 
         [Range(1, int.MaxValue)]
         public int MinimumItemsRated { get; set; }
@@ -64,7 +64,7 @@ namespace Recommender.Core.Engine
             _service.Logger = Logger;
 
             DataLoaded = false;
-            AmountOfUsersTrain = 1;
+            BasicDataUsersQuantity = 1;
             TrainingSetRatio = 0.8;
         }
 
@@ -75,7 +75,7 @@ namespace Recommender.Core.Engine
             TrainingData = engine.TrainingData;
             TestData = engine.TestData;
             TrainingSetRatio = engine.TrainingSetRatio;
-            AmountOfUsersTrain = engine.AmountOfUsersTrain;
+            BasicDataUsersQuantity = engine.BasicDataUsersQuantity;
             MinimumItemsRated = engine.MinimumItemsRated;
             DataLoaded = engine.DataLoaded;
             Logger = engine.Logger;
@@ -97,16 +97,6 @@ namespace Recommender.Core.Engine
 
         public virtual void LoadData(CancellationToken token)
         {
-            var reportText = string.Format(@"
-Loading data:
-    Number of users: {0} 
-    Minimum rated items: {1}
-    Ratio: {2}/{3}
-", AmountOfUsersTrain, MinimumItemsRated, TrainingSetRatio * 100, 100 - TrainingSetRatio * 100);
-
-
-            Logger.AddProgressReport(new ProgressState(0, reportText, "Loading data..."));
-
             PrepareSets(token);
             
             Logger.AddProgressReport(new ProgressState(90, null, null));
@@ -115,22 +105,6 @@ Loading data:
             DataLoaded = true;
 
             Logger.AddProgressReport(new ProgressState(100, "Data Loaded", "Finished..."));
-        }
-
-        protected void PrepareSimpleSets(CancellationToken token)
-        {
-            var reportText = "    Data type: SIMPLE\n";
-            Logger.AddProgressReport(new ProgressState(1, reportText, null));
-
-            _service.LoadBasicData(out _trainingData, out _testData, TrainingSetRatio, AmountOfUsersTrain, MinimumItemsRated, token);
-        }
-
-        protected void PrepareFeaturedSets(CancellationToken token)
-        {
-            var reportText = "    Data type: FEATURED\n";
-            Logger.AddProgressReport(new ProgressState(1, reportText, null));
-
-            _service.LoadFeaturedData(out _trainingData, out _testData, TrainingSetRatio, AmountOfUsersTest, MinimumItemsRated, token);
         }
 
         public abstract void PrepareSets(CancellationToken token);

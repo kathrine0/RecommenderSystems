@@ -39,10 +39,19 @@ namespace Recommender.Core.Engine
 
         public override void PrepareSets(CancellationToken token)
         {
-            var reportText = "    Data type: SIMPLE & FEATURED\n";
-            Logger.AddProgressReport(new ProgressState(1, reportText, null));
+            var reportText = string.Format(@"
+Loading data:
+    Data type: SIMPLE & FEATURED
+    Number of users (simple): {0} 
+    Number of users (featured): {1} 
+    Minimum rated items: {2}
+    Ratio: {3}/{4}
+", BasicDataUsersQuantity, FeaturedDataUsersQuantity, MinimumItemsRated, TrainingSetRatio * 100, 100 - TrainingSetRatio * 100);
 
-            _service.LoadComplexData(out _contentTrainingData, out _contentTestData, out _collaborativeTrainingData, TrainingSetRatio, AmountOfUsersTest, AmountOfUsersTrain, MinimumItemsRated, token);
+
+            Logger.AddProgressReport(new ProgressState(0, reportText, "Loading data..."));
+
+            _service.LoadComplexData(out _contentTrainingData, out _contentTestData, out _collaborativeTrainingData, TrainingSetRatio, FeaturedDataUsersQuantity, BasicDataUsersQuantity, MinimumItemsRated, token);
         
             ((IHybridPredictor)_recommender).CollaborativeRatings = _collaborativeTrainingData;
             ((IHybridPredictor)_recommender).ContentRatings = (IFeaturedRatings) _contentTrainingData;

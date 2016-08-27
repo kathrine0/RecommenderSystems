@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Recommender.Core.RatingPrediction.Hybrid;
 using IRatingPredictor = MyMediaLite.RatingPrediction.IRatingPredictor;
-using Recommender.Common.Enums;
 
 namespace Recommender.GUI
 {
@@ -160,8 +159,8 @@ namespace Recommender.GUI
             //data settings
             var dataset = (DataSetType) this.datasetCombo.SelectedValue;
 
-            _recommenderEngine.AmountOfUsersTrain = decimal.ToInt32(this.AmountOfUsersTrain.Value);
-            _recommenderEngine.AmountOfUsersTest = decimal.ToInt32(this.AmountOfUsersTest.Value);
+            _recommenderEngine.BasicDataUsersQuantity = decimal.ToInt32(this.BasicDataUsersQuantity.Value);
+            _recommenderEngine.FeaturedDataUsersQuantity = decimal.ToInt32(this.FeaturedDataUsersQuantity.Value);
             _recommenderEngine.MinimumItemsRated = decimal.ToInt32(this.MinimumItemsRated.Value);
             _recommenderEngine.SetTrainingSetRatio(this.TrainingSetSize.Value);
             _recommenderEngine.SetDataSet(dataset);
@@ -405,7 +404,7 @@ namespace Recommender.GUI
         {
             this.RecommenderCombo.SelectedValue = RecommenderType.ContentBased;
 
-            this.AmountOfUsersTrain.Value = 20;
+            this.BasicDataUsersQuantity.Value = 20;
             this.MinimumItemsRated.Value = 100;
             this.TrainingSetSize.Value = 80;
 
@@ -453,7 +452,7 @@ namespace Recommender.GUI
             this.RecommenderCombo.SelectedValue = RecommenderType.Collaborative;
             this.CollaborativeAlgorithmCombo.SelectedValue = CollaborativeAlgorithm.SVDplusplus;
 
-            this.AmountOfUsersTrain.Value = 20;
+            this.BasicDataUsersQuantity.Value = 20;
             this.MinimumItemsRated.Value = 1;
             this.TrainingSetSize.Value = 80;
 
@@ -477,7 +476,7 @@ namespace Recommender.GUI
 
                 foreach (int i in vals)
                 {
-                    _recommenderEngine.AmountOfUsersTrain = i;
+                    _recommenderEngine.BasicDataUsersQuantity = i;
 
                     _recommenderEngine.LoadData(token);
                     DoMagicAction(i, changableName);
@@ -505,8 +504,8 @@ namespace Recommender.GUI
             
             this.CollaborativeAlgorithmCombo.SelectedValue = CollaborativeAlgorithm.MatrixFactorization;
 
-            this.AmountOfUsersTrain.Value = 20;
-            this.AmountOfUsersTest.Value = 20;
+            this.BasicDataUsersQuantity.Value = 20;
+            this.FeaturedDataUsersQuantity.Value = 20;
             this.TrainingSetSize.Value = 80;
             this.MinimumItemsRated.Value = 50;     
 
@@ -530,7 +529,7 @@ namespace Recommender.GUI
 
                 foreach (int i in vals)
                 {
-                    _recommenderEngine.AmountOfUsersTrain = i;
+                    _recommenderEngine.BasicDataUsersQuantity = i;
 
                     _recommenderEngine.LoadData(token);
                     DoMagicAction(i, changableName);
@@ -539,6 +538,5 @@ namespace Recommender.GUI
                 _logger.SilentMode = false;
             });
         }
-
     }
 }
