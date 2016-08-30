@@ -10,9 +10,9 @@ namespace Recommender.DataAccess.AmazonMeta
         {
         }
 
-        public virtual DbSet<Category> Load_Product_Category_Fact { get; set; }
-        public virtual DbSet<Product> Load_Product_Dimension { get; set; }
-        public virtual DbSet<Rating> Load_Review_Fact { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Rating> Ratings { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

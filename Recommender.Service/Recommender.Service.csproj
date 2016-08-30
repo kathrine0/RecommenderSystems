@@ -68,6 +68,7 @@
     <Compile Include="DTO\RatingDTO.cs" />
     <Compile Include="IRatingService.cs" />
     <Compile Include="RatingService.cs" />
+    <Compile Include="AmazonMetaService.cs" />
     <Compile Include="YahooMusicService.cs" />
     <Compile Include="MovieLenseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

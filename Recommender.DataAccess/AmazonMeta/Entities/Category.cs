@@ -10,12 +10,11 @@ namespace Recommender.DataAccess.AmazonMeta.Entities
     {
 
         [Key]
-        [Column("ProductCode", Order = 0)]
+        [Column("ProductId", Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [StringLength(20)]
-        public string ProductCode { get; set; }
+        public int ProductId { get; set; }
 
-        [ForeignKey("ProductCode")]
+        [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
 
         [Key]

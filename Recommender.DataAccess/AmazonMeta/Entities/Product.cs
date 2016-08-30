@@ -8,10 +8,14 @@ namespace Recommender.DataAccess.AmazonMeta.Entities
 
     public partial class Product
     {
+        public Product()
+        {
+            Categories = new HashSet<Category>();
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [StringLength(20)]
-        public string ProductCode { get; set; }
+        public int ProductId { get; set; }
 
         [StringLength(1000)]
         public string ProductTitle { get; set; }
@@ -27,8 +31,10 @@ namespace Recommender.DataAccess.AmazonMeta.Entities
 
         public int? ReviewsCount { get; set; }
 
-        public int? DownloadedReviewCount { get; set; }
+        public int? DownloadedReviewsCount { get; set; }
 
         public decimal? AverageReviewRatingNumber { get; set; }
+
+        public ICollection<Category> Categories { get; set; }
     }
 }

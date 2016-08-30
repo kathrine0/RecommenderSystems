@@ -11,9 +11,9 @@ namespace Recommender.DataAccess.YahooMusic
             
         }
 
-        public virtual DbSet<Genre> Genre { get; set; }
+        public virtual DbSet<Genre> Genres { get; set; }
         public virtual DbSet<Rating> Ratings { get; set; }
-        public virtual DbSet<Song> Song { get; set; }
+        public virtual DbSet<Song> Songs { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

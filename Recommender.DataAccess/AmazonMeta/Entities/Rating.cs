@@ -12,19 +12,17 @@ namespace Recommender.DataAccess.AmazonMeta.Entities
         public DateTime ReviewDate { get; set; }
 
         [Key]
-        [Column("ProductCode", Order = 0)]
+        [Column("ProductId", Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [StringLength(20)]
-        public string ProductCode { get; set; }
+        public int ProductId { get; set; }
 
-        [ForeignKey("ProductCode")]
+        [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
 
         [Key]
-        [Column("CustomerCode", Order = 1)]
+        [Column("CustomerId", Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [StringLength(20)]
-        public string CustomerCode { get; set; }
+        public int CustomerId { get; set; }
 
         public int? ReviewRatingNumber { get; set; }
 

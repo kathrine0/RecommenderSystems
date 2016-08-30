@@ -71,6 +71,14 @@
     <Compile Include="AmazonMeta\Migrations\201608272312001_CoNieDziala.Designer.cs">
       <DependentUpon>201608272312001_CoNieDziala.cs</DependentUpon>
     </Compile>
+    <Compile Include="AmazonMeta\Migrations\201608301430053_CoNieDziala2.cs" />
+    <Compile Include="AmazonMeta\Migrations\201608301430053_CoNieDziala2.Designer.cs">
+      <DependentUpon>201608301430053_CoNieDziala2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AmazonMeta\Migrations\201608301437409_CoNieDziala3.cs" />
+    <Compile Include="AmazonMeta\Migrations\201608301437409_CoNieDziala3.Designer.cs">
+      <DependentUpon>201608301437409_CoNieDziala3.cs</DependentUpon>
+    </Compile>
     <Compile Include="BaseContext.cs" />
     <Compile Include="AmazonMeta\Migrations\Configuration.cs" />
     <Compile Include="AmazonMeta\Migrations\201607211511231_InitialCreate.cs" />
@@ -196,6 +204,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AmazonMeta\Migrations\201608272312001_CoNieDziala.resx">
       <DependentUpon>201608272312001_CoNieDziala.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AmazonMeta\Migrations\201608301430053_CoNieDziala2.resx">
+      <DependentUpon>201608301430053_CoNieDziala2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AmazonMeta\Migrations\201608301437409_CoNieDziala3.resx">
+      <DependentUpon>201608301437409_CoNieDziala3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="YahooMusic\Migrations\201607212051084_InitialCreate.resx">
       <DependentUpon>201607212051084_InitialCreate.cs</DependentUpon>

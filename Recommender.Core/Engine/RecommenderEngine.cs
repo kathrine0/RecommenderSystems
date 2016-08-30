@@ -164,17 +164,19 @@ namespace Recommender.Core.Engine
             switch (dataset)
             {
                 case DataSetType.AmazonMeta:
-                    throw new NotImplementedException();
+                    _service = new AmazonMetaService();
                     break;
                 case DataSetType.MovieLense:
                     _service = new MovieLenseService();
-                    _service.Logger = Logger;
                     break;
                 case DataSetType.YahooMusic:
                     _service = new YahooMusicService();
-                    _service.Logger = Logger;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException("Invalid dataset option");
             }
+
+            _service.Logger = Logger;
         }
 
         protected void AssignLogger(IRatingPredictor recommender)
