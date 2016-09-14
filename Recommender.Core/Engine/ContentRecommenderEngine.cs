@@ -1,6 +1,8 @@
 ﻿using MyMediaLite.RatingPrediction;
 using Recommender.Common.Logger;
 using Recommender.Core.RatingPrediction.ContentBased;
+using Recommender.Service.Data;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Recommender.Core.Engine
@@ -13,7 +15,7 @@ namespace Recommender.Core.Engine
         public ContentRecommenderEngine(Logger logger) : base(logger)
         { }
 
-        public override IRatingPredictor Recommender
+        public override RatingPrediction.IRatingPredictor Recommender
         {
             get { return _recommender; }
             set
@@ -33,13 +35,13 @@ Loading data:
     Data type: FEATURED
     Number of users: {0} 
     Minimum rated items: {1}
-    Ratio: {2}/{3}
-", FeaturedDataUsersQuantity, MinimumItemsRated, TrainingSetRatio * 100, 100 - TrainingSetRatio * 100);
+    DoCrossValidation: {2}
+", FeaturedDataUsersQuantity, MinimumItemsRated, Crossvalidation);
 
 
             Logger.AddProgressReport(new ProgressState(0, reportText, "Loading data..."));
 
-            _service.LoadFeaturedData(out _trainingData, out _testData, TrainingSetRatio, FeaturedDataUsersQuantity, MinimumItemsRated, token);
+            FeaturedData = _service.LoadFeaturedData(FeaturedDataUsersQuantity, MinimumItemsRated, token);
         }
     }
 }

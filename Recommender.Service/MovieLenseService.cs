@@ -1,18 +1,17 @@
 ﻿using System.Linq;
 using System;
-using MyMediaLite.Data;
 using Recommender.DataAccess.MovieLense;
 using Recommender.DataAccess.MovieLense.Entities;
 using System.Collections.Generic;
-using Recommender.Service.DTO;
 using System.Data.Entity;
 using Recommender.Service.Data;
 using System.Threading;
 using Recommender.Common.Logger;
+using MyMediaLite.Data;
 
 namespace Recommender.Service
 {
-    public class MovieLenseService : RatingService
+    public class MovieLenseService : RatingService<Rating>, IRatingService
     {
         //todo dependency injection
         MovieLenseContext _context;
@@ -22,83 +21,21 @@ namespace Recommender.Service
             _context = new MovieLenseContext();
         }
 
-        protected override IRatings[] GetComplexSets(double percentage, int numberOfUsers, int numberForSimpleData, int minimumItemsRated, CancellationToken token)
+        protected override IRatings GetBasicSet(int numberOfUsers, int minimumItemsRated, CancellationToken token)
         {
-            var simpleTrainRatings = new Ratings();
-            var featuredTrainRatings = new FeaturedRatings();
-            var featuredTestRatings = new FeaturedRatings();
-
-            ///get data for content-based
-            var groupedRatings = _context.Ratings.Include(x => x.Movie)
-                                .GroupBy(x => x.UserId)
-                                .Where(x => x.Count() > minimumItemsRated)
-                                .OrderBy(x => x.Key)
-                                .Take(numberOfUsers);
-
-            var sets = SplitSets(percentage, groupedRatings, token);
-
-            double progressStep = (double)50 / (double)(sets[0].Count() + sets[1].Count());
-
-            CreateFeaturedSet(sets[0], featuredTrainRatings, token, progressStep);
-            CreateBasicSet(sets[0], simpleTrainRatings, token, progressStep);
-
-            CreateFeaturedSet(sets[1], featuredTestRatings, token, progressStep);
-
-            ///get data for collaborative
-            var simpleGroupedRatings = _context.Ratings
-                                .GroupBy(x => x.UserId)
-                                .Where(x => x.Count() > minimumItemsRated)
-                                .OrderBy(x => x.Key)
-                                .Skip(numberOfUsers)
-                                .Take(numberForSimpleData - numberOfUsers);
-
-            var simpleSets = SplitSets(1, simpleGroupedRatings, token);
-
-            double progressStep2 = (double)50 / (double)(simpleSets[0].Count());
-
-            CreateBasicSet(simpleSets[0], simpleTrainRatings, token, progressStep2);
-
-            return new IRatings[3] { featuredTrainRatings, featuredTestRatings, simpleTrainRatings };
-
-        }
-
-        protected override IRatings[] GetBasicSets(double percentage, int numberOfUsers, int minimumItemsRated, CancellationToken token)
-        {
-            var trainRatings = new Ratings();
-            var testRatings = new Ratings();
 
             var groupedRatings = _context.Ratings
                                 .GroupBy(x => x.UserId)
                                 .Where(x => x.Count() > minimumItemsRated)
                                 .OrderBy(x => x.Key)
                                 .Take(numberOfUsers);
-            
-            var sets = SplitSets(percentage, groupedRatings, token);
-            double progressStep = (double)50 / (double)(sets[0].Count() + sets[1].Count());
 
-            CreateBasicSet(sets[0], trainRatings, token, progressStep);
-            CreateBasicSet(sets[1], testRatings, token, progressStep);
 
-            return new IRatings[2] { trainRatings, testRatings };
+            return PrepareBasicSets(groupedRatings, token);
 
         }
-
-        private void CreateBasicSet(IEnumerable<Rating> set, Ratings ratings, CancellationToken token, double progressStep)
+        protected override IFeaturedRatings GetFeaturedSet(int numberOfUsers, int minimumItemsRated, CancellationToken token)
         {
-            set.ToList().ForEach(x =>
-            {
-                if (token.IsCancellationRequested)
-                    throw new OperationCanceledException(token);
-
-                ratings.Add(x.UserId.Value, x.MovieId.Value, x.TheRating);
-                Logger.IncrementProgress(progressStep);
-            });
-        }
-
-        protected override IFeaturedRatings[] GetFeaturedSets(double percentage, int numberOfUsers, int minimumItemsRated, CancellationToken token)
-        {
-            var trainRatings = new FeaturedRatings();
-            var testRatings = new FeaturedRatings();
 
             var groupedRatings = _context.Ratings.Include(x => x.Movie)
                                 .GroupBy(x => x.UserId)
@@ -106,19 +43,30 @@ namespace Recommender.Service
                                 .OrderBy(x => x.Key)
                                 .Take(numberOfUsers);
 
-            var sets = SplitSets(percentage, groupedRatings, token);
-
-            double progressStep = (double) 50 / (double)(sets[0].Count() + sets[1].Count());
-
-            CreateFeaturedSet(sets[0], trainRatings, token, progressStep);
-            CreateFeaturedSet(sets[1], testRatings, token, progressStep);
-
-            return new IFeaturedRatings[2] { trainRatings, testRatings };
+            return PrepareFeaturedSets(groupedRatings, token);
         }
 
-        private void CreateFeaturedSet(IEnumerable<Rating> set, FeaturedRatings ratings, CancellationToken token, double progressStep)
+        protected override IRatings CreateBasicSet(IEnumerable<Rating> set, CancellationToken token, double progressStep)
         {
-            set.ToList().ForEach(x =>
+            var ratings = new Ratings();
+
+            set.ToList().ForEach((Action<Rating>)((Rating x) =>
+            {
+                if (token.IsCancellationRequested)
+                    throw new OperationCanceledException(token);
+
+                ratings.Add(x.UserId.Value, x.MovieId.Value, x.TheRating);
+                Logger.IncrementProgress(progressStep);
+            }));
+
+            return ratings;
+        }
+
+        protected override IFeaturedRatings CreateFeaturedSet(IEnumerable<Rating> set, CancellationToken token, double progressStep)
+        {
+            var ratings = new FeaturedRatings();
+
+            set.ToList().ForEach((Action<Rating>)((Rating x) =>
             {
                 if (token.IsCancellationRequested)
                     throw new OperationCanceledException(token);
@@ -137,41 +85,10 @@ namespace Recommender.Service
 
                 ratings.Add(x.UserId.Value, x.MovieId.Value, x.TheRating, itemFeatures);
                 Logger.IncrementProgress(progressStep);
-            });
+            }));
+
+            return ratings;
         }
-
-
-        private IEnumerable<Rating>[] SplitSets(double percentage, IQueryable<IGrouping<int?, Rating>> groupedRatings, CancellationToken token)
-        {
-            double progressStep = (double) 50 / (double) groupedRatings.Count();
-            //od 0 do 50 --- 50 jednostek
-
-            var trainingSet = new List<Rating>();
-            var testingSet = new List<Rating>();
-
-            foreach (var groupedRating in groupedRatings)
-            {
-                if (token.IsCancellationRequested)
-                    throw new OperationCanceledException(token);
-
-
-                var count = groupedRating.Count();
-
-                int trainingTake = (int)Math.Floor(count * percentage);
-                int testingTake = count - trainingTake;
-
-                trainingSet.AddRange(groupedRating
-                                            .Take(trainingTake));
-                testingSet.AddRange(groupedRating
-                                            .Skip(trainingTake)
-                                            .Take(testingTake));
-
-                Logger.IncrementProgress(progressStep);
-            }
-            
-            return new List<Rating>[2] { trainingSet, testingSet };
-        }
-
 
         //LOAD ALL
         //public void LoadBasicData(out IRatings _trainingData, out IRatings _testData, double ratio)

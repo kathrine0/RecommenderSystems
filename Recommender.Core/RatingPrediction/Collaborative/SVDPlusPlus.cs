@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Recommender.Core.RatingPrediction.Collaborative
 {
-    public class SVDPlusPlus : MyMediaLite.RatingPrediction.SVDPlusPlus, ILoggable
+    public class SVDPlusPlus : MyMediaLite.RatingPrediction.SVDPlusPlus, IRatingPredictor, ILoggable
     {
         public Logger Logger { get; set; }
         public bool RecommenderStatus { get; set; }
@@ -16,18 +16,11 @@ namespace Recommender.Core.RatingPrediction.Collaborative
             RecommenderStatus = true;
         }
 
-        public override void Train()
-        {
-            LogTrainining();
-
-            base.Train();
-        }
-
         public void LogTrainining()
         {
             var message = new StringBuilder();
             message.AppendFormat(@"
-    Matrix Factorization with parameters:
+    SVD++ with parameters:
         Regularization:            {0}
         LearnRate:                 {1}
         Decay:                     {2}
@@ -36,7 +29,8 @@ namespace Recommender.Core.RatingPrediction.Collaborative
         NumFactors:                {5}
         BiasReg:                   {6}
         BiasLearnRate:             {7}
-    ", Regularization, LearnRate, Decay, NumIter, InitStdDev, NumFactors, BiasReg, BiasLearnRate);
+        FrequencyRegularization:   {8}
+    ", Regularization, LearnRate, Decay, NumIter, InitStdDev, NumFactors, BiasReg, BiasLearnRate, FrequencyRegularization);
 
             Logger.AddProgressReport(new ProgressState(0, message.ToString(), "Learning..."));
         }

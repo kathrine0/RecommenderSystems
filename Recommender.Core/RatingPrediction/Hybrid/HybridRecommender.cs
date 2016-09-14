@@ -126,5 +126,11 @@ namespace Recommender.Core.RatingPrediction.Hybrid
         {
             throw new NotImplementedException();
         }
+
+        public void LogTrainining()
+        {
+            CollaborativeRecommender.LogTrainining();
+            ContentRecommender.LogTrainining();
+        }
     }
 }

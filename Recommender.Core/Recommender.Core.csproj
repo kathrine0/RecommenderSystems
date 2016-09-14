@@ -103,7 +103,9 @@
     <Compile Include="Engine\CollaborativeRecommenderEngine.cs" />
     <Compile Include="Engine\ContentRecommenderEngine.cs" />
     <Compile Include="Engine\HybridRecommenderEngine.cs" />
+    <Compile Include="Engine\RatingCrossValidationSplit.cs" />
     <Compile Include="Engine\RecommenderRatings.cs" />
+    <Compile Include="Engine\FeaturedRatingsProxy.cs" />
     <Compile Include="RatingPrediction\Collaborative\BiasedMatrixFactorization.cs" />
     <Compile Include="RatingPrediction\Collaborative\MatrixFactorization.cs" />
     <Compile Include="RatingPrediction\Collaborative\SVDPlusPlus.cs" />
@@ -114,6 +116,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RatingPrediction\Hybrid\HybridRecommender.cs" />
     <Compile Include="RatingPrediction\Hybrid\IHybridPredictor.cs" />
+    <Compile Include="RatingPrediction\IRatingPredictor.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>

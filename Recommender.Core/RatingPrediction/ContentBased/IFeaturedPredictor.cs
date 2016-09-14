@@ -1,5 +1,4 @@
-﻿using MyMediaLite.RatingPrediction;
-using Recommender.Service.Data;
+﻿using Recommender.Service.Data;
 using System.Collections.Generic;
 
 namespace Recommender.Core.RatingPrediction.ContentBased

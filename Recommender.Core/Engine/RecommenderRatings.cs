@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MyMediaLite.Data;
 using MyMediaLite.RatingPrediction;
 using MyMediaLite.Eval;
 using Recommender.Service.Data;
 using Recommender.Core.RatingPrediction.ContentBased;
+using MyMediaLite.Data;
 
 namespace Recommender.Core.Engine
 {
@@ -91,10 +91,10 @@ namespace Recommender.Core.Engine
             double mae = 0;
             double cbd = 0;
 
-            if (recommender is ITimeAwareRatingPredictor && ratings is ITimedRatings)
+            if (recommender is ITimeAwareRatingPredictor && ratings is MyMediaLite.Data.ITimedRatings)
             {
                 var time_aware_recommender = recommender as ITimeAwareRatingPredictor;
-                var timed_ratings = ratings as ITimedRatings;
+                var timed_ratings = ratings as MyMediaLite.Data.ITimedRatings;
                 foreach (int index in indices)
                 {
                     float prediction = time_aware_recommender.Predict(timed_ratings.Users[index], timed_ratings.Items[index], timed_ratings.Times[index]);

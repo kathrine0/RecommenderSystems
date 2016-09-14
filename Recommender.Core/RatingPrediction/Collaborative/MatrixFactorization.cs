@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Recommender.Core.RatingPrediction.Collaborative
 {
-    public class MatrixFactorization : MyMediaLite.RatingPrediction.MatrixFactorization, ILoggable
+    public class MatrixFactorization : MyMediaLite.RatingPrediction.MatrixFactorization, IRatingPredictor, ILoggable
     {
         public Logger Logger { get; set; }
 
@@ -13,13 +13,6 @@ namespace Recommender.Core.RatingPrediction.Collaborative
         public MatrixFactorization() : base()
         {
             RecommenderStatus = true;
-        }
-
-        public override void Train()
-        {
-            LogTrainining();
-
-            base.Train();
         }
 
         public void LogTrainining()

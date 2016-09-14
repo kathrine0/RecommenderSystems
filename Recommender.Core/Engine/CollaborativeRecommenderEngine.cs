@@ -1,4 +1,5 @@
-﻿using MyMediaLite.RatingPrediction;
+﻿using MyMediaLite.Data;
+using MyMediaLite.RatingPrediction;
 using Recommender.Common.Logger;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
@@ -20,13 +21,13 @@ Loading data:
     Data type: SIMPLE
     Number of users: {0} 
     Minimum rated items: {1}
-    Ratio: {2}/{3}
-", BasicDataUsersQuantity, MinimumItemsRated, TrainingSetRatio * 100, 100 - TrainingSetRatio * 100);
+    Crossvalidation: {2}
+", BasicDataUsersQuantity, MinimumItemsRated, Crossvalidation);
 
 
             Logger.AddProgressReport(new ProgressState(0, reportText, "Loading data..."));
 
-            _service.LoadBasicData(out _trainingData, out _testData, TrainingSetRatio, BasicDataUsersQuantity, MinimumItemsRated, token);
+            Data = _service.LoadBasicData(BasicDataUsersQuantity, MinimumItemsRated, token);
         }
     }
 }

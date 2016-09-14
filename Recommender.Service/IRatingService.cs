@@ -1,6 +1,7 @@
 ﻿using MyMediaLite.Data;
 using Recommender.Common.Logger;
 using Recommender.Service.Data;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Recommender.Service
@@ -9,12 +10,12 @@ namespace Recommender.Service
     {
         Logger Logger { get; set; }
 
-        void LoadFeaturedData(out IRatings _trainingData, out IRatings _testData, double ratio, int numberOfUsers, int minimumItemsRated, CancellationToken token);
+        IFeaturedRatings LoadFeaturedData(int numberOfUsers, int minimumItemsRated, CancellationToken token);
 
-        void LoadBasicData(out IRatings _trainingData, out IRatings _testData, double ratio, int numberOfUsers, int minimumItemsRated, CancellationToken token);
+        IRatings LoadBasicData(int numberOfUsers, int minimumItemsRated, CancellationToken token);
 
-        void LoadComplexData(out IFeaturedRatings featuredTrainingData, out IFeaturedRatings featuredTestData, out IRatings simpleTrainingData, double ratio, int numberOfUsers, int numberForSimpleData, int minimumItemsRated, CancellationToken token);
+        void LoadComplexData(out IFeaturedRatings featuredData, out IRatings simpleData, int numberOfUsers, int numberForSimpleData, int minimumItemsRated, CancellationToken token);
 
-        //void LoadBasicData(out IRatings _trainingData, out IRatings _testData, double ratio);
+
     }
 }

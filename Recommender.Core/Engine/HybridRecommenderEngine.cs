@@ -1,23 +1,21 @@
-﻿using MyMediaLite.Data;
+﻿using Recommender.Service.Data;
 using MyMediaLite.Eval;
 using MyMediaLite.RatingPrediction;
 using Recommender.Common.Logger;
-using Recommender.Core.RatingPrediction.ContentBased;
 using Recommender.Core.RatingPrediction.Hybrid;
 using Recommender.Service.Data;
 using System.Threading;
+using Recommender.Core.Engine;
+using MyMediaLite.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Recommender.Core.Engine
 {
     public class HybridRecommenderEngine : RecommenderEngine
     {
-        protected IRatings _collaborativeTrainingData;
-        protected IRatings _collaborativeTestData;
-
-        protected IFeaturedRatings _contentTrainingData;
-        protected IFeaturedRatings _contentTestData;
-
-        public override IRatingPredictor Recommender
+        public override RatingPrediction.IRatingPredictor Recommender
         {
             get { return _recommender; }
             set
@@ -45,29 +43,51 @@ Loading data:
     Number of users (simple): {0} 
     Number of users (featured): {1} 
     Minimum rated items: {2}
-    Ratio: {3}/{4}
-", BasicDataUsersQuantity, FeaturedDataUsersQuantity, MinimumItemsRated, TrainingSetRatio * 100, 100 - TrainingSetRatio * 100);
+    Ratio: {3}
+", BasicDataUsersQuantity, FeaturedDataUsersQuantity, MinimumItemsRated, Crossvalidation);
 
 
             Logger.AddProgressReport(new ProgressState(0, reportText, "Loading data..."));
 
-            _service.LoadComplexData(out _contentTrainingData, out _contentTestData, out _collaborativeTrainingData, TrainingSetRatio, FeaturedDataUsersQuantity, BasicDataUsersQuantity, MinimumItemsRated, token);
+            _service.LoadComplexData(out _featuredData, out _data, FeaturedDataUsersQuantity, BasicDataUsersQuantity, MinimumItemsRated, token);
         
-            ((IHybridPredictor)_recommender).CollaborativeRatings = _collaborativeTrainingData;
-            ((IHybridPredictor)_recommender).ContentRatings = (IFeaturedRatings) _contentTrainingData;
-            TestData = _contentTestData;
-
         }
 
-        public override RatingPredictionEvaluationResults GetResults()
+        public override Dictionary<string, float> TestRecommender(CancellationToken token)
         {
-            Logger.AddProgressReport(new ProgressState(90, "", "Evaluating results..."));
-            // measure the accuracy on the test data set
-            var result = Recommender.Evaluate(TestData);
+            var result = new Dictionary<string, float>() {
+                { "RMSE", 0 },
+                { "MAE", 0 },
+                { "CBD", 0 }
+            };
 
-            var resString = result.ToString() + "\n =========================================";
+            var simpleSplit = new Engine.RatingCrossValidationSplit(_data, Crossvalidation);
+            var featuredSplit = new Engine.RatingCrossValidationSplit(_featuredData, Crossvalidation);
 
-            Logger.AddProgressReport(new ProgressState(100, resString, "Finished"));
+            int i = 0;
+
+            Recommender.LogTrainining();
+
+            for (i = 0; i < simpleSplit.NumberOfFolds; i++)
+            {
+                if (token.IsCancellationRequested)
+                    throw new OperationCanceledException(token);
+
+                Logger.AddProgressReport(new ProgressState(40, null, "Learning: fold " + (i + 1)));
+
+                ((IHybridPredictor)_recommender).CollaborativeRatings = simpleSplit.Train[i];
+                ((IHybridPredictor)_recommender).ContentRatings = (IFeaturedRatings) featuredSplit.Train[i] ;
+
+                var teachingResult = TeachRecommender();
+
+                if (teachingResult)
+                {
+                    IncrementResults(result, Recommender.Evaluate(featuredSplit.Test[i]));
+                }
+            }
+
+            AdjustResults(result, i);
+            PublishResults(result);
 
             return result;
         }

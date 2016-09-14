@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Recommender.Core.RatingPrediction.Collaborative
 {
-    public class BiasedMatrixFactorization : MyMediaLite.RatingPrediction.BiasedMatrixFactorization, ILoggable
+    public class BiasedMatrixFactorization : MyMediaLite.RatingPrediction.BiasedMatrixFactorization, IRatingPredictor, ILoggable
     {
         public Logger Logger { get; set; }
 
@@ -17,10 +17,7 @@ namespace Recommender.Core.RatingPrediction.Collaborative
         }
         public override void Train()
         {
-            MaxThreads = 10;
-
-            LogTrainining();
-
+            MaxThreads = 10;            
             base.Train();
         }
 
@@ -28,7 +25,7 @@ namespace Recommender.Core.RatingPrediction.Collaborative
         {
             var message = new StringBuilder();
             message.AppendFormat(@"
-    Matrix Factorization with parameters:
+    Biased Matrix Factorization with parameters:
         Regularization:            {0}
         LearnRate:                 {1}
         Decay:                     {2}

@@ -61,14 +61,10 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.FeaturedDataUsersQuantity = new System.Windows.Forms.NumericUpDown();
             this.label27 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.TestingSetSize = new System.Windows.Forms.NumericUpDown();
             this.MinimumItemsRated = new System.Windows.Forms.NumericUpDown();
-            this.label10 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.BasicDataUsersQuantity = new System.Windows.Forms.NumericUpDown();
-            this.TrainingSetSize = new System.Windows.Forms.NumericUpDown();
+            this.Crossvalidation = new System.Windows.Forms.NumericUpDown();
             this.UserLabel = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -116,10 +112,9 @@
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FeaturedDataUsersQuantity)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TestingSetSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinimumItemsRated)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BasicDataUsersQuantity)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TrainingSetSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Crossvalidation)).BeginInit();
             this.NeuralNetworkOptions.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.ContentBased_BackPropPanel.SuspendLayout();
@@ -423,7 +418,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel1.Controls.Add(this.panel1);
             this.flowLayoutPanel1.Controls.Add(this.NeuralNetworkOptions);
-            this.flowLayoutPanel1.Controls.Add(this.ContentBasedOptions);
             this.flowLayoutPanel1.Controls.Add(this.CollaborativeOptions);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(1, 336);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
@@ -435,21 +429,18 @@
             // 
             this.panel1.Controls.Add(this.FeaturedDataUsersQuantity);
             this.panel1.Controls.Add(this.label27);
-            this.panel1.Controls.Add(this.label11);
-            this.panel1.Controls.Add(this.TestingSetSize);
+            this.panel1.Controls.Add(this.ContentBasedOptions);
             this.panel1.Controls.Add(this.MinimumItemsRated);
-            this.panel1.Controls.Add(this.label10);
             this.panel1.Controls.Add(this.label12);
-            this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.BasicDataUsersQuantity);
-            this.panel1.Controls.Add(this.TrainingSetSize);
+            this.panel1.Controls.Add(this.Crossvalidation);
             this.panel1.Controls.Add(this.UserLabel);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Location = new System.Drawing.Point(4, 4);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(436, 192);
+            this.panel1.Size = new System.Drawing.Size(436, 234);
             this.panel1.TabIndex = 2;
             // 
             // FeaturedDataUsersQuantity
@@ -485,40 +476,6 @@
             this.label27.TabIndex = 8;
             this.label27.Text = "Content-based users";
             // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(372, 163);
-            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(20, 17);
-            this.label11.TabIndex = 7;
-            this.label11.Text = "%";
-            // 
-            // TestingSetSize
-            // 
-            this.TestingSetSize.Location = new System.Drawing.Point(185, 159);
-            this.TestingSetSize.Margin = new System.Windows.Forms.Padding(4);
-            this.TestingSetSize.Maximum = new decimal(new int[] {
-            99,
-            0,
-            0,
-            0});
-            this.TestingSetSize.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.TestingSetSize.Name = "TestingSetSize";
-            this.TestingSetSize.Size = new System.Drawing.Size(179, 22);
-            this.TestingSetSize.TabIndex = 6;
-            this.TestingSetSize.Value = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-            this.TestingSetSize.ValueChanged += new System.EventHandler(this.TestingSetSize_ValueChanged);
-            // 
             // MinimumItemsRated
             // 
             this.MinimumItemsRated.Location = new System.Drawing.Point(185, 90);
@@ -542,16 +499,6 @@
             0,
             0});
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(19, 161);
-            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(107, 17);
-            this.label10.TabIndex = 5;
-            this.label10.Text = "Testing set size";
-            // 
             // label12
             // 
             this.label12.AutoSize = true;
@@ -561,16 +508,6 @@
             this.label12.Size = new System.Drawing.Size(137, 17);
             this.label12.TabIndex = 3;
             this.label12.Text = "Minimum items rated";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(372, 130);
-            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(20, 17);
-            this.label9.TabIndex = 4;
-            this.label9.Text = "%";
             // 
             // BasicDataUsersQuantity
             // 
@@ -595,29 +532,28 @@
             0,
             0});
             // 
-            // TrainingSetSize
+            // Crossvalidation
             // 
-            this.TrainingSetSize.Location = new System.Drawing.Point(185, 125);
-            this.TrainingSetSize.Margin = new System.Windows.Forms.Padding(4);
-            this.TrainingSetSize.Maximum = new decimal(new int[] {
-            99,
+            this.Crossvalidation.Location = new System.Drawing.Point(185, 125);
+            this.Crossvalidation.Margin = new System.Windows.Forms.Padding(4);
+            this.Crossvalidation.Maximum = new decimal(new int[] {
+            10,
             0,
             0,
             0});
-            this.TrainingSetSize.Minimum = new decimal(new int[] {
-            1,
+            this.Crossvalidation.Minimum = new decimal(new int[] {
+            2,
             0,
             0,
             0});
-            this.TrainingSetSize.Name = "TrainingSetSize";
-            this.TrainingSetSize.Size = new System.Drawing.Size(179, 22);
-            this.TrainingSetSize.TabIndex = 3;
-            this.TrainingSetSize.Value = new decimal(new int[] {
-            80,
+            this.Crossvalidation.Name = "Crossvalidation";
+            this.Crossvalidation.Size = new System.Drawing.Size(179, 22);
+            this.Crossvalidation.TabIndex = 3;
+            this.Crossvalidation.Value = new decimal(new int[] {
+            5,
             0,
             0,
             0});
-            this.TrainingSetSize.ValueChanged += new System.EventHandler(this.TrainingSetSize_ValueChanged);
             // 
             // UserLabel
             // 
@@ -635,9 +571,9 @@
             this.label8.Location = new System.Drawing.Point(19, 128);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(112, 17);
+            this.label8.Size = new System.Drawing.Size(138, 17);
             this.label8.TabIndex = 3;
-            this.label8.Text = "Training set size";
+            this.label8.Text = "Crossvalidation folds";
             // 
             // label7
             // 
@@ -1021,10 +957,10 @@
             this.ContentBasedOptions.Controls.Add(this.ContentBased_MinFeatures);
             this.ContentBasedOptions.Controls.Add(this.label14);
             this.ContentBasedOptions.Controls.Add(this.label4);
-            this.ContentBasedOptions.Location = new System.Drawing.Point(4, 246);
+            this.ContentBasedOptions.Location = new System.Drawing.Point(0, 164);
             this.ContentBasedOptions.Margin = new System.Windows.Forms.Padding(4);
             this.ContentBasedOptions.Name = "ContentBasedOptions";
-            this.ContentBasedOptions.Size = new System.Drawing.Size(436, 143);
+            this.ContentBasedOptions.Size = new System.Drawing.Size(436, 63);
             this.ContentBasedOptions.TabIndex = 0;
             // 
             // ContentBased_MinFeatures
@@ -1069,7 +1005,7 @@
             // CollaborativeOptions
             // 
             this.CollaborativeOptions.Controls.Add(this.label5);
-            this.CollaborativeOptions.Location = new System.Drawing.Point(448, 246);
+            this.CollaborativeOptions.Location = new System.Drawing.Point(4, 246);
             this.CollaborativeOptions.Margin = new System.Windows.Forms.Padding(4);
             this.CollaborativeOptions.Name = "CollaborativeOptions";
             this.CollaborativeOptions.Size = new System.Drawing.Size(436, 63);
@@ -1140,10 +1076,9 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FeaturedDataUsersQuantity)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TestingSetSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinimumItemsRated)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BasicDataUsersQuantity)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TrainingSetSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Crossvalidation)).EndInit();
             this.NeuralNetworkOptions.ResumeLayout(false);
             this.NeuralNetworkOptions.PerformLayout();
             this.flowLayoutPanel2.ResumeLayout(false);
@@ -1210,12 +1145,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.NumericUpDown TrainingSetSize;
+        private System.Windows.Forms.NumericUpDown Crossvalidation;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.NumericUpDown TestingSetSize;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.NumericUpDown MinimumItemsRated;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.NumericUpDown ContentBased_MinFeatures;

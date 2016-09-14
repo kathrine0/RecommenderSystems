@@ -1,22 +1,19 @@
-﻿using MyMediaLite.RatingPrediction;
-using System;
-using MyMediaLite.Data;
-using Recommender.Service.Data;
-using System.Linq;
-using System.Collections.Generic;
-using Accord.Math;
-using Recommender.Common;
+﻿using Accord.Math;
 using AForge.Neuro;
 using AForge.Neuro.Learning;
-using System.Collections;
-using Recommender.Core.Enums;
-using System.Threading.Tasks;
-using System.Collections.Concurrent;
+using MyMediaLite.RatingPrediction;
 using Recommender.Common.Logger;
+using Recommender.Core.Enums;
+using Recommender.Service.Data;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Recommender.Core.RatingPrediction.ContentBased
-{ 
+{
     //TODO make it handle more ppl at once
     public class NeuroRecommender : RatingPredictor, IFeaturedPredictor, ILoggable
     {
@@ -33,7 +30,7 @@ namespace Recommender.Core.RatingPrediction.ContentBased
         private double _learningRate = 0.1;
         private double _momentum = 0.0;
         private double _sigmoidAlphaValue = 2.0;
-        private double _learningErrorLimit = 0.1;
+        private double _learningErrorLimit = 0.4;
         private int _populationSize = 100;
         private int _hiddenLayerNeurons = 1;
         private bool _needToStop = false;
@@ -86,7 +83,9 @@ namespace Recommender.Core.RatingPrediction.ContentBased
         public int MinimumRepeatingFeatures
         {
             get { return _minimumRepeatingFeatures; }
-            set { _minimumRepeatingFeatures = value; }
+            set {
+                _minimumRepeatingFeatures = value;
+            }
         }
         public virtual IFeaturedRatings FeaturedRatings
         {
@@ -98,7 +97,7 @@ namespace Recommender.Core.RatingPrediction.ContentBased
             }
         }
         /// <summary>rating data, including item features</summary>
-        public override IRatings Ratings
+        public override MyMediaLite.Data.IRatings Ratings
         {
             get { return ratings; }
             set
@@ -175,8 +174,6 @@ Training network with parameters:
        
         public override void Train()
         {
-            LogTrainining();
-
             //set activation function
             SetActivationFunction();
 

@@ -1,12 +1,16 @@
-﻿using MyMediaLite.Data;
-using MyMediaLite.Eval;
+﻿using MyMediaLite.Eval;
 using MyMediaLite.RatingPrediction;
 using Recommender.Common.Enums;
 using Recommender.Common.Logger;
 using Recommender.Service;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 using System.Threading;
+using System.Linq;
+using Recommender.Service.Data;
+using MyMediaLite.Data;
 
 namespace Recommender.Core.Engine
 {
@@ -17,18 +21,20 @@ namespace Recommender.Core.Engine
     {
 
         protected IRatingService _service;
-        protected IRatings _trainingData;
-        protected IRatings _testData;
-        protected IRatingPredictor _recommender;
+        protected IRatings _data;
+        protected IFeaturedRatings _featuredData;
+        protected RatingPrediction.IRatingPredictor _recommender;
 
-        public IRatings TrainingData
+        public IRatings Data
         {
-            get { return _trainingData; }
-            protected set { _trainingData = value; }
+            get { return _data; }
+            protected set { _data = value; }
         }
-        public IRatings TestData {
-            get { return _testData; }
-            protected set { _testData = value; }
+
+        public IFeaturedRatings FeaturedData
+        {
+            get { return _featuredData; }
+            protected set { _featuredData = value; }
         }
 
         public IRatingService Service {
@@ -36,7 +42,8 @@ namespace Recommender.Core.Engine
             protected set { _service = value; }
         }
 
-        public double TrainingSetRatio { get; protected set; }
+        [Range(1, 10)]
+        public uint Crossvalidation { get; set; }
         [Range(1, int.MaxValue)]
         public int BasicDataUsersQuantity { get; set; }
 
@@ -45,7 +52,7 @@ namespace Recommender.Core.Engine
 
         [Range(1, int.MaxValue)]
         public int MinimumItemsRated { get; set; }
-        public virtual IRatingPredictor Recommender
+        public virtual RatingPrediction.IRatingPredictor Recommender
         {
             get { return _recommender; }
             set {
@@ -65,16 +72,15 @@ namespace Recommender.Core.Engine
 
             DataLoaded = false;
             BasicDataUsersQuantity = 1;
-            TrainingSetRatio = 0.8;
+            Crossvalidation = 5;
         }
 
         public RecommenderEngine(RecommenderEngine engine)
         {
             //create shallow copy
            
-            TrainingData = engine.TrainingData;
-            TestData = engine.TestData;
-            TrainingSetRatio = engine.TrainingSetRatio;
+            Data = engine.Data;
+            Crossvalidation = engine.Crossvalidation;
             BasicDataUsersQuantity = engine.BasicDataUsersQuantity;
             MinimumItemsRated = engine.MinimumItemsRated;
             DataLoaded = engine.DataLoaded;
@@ -87,12 +93,60 @@ namespace Recommender.Core.Engine
                 Recommender = engine.Recommender;
         }
 
-        public void SetTrainingSetRatio(decimal value)
+        public virtual Dictionary<string, float> TestRecommender(CancellationToken token)
         {
-            if (value < 1 || value > 90)
-                throw new ArgumentOutOfRangeException();
+            var result = new Dictionary<string, float>() {
+                { "RMSE", 0 },
+                { "MAE", 0 },
+                { "CBD", 0 }
+            };
 
-            TrainingSetRatio = (double)value / 100;
+            RatingCrossValidationSplit split;
+
+            if (_data != null)
+                split = new Engine.RatingCrossValidationSplit(_data, Crossvalidation);
+            else
+                split = new Engine.RatingCrossValidationSplit(_featuredData, Crossvalidation);
+
+            int i = 0;
+
+            Recommender.LogTrainining();
+
+            for (i = 0; i < split.NumberOfFolds; i++)
+            {
+                if (token.IsCancellationRequested)
+                    throw new OperationCanceledException(token);
+
+                Logger.AddProgressReport(new ProgressState(40, null, "Learning: fold " + (i+1)));
+
+                Recommender.Ratings = split.Train[i];
+
+                var teachingResult = TeachRecommender();
+
+                if (teachingResult)
+                {
+                    IncrementResults(result, Recommender.Evaluate(split.Test[i]));
+                }
+            }
+
+            AdjustResults(result, i);
+            PublishResults(result);
+
+            return result;
+        }
+
+        protected void IncrementResults(Dictionary<string, float> result, RatingPredictionEvaluationResults partial_result)
+        {
+            result["RMSE"] += partial_result["RMSE"];
+            result["MAE"] += partial_result["MAE"];
+            result["CBD"] += partial_result["CBD"];
+        }
+
+        protected void AdjustResults(Dictionary<string, float> result, int iters)
+        {
+            result["RMSE"] = result["RMSE"] / iters;
+            result["MAE"] = result["MAE"] / iters;
+            result["CBD"] = result["CBD"] / iters;
         }
 
         public virtual void LoadData(CancellationToken token)
@@ -100,8 +154,7 @@ namespace Recommender.Core.Engine
             PrepareSets(token);
             
             Logger.AddProgressReport(new ProgressState(90, null, null));
-
-            Recommender.Ratings = TrainingData;
+            
             DataLoaded = true;
 
             Logger.AddProgressReport(new ProgressState(100, "Data Loaded", "Finished..."));
@@ -141,42 +194,41 @@ namespace Recommender.Core.Engine
                 return true;
         }
 
-        public virtual RatingPredictionEvaluationResults GetResults()
+        public void PublishResults(Dictionary<string, float> result)
         {
             Logger.AddProgressReport(new ProgressState(90, "", "Evaluating results..."));
-            // measure the accuracy on the test data set
-            var result = Recommender.Evaluate(TestData);
+            var resString = new StringBuilder("RMSE \t MAE \t CBD \n");
+            resString.AppendLine(string.Format("{0} \t {1} \t {2} \n", result["RMSE"], result["MAE"], result["CBD"]));
 
-            var resString = result.ToString() + "\n =========================================";
+            resString.AppendLine("------------------------------");
 
-            Logger.AddProgressReport(new ProgressState(100, resString, "Finished"));
-
-            return result;
-            // make a prediction for a certain user and item
-            //Console.WriteLine(_recommender.Predict(1, 1));
-
-            //var bmf = new BiasedMatrixFactorization { Ratings = training_data };
-            //Console.WriteLine(bmf.DoCrossValidation());
+            Logger.AddProgressReport(new ProgressState(100, resString.ToString(), "Finished"));
         }
 
         public void SetDataSet(DataSetType dataset)
         {
+            StringBuilder reportText = new StringBuilder("DataSet: ");
+
             switch (dataset)
             {
                 case DataSetType.AmazonMeta:
                     _service = new AmazonMetaService();
+                    reportText.Append("AmazonMeta");
                     break;
                 case DataSetType.MovieLense:
                     _service = new MovieLenseService();
+                    reportText.Append("MovieLense");
                     break;
                 case DataSetType.YahooMusic:
                     _service = new YahooMusicService();
+                    reportText.Append("YahooMusic");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("Invalid dataset option");
             }
 
             _service.Logger = Logger;
+            Logger.AddProgressReport(new ProgressState(0, reportText.ToString(), null));
         }
 
         protected void AssignLogger(IRatingPredictor recommender)
